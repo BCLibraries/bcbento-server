@@ -1,4 +1,7 @@
 {
+    "bclibraries/primo-client": {
+        "version": "v0.3.1"
+    },
     "doctrine/annotations": {
         "version": "1.0",
         "recipe": {
@@ -90,14 +93,23 @@
             "config/packages/dev/easy_log_handler.yaml"
         ]
     },
+    "ecodev/graphql-upload": {
+        "version": "4.0.0"
+    },
     "egulias/email-validator": {
         "version": "2.1.8"
     },
-    "facebook/webdriver": {
-        "version": "1.7.1"
-    },
     "fig/link-util": {
         "version": "1.0.0"
+    },
+    "guzzlehttp/guzzle": {
+        "version": "6.3.3"
+    },
+    "guzzlehttp/promises": {
+        "version": "v1.3.1"
+    },
+    "guzzlehttp/psr7": {
+        "version": "1.5.2"
     },
     "jdorn/sql-formatter": {
         "version": "v1.2.17"
@@ -105,11 +117,44 @@
     "monolog/monolog": {
         "version": "1.24.0"
     },
+    "mouf/classname-mapper": {
+        "version": "v1.0.2"
+    },
+    "myclabs/php-enum": {
+        "version": "1.7.1"
+    },
     "nikic/php-parser": {
         "version": "v4.2.2"
     },
+    "nyholm/psr7": {
+        "version": "1.0",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "1.0",
+            "ref": "5e29a795c9996269c4cea2e87eeb3052c33cf98e"
+        },
+        "files": [
+            "config/packages/nyholm_psr7.yaml"
+        ]
+    },
     "ocramius/proxy-manager": {
         "version": "2.1.1"
+    },
+    "overblog/graphiql-bundle": {
+        "version": "0.1",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "master",
+            "version": "0.1",
+            "ref": "fe8d172f2480efc598f5a8be0e732656d3594cec"
+        },
+        "files": [
+            "config/routes/dev/graphiql.yaml"
+        ]
+    },
+    "php-http/message-factory": {
+        "version": "v1.0.2"
     },
     "phpdocumentor/reflection-common": {
         "version": "1.0.1"
@@ -126,11 +171,29 @@
     "psr/container": {
         "version": "1.0.0"
     },
+    "psr/http-factory": {
+        "version": "1.0.1"
+    },
+    "psr/http-message": {
+        "version": "1.0.1"
+    },
+    "psr/http-server-handler": {
+        "version": "1.0.1"
+    },
+    "psr/http-server-middleware": {
+        "version": "1.0.1"
+    },
     "psr/link": {
         "version": "1.0.0"
     },
     "psr/log": {
         "version": "1.1.0"
+    },
+    "psr/simple-cache": {
+        "version": "1.0.1"
+    },
+    "ralouphie/getallheaders": {
+        "version": "2.0.5"
     },
     "sensio/framework-extra-bundle": {
         "version": "5.2",
@@ -142,6 +205,18 @@
         },
         "files": [
             "config/packages/sensio_framework_extra.yaml"
+        ]
+    },
+    "sensiolabs/security-checker": {
+        "version": "4.0",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "4.0",
+            "ref": "05daf6b214e54aed4089f3480f944a67ac3a7889"
+        },
+        "files": [
+            "config/packages/security_checker.yaml"
         ]
     },
     "swiftmailer/swiftmailer": {
@@ -275,6 +350,9 @@
     "symfony/intl": {
         "version": "v4.3.1"
     },
+    "symfony/lock": {
+        "version": "v4.3.1"
+    },
     "symfony/maker-bundle": {
         "version": "1.0",
         "recipe": {
@@ -309,9 +387,6 @@
     },
     "symfony/orm-pack": {
         "version": "v1.0.6"
-    },
-    "symfony/panther": {
-        "version": "v0.4.1"
     },
     "symfony/phpunit-bridge": {
         "version": "4.3",
@@ -355,6 +430,9 @@
     },
     "symfony/property-info": {
         "version": "v4.3.1"
+    },
+    "symfony/psr-http-message-bridge": {
+        "version": "v1.2.0"
     },
     "symfony/routing": {
         "version": "4.2",
@@ -505,14 +583,29 @@
     "symfony/yaml": {
         "version": "v4.3.1"
     },
+    "thecodingmachine/class-explorer": {
+        "version": "v1.0.2"
+    },
+    "thecodingmachine/graphqlite": {
+        "version": "v3.0.0"
+    },
+    "thecodingmachine/graphqlite-bundle": {
+        "version": "v3.0.0"
+    },
     "twig/twig": {
         "version": "v2.11.2"
     },
     "webmozart/assert": {
         "version": "1.4.0"
     },
+    "webonyx/graphql-php": {
+        "version": "v0.13.5"
+    },
     "zendframework/zend-code": {
         "version": "3.3.1"
+    },
+    "zendframework/zend-diactoros": {
+        "version": "1.8.6"
     },
     "zendframework/zend-eventmanager": {
         "version": "3.2.1"

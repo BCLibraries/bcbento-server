@@ -12,6 +12,17 @@ services:
         autowire: true      # Automatically injects dependencies in your services.
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
 
+        bind:
+            string $primo_api_gateway: '%env(string:PRIMO_API_GATEWAY)%'
+            string $primo_api_key: '%env(string:PRIMO_APIKEY)%'
+            string $primo_catalog_tab: '%env(string:PRIMO_CATALOG_TAB)%'
+            string $primo_catalog_scope: '%env(string:PRIMO_CATALOG_SCOPE)%'
+            string $primo_articles_tab: '%env(string:PRIMO_ARTICLES_TAB)%'
+            string $primo_articles_scope: '%env(string:PRIMO_ARTICLES_SCOPE)%'
+            string $primo_vid: '%env(string:PRIMO_VID)%'
+            string $primo_inst: '%env(string:PRIMO_INST)%'
+
+
     # makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name
     App\:
@@ -26,3 +37,7 @@ services:
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+
+    # custom aliases for autowiring
+    BCLib\PrimoClient\PrimoClient:
+        factory: ['App\ServiceFactory\PrimoClientFactory', 'createCatalogService']

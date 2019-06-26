@@ -8,6 +8,7 @@ use TheCodingMachine\GraphQLite\Annotations\Type;
 
 /**
  * @Type(class=Doc::class)
+ * @SourceField(name="id")
  * @SourceField(name="title")
  * @SourceField(name="creator")
  * @SourceField(name="contributors")
@@ -16,6 +17,7 @@ use TheCodingMachine\GraphQLite\Annotations\Type;
  * @SourceField(name="holdings")
  * @SourceField(name="isbn")
  * @SourceField(name="issn")
+ * @SourceField(name="type")
  * @SourceField(name="oclcid")
  * @SourceField(name="displaySubject")
  * @SourceField(name="genres")

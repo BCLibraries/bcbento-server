@@ -7,6 +7,7 @@
         "ext-iconv": "*",
         "bclibraries/primo-client": "^0.3",
         "myclabs/php-enum": "^1.7",
+        "nelmio/cors-bundle": "^1.5",
         "sensio/framework-extra-bundle": "^5.3",
         "symfony/asset": "4.3.*",
         "symfony/console": "4.3.*",

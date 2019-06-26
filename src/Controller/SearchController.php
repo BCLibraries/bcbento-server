@@ -2,10 +2,8 @@
 
 namespace App\Controller;
 
-use App\Entity\CatalogRecord;
-use App\Entity\CatalogSearchResult;
-use App\Service\SortTypeEnum;
-use BCLib\PrimoClient\PrimoClient;
+use App\Service\BookSearch;
+use BCLib\PrimoClient\SearchRequest;
 use BCLib\PrimoClient\SearchResponse;
 use TheCodingMachine\GraphQLite\Annotations\Query;
 
@@ -19,13 +17,13 @@ use TheCodingMachine\GraphQLite\Annotations\Query;
 class SearchController
 {
     /**
-     * @var PrimoClient
+     * @var BookSearch
      */
-    private $client;
+    private $book_search;
 
-    public function __construct(PrimoClient $client)
+    public function __construct(BookSearch $book_search)
     {
-        $this->client = $client;
+        $this->book_search = $book_search;
     }
 
     /**
@@ -33,9 +31,9 @@ class SearchController
      *
      * @Query
      */
-    public function searchCatalog(string $keyword, string $sort_by): SearchResponse
+    public function searchCatalog(string $keyword, int $limit = 5): SearchResponse
     {
-        return $this->client->search($keyword);
+        return $this->book_search->search($keyword, $limit);
     }
 
 }

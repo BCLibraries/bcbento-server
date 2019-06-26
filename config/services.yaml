@@ -21,6 +21,8 @@ services:
             string $primo_articles_scope: '%env(string:PRIMO_ARTICLES_SCOPE)%'
             string $primo_vid: '%env(string:PRIMO_VID)%'
             string $primo_inst: '%env(string:PRIMO_INST)%'
+            $article_query_config: '@query_config.articles'
+            $books_query_config: '@query_config.books'
 
 
     # makes classes in src/ available to be used as services
@@ -41,3 +43,35 @@ services:
     # custom aliases for autowiring
     BCLib\PrimoClient\PrimoClient:
         factory: ['App\ServiceFactory\PrimoClientFactory', 'createCatalogService']
+
+    # QueryConfig for books & more
+    query_config.books:
+        class: BCLib\PrimoClient\QueryConfig
+        # you CAN still use autowiring: we just want to show what it looks like without
+        autowire: false
+        # manually wire all arguments
+        arguments:
+            - '%env(string:PRIMO_APIKEY)%'
+            - '%env(string:PRIMO_CATALOG_TAB)%'
+            - '%env(string:PRIMO_VID)%'
+            - '%env(string:PRIMO_CATALOG_SCOPE)%'
+            - '%env(string:PRIMO_INST)%'
+
+    # QueryConfig for articles
+    query_config.articles:
+        class: BCLib\PrimoClient\QueryConfig
+        autowire: false
+        arguments:
+            - '%env(string:PRIMO_APIKEY)%'
+            - '%env(string:PRIMO_ARTICLES_TAB)%'
+            - '%env(string:PRIMO_VID)%'
+            - '%env(string:PRIMO_ARTICLES_SCOPE)%'
+            - '%env(string:PRIMO_INST)%'
+
+    GuzzleHttp\Client:
+        class: GuzzleHttp\Client
+        arguments:
+          - { base_uri: '%env(string:PRIMO_API_GATEWAY)%' }
+
+    BCLib\PrimoClient\ApiClient:
+        class: BCLib\PrimoClient\ApiClient

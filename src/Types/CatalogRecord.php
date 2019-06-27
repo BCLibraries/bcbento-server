@@ -37,6 +37,8 @@ use TheCodingMachine\GraphQLite\Annotations\Type;
  * @sourceField(name="isElectronic")
  * @sourceField(name="isDigital")
  * @sourceField(name="isPhysical")
+ * @sourceField(name="journalTitle")
+ * @sourceField(name="isPartOf")
  */
 class CatalogRecord
 {

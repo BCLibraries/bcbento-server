@@ -29,7 +29,9 @@
         "symfony/validator": "4.3.*",
         "symfony/web-link": "4.3.*",
         "symfony/yaml": "4.3.*",
-        "thecodingmachine/graphqlite-bundle": "^3.0"
+        "thecodingmachine/graphqlite-bundle": "^3.0",
+      "ext-curl": "*",
+        "ext-json": "*"
     },
     "require-dev": {
         "sensiolabs/security-checker": "^6.0",

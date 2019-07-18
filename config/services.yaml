@@ -23,6 +23,7 @@ services:
             string $primo_inst: '%env(string:PRIMO_INST)%'
             $article_query_config: '@query_config.articles'
             $books_query_config: '@query_config.books'
+            $video_query_config: '@query_config.video'
 
 
     # makes classes in src/ available to be used as services
@@ -47,14 +48,23 @@ services:
     # QueryConfig for books & more
     query_config.books:
         class: BCLib\PrimoClient\QueryConfig
-        # you CAN still use autowiring: we just want to show what it looks like without
         autowire: false
-        # manually wire all arguments
         arguments:
             - '%env(string:PRIMO_APIKEY)%'
             - '%env(string:PRIMO_CATALOG_TAB)%'
             - '%env(string:PRIMO_VID)%'
             - '%env(string:PRIMO_CATALOG_SCOPE)%'
+            - '%env(string:PRIMO_INST)%'
+
+    # QueryConfig for video
+    query_config.video:
+        class: BCLib\PrimoClient\QueryConfig
+        autowire: false
+        arguments:
+            - '%env(string:PRIMO_APIKEY)%'
+            - '%env(string:PRIMO_VIDEO_TAB)%'
+            - '%env(string:PRIMO_VID)%'
+            - '%env(string:PRIMO_VIDEO_SCOPE)%'
             - '%env(string:PRIMO_INST)%'
 
     # QueryConfig for articles

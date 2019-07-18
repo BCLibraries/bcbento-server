@@ -30,7 +30,7 @@ class BookSearch
     public function search(string $keyword, int $limit): SearchResponse
     {
         $query = new Query(Query::FIELD_ANY, Query::PRECISION_CONTAINS, $keyword);
-        $request = new SearchRequest($query, $this->query_config);
+        $request = new SearchRequest($this->query_config, $query);
         $request->limit($limit);
 
         $json = $this->client->get($request->url());

@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f38c58f87ab9fa99230fa9b80d7bf14f",
+    "content-hash": "a23fd8d10605445e4f4518449c5bb462",
     "packages": [
         {
             "name": "bclibraries/primo-client",
-            "version": "v0.4.0",
+            "version": "v0.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/BCLibraries/primo-client.git",
-                "reference": "bab3f70297780a8f5e311570ed16d26b84e8fde8"
+                "reference": "67114be8caf441adc3b7064554d6197d6b486f48"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/BCLibraries/primo-client/zipball/bab3f70297780a8f5e311570ed16d26b84e8fde8",
-                "reference": "bab3f70297780a8f5e311570ed16d26b84e8fde8",
+                "url": "https://api.github.com/repos/BCLibraries/primo-client/zipball/67114be8caf441adc3b7064554d6197d6b486f48",
+                "reference": "67114be8caf441adc3b7064554d6197d6b486f48",
                 "shasum": ""
             },
             "require": {
@@ -46,7 +46,7 @@
                 }
             ],
             "description": "A client for Ex Libris' Primo REST API",
-            "time": "2019-07-17T18:29:25+00:00"
+            "time": "2019-07-19T16:35:53+00:00"
         },
         {
             "name": "doctrine/annotations",
@@ -3829,16 +3829,16 @@
         },
         {
             "name": "symfony/flex",
-            "version": "v1.4.4",
+            "version": "v1.4.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/flex.git",
-                "reference": "4b5d25a5538e2dc37ff84645fe7498a9a04947b3"
+                "reference": "4467ab35c82edebac58fe58c22cea166a805eb1f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/flex/zipball/4b5d25a5538e2dc37ff84645fe7498a9a04947b3",
-                "reference": "4b5d25a5538e2dc37ff84645fe7498a9a04947b3",
+                "url": "https://api.github.com/repos/symfony/flex/zipball/4467ab35c82edebac58fe58c22cea166a805eb1f",
+                "reference": "4467ab35c82edebac58fe58c22cea166a805eb1f",
                 "shasum": ""
             },
             "require": {
@@ -3874,7 +3874,7 @@
                 }
             ],
             "description": "Composer plugin for Symfony",
-            "time": "2019-07-12T06:29:25+00:00"
+            "time": "2019-07-19T08:59:18+00:00"
         },
         {
             "name": "symfony/form",

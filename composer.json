@@ -9,7 +9,7 @@
         "ext-iconv": "*",
         "ext-json": "*",
         "ext-libxml": "*",
-        "bclibraries/primo-client": "^0.4",
+        "bclibraries/primo-client": "^0.5",
         "myclabs/php-enum": "^1.7",
         "nelmio/cors-bundle": "^1.5",
         "sensio/framework-extra-bundle": "^5.3",

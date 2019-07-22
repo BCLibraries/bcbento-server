@@ -2,18 +2,14 @@
 
 namespace App\Service;
 
-use BCLib\PrimoClient\Doc;
+use App\Entity\Video;
+use App\Entity\VideoSearchResponse;
 use GuzzleHttp\Promise;
 use Symfony\Component\Cache\Adapter\AdapterInterface;
 use Symfony\Component\Cache\CacheItem;
 
 class VideoThumbService
 {
-    /**
-     * @var Doc[]
-     */
-    private $queue = [];
-
     /**
      * @var AdapterInterface
      */
@@ -40,11 +36,10 @@ class VideoThumbService
     }
 
     /**
-     * @param Doc[] $docs
-     * @return array
+     * @param VideoSearchResponse $response
      * @throws \Psr\Cache\InvalidArgumentException
      */
-    public function fetch(array $docs): array
+    public function fetch(VideoSearchResponse $response)
     {
         $this->promises = [];
 
@@ -53,28 +48,38 @@ class VideoThumbService
          */
         $cache_items = [];
 
-        $results = [];
+        foreach ($response->getDocs() as $doc) {
 
-        foreach ($docs as $doc) {
             $cache_item = $this->cache->getItem($this->cacheKey($doc->id));
-            if (!$cache_item->isHit()) {
-                $this->extractScreeCap($doc);
+
+            // Set Films On Demand URLs separately, since they don't require HTTP
+            $sources = $doc->pnx('display', 'lds30');
+            if (isset($sources[0]) && $sources[0] === 'FILMS ON DEMAND') {
+                $cache_item->set($this->getFilmsOnDemandCapURL($doc));
             }
-            $cache_items[$doc->id] = $cache_item;
+
+            // If the screen cap is not found in cache, try to request it.
+            if (!$cache_item->isHit()) {
+                $this->extractScreenCap($doc);
+            }
+
+            $cache_items[$doc->id] = [
+                'cache_item' => $cache_item,
+                'video' => $doc
+            ];
         }
 
+        // Wait for outstanding requests to be settled and add the values to cache.
         $settled_promises = Promise\settle($this->promises)->wait();
-
         foreach ($settled_promises as $id => $promise) {
-            $cache_items[$id]->set($promise['value']);
-            $this->cache->save($cache_items[$id]);
+            $cache_items[$id]['cache_item']->set($promise['value']);
+            $this->cache->save($cache_items[$id]['cache_item']);
         }
 
+        // Set the screen cap value on the video.
         foreach ($cache_items as $id => $item) {
-            $results[$id] = $item->get();
+            $cache_items[$id]['video']->setScreenCap($item['cache_item']->get());
         }
-
-        return $results;
     }
 
     private function cacheKey($id): string
@@ -83,14 +88,32 @@ class VideoThumbService
     }
 
     /**
-     * @param Doc $doc
+     * @param Video $doc
      */
-    protected function extractScreeCap(Doc $doc): void
+    protected function extractScreenCap(Video $doc): void
     {
         foreach ($this->providers as $provider) {
             if ($provider->test($doc)) {
                 $this->promises[$doc->id] = $provider->getScreenCap($doc);
             }
         }
+    }
+
+    private function getFilmsOnDemandCapURL(Video $doc): ?String
+    {
+        $links = $doc->getLinkToResource();
+
+        if (!isset($links[0])) {
+            return null;
+        }
+
+        $pattern = '/xtid=(\d*)/';
+        preg_match($pattern, $links[0]->getUrl(), $matches);
+
+        if (isset($matches[1])) {
+            return "https://fod.infobase.com/image/{$matches[1]}";
+        }
+
+        return null;
     }
 }

@@ -52,9 +52,7 @@ class MediciTVVideoProvider implements VideoProvider
         $link = $doc->getLinkToResource()[0]->getUrl();
         return $this->guzzle->getAsync($link, ['allow_redirects' => true])->then(
             function (ResponseInterface $response) use ($doc) {
-                $cap = $this->getOpenGraphImage((string)$response->getBody());
-                $doc->setCoverImages([$cap]);
-                return $cap;
+                return $this->getOpenGraphImage((string)$response->getBody());
             }
         );
     }

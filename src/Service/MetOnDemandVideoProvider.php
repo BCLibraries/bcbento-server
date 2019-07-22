@@ -39,7 +39,7 @@ class MetOnDemandVideoProvider implements VideoProvider
             return false;
         }
         $link = $links[0];
-        return preg_match('#(https?://metopera.org/Season/On-Demand/opera/\?upc=.*)\$\$D#', $link);
+        return preg_match('#(https?://metopera.org/Season/On-Demand/opera/\?upc=.*)\$\$D#', $link->getUrl());
     }
 
     /**

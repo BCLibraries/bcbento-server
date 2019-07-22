@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\FAQResponse;
+use App\Entity\VideoSearchResponse;
 use App\Service\ArticleSearch;
 use App\Service\BookSearch;
 use App\Service\FAQSearch;
@@ -80,7 +81,7 @@ class SearchController
     /**
      * @Query
      */
-    public function searchVideo(string $keyword, int $limit = 3): SearchResponse
+    public function searchVideo(string $keyword, int $limit = 3): VideoSearchResponse
     {
         return $this->video_search->search($keyword, $limit);
     }

@@ -25,8 +25,7 @@ class Video extends Doc
     public function __construct(Doc $parent)
     {
         $parent_props = get_object_vars($parent);
-        foreach($parent_props AS $key=>$value)
-        {
+        foreach ($parent_props AS $key => $value) {
             $this->$key = $value;
         }
     }
@@ -42,5 +41,14 @@ class Video extends Doc
     public function setScreenCap(?string $url): void
     {
         $this->screen_cap = $url;
+    }
+
+    /**
+     * @Field
+     */
+    public function getMms(): ?string
+    {
+        $pnx = $this->pnx('search', 'addsrcrecordid');
+        return $pnx[0] ?? null;
     }
 }

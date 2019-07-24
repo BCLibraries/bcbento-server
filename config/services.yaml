@@ -21,6 +21,7 @@ services:
             string $primo_articles_scope: '%env(string:PRIMO_ARTICLES_SCOPE)%'
             string $primo_vid: '%env(string:PRIMO_VID)%'
             string $primo_inst: '%env(string:PRIMO_INST)%'
+            string $elasticsearch_url: '%env(string:ELASTICSEARCH_URL)%'
             $article_query_config: '@query_config.articles'
             $books_query_config: '@query_config.books'
             $video_query_config: '@query_config.video'
@@ -44,6 +45,10 @@ services:
     # custom aliases for autowiring
     BCLib\PrimoClient\PrimoClient:
         factory: ['App\ServiceFactory\PrimoClientFactory', 'createCatalogService']
+
+        # custom aliases for autowiring
+    Elasticsearch\Client:
+        factory: ['App\ServiceFactory\ElasticsearchClientFactory', 'createElasticsearchClient']
 
     # QueryConfig for books & more
     query_config.books:

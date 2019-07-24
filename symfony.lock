@@ -99,8 +99,14 @@
     "egulias/email-validator": {
         "version": "2.1.8"
     },
+    "elasticsearch/elasticsearch": {
+        "version": "v1.4.1"
+    },
     "fig/link-util": {
         "version": "1.0.0"
+    },
+    "guzzle/guzzle": {
+        "version": "v3.8.1"
     },
     "guzzlehttp/guzzle": {
         "version": "6.3.3"
@@ -110,6 +116,12 @@
     },
     "guzzlehttp/psr7": {
         "version": "1.5.2"
+    },
+    "guzzlehttp/ringphp": {
+        "version": "1.1.1"
+    },
+    "guzzlehttp/streams": {
+        "version": "3.0.0"
     },
     "jdorn/sql-formatter": {
         "version": "v1.2.17"
@@ -177,6 +189,9 @@
     "phpdocumentor/type-resolver": {
         "version": "0.4.0"
     },
+    "pimple/pimple": {
+        "version": "v3.2.3"
+    },
     "psr/cache": {
         "version": "1.0.1"
     },
@@ -206,6 +221,9 @@
     },
     "ralouphie/getallheaders": {
         "version": "2.0.5"
+    },
+    "react/promise": {
+        "version": "v2.7.1"
     },
     "sensio/framework-extra-bundle": {
         "version": "5.2",

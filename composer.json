@@ -92,6 +92,7 @@
     "symfony": {
       "allow-contrib": false,
       "require": "4.3.*"
-    }
+    },
+    "symfony-web-dir": "/var/www/html/bcbento-server"
   }
 }

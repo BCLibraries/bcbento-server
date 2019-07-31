@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "14902c8413d28125fca1beec8f7330ca",
+    "content-hash": "393cd01725a3340f04cf72fce2058ab8",
     "packages": [
         {
             "name": "bclibraries/primo-client",

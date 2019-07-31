@@ -25,11 +25,17 @@ class BestBet
      */
     private $display_text;
 
-    public function __construct(string $id, string $title, string $display_text)
+    /**
+     * @var string|null
+     */
+    private $link;
+
+    public function __construct(string $id, string $title, string $display_text, ?string $link)
     {
         $this->id = $id;
         $this->title = $title;
         $this->display_text = $display_text;
+        $this->link = $link;
     }
 
     /**
@@ -56,5 +62,11 @@ class BestBet
         return $this->display_text;
     }
 
-
+    /**
+     * @Field()
+     */
+    public function getLink(): ?string
+    {
+        return $this->link;
+    }
 }

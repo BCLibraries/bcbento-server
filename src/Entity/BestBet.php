@@ -65,8 +65,8 @@ class BestBet
     /**
      * @Field()
      */
-    public function getLink(): ?string
+    public function getLink(): string
     {
-        return $this->link;
+        return $this->link ? $this->link : null;
     }
 }

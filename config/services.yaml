@@ -22,6 +22,8 @@ services:
             string $primo_vid: '%env(string:PRIMO_VID)%'
             string $primo_inst: '%env(string:PRIMO_INST)%'
             string $elasticsearch_url: '%env(string:ELASTICSEARCH_URL)%'
+            string $alma_host: '%env(string:ALMA_HOST)%'
+            string $alma_library: '%env(string:ALMA_LIBRARY)%'
             $article_query_config: '@query_config.articles'
             $books_query_config: '@query_config.books'
             $video_query_config: '@query_config.video'

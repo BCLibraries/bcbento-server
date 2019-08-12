@@ -7,9 +7,9 @@ use BCLib\PrimoClient\Holding;
 class HoldingWithItem extends Holding
 {
     /**
-     * @var Item[]
+     * @var \BCLib\PrimoClient\Item[]
      */
-    private $items = [];
+    protected $items = [];
 
     /**
      * Holding constructor
@@ -32,7 +32,7 @@ class HoldingWithItem extends Holding
     }
 
     /**
-     * @param Item[] $items
+     * @param \BCLib\PrimoClient\Item[] $items
      * @return HoldingWithItem
      */
     public function setItems(array $items): HoldingWithItem

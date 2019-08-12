@@ -2,7 +2,7 @@
 
 namespace App\Service;
 
-use App\Entity\Item;
+use BCLib\PrimoClient\Item;
 use GuzzleHttp\Client;
 
 class AlmaClient
@@ -47,7 +47,10 @@ class AlmaClient
             foreach ($items as $item) {
                 $item->setHoldingId($key);
                 $array_key = '01BC_INST' . $item->getHoldingId();
-                $all_items[$array_key] = $item;
+                if (! isset($all_items[$array_key])) {
+                    $all_items[$array_key] = [];
+                }
+                $all_items[$array_key][] = $item;
             }
 
         }

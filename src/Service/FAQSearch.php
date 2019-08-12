@@ -5,7 +5,7 @@ namespace App\Service;
 use App\Entity\FAQResponse;
 use App\Entity\FAQResult;
 
-class FAQSearch
+class  FAQSearch
 {
     public function search(string $keyword, int $limit)
     {

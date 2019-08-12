@@ -2,10 +2,10 @@
 
 namespace App\Service;
 
-use App\Entity\Item;
 use BCLib\PrimoClient\ApiClient;
 use BCLib\PrimoClient\Doc;
 use BCLib\PrimoClient\Holding;
+use BCLib\PrimoClient\Item;
 use BCLib\PrimoClient\Query;
 use BCLib\PrimoClient\QueryConfig;
 use BCLib\PrimoClient\SearchRequest;
@@ -60,6 +60,9 @@ class BookSearch
      */
     protected function updateRealTimeAvailability(SearchResponse $results): void
     {
+        /**
+         * @var $physical_docs Doc[]
+         */
         $physical_docs = array_filter($results->getDocs(), function ($doc) {
             return $doc->isPhysical();
         });
@@ -104,15 +107,23 @@ class BookSearch
      * Reconcile Doc holding records with Real Time Availability
      *
      * @param Doc[] $physical_docs
-     * @param Item[] $items
+     * @param Item[][] $items
      */
     protected function reconcileRealTimeAvailability(array $physical_docs, array $items): void
     {
         foreach ($physical_docs as $doc) {
+            $doc->setAvailable(false);
             foreach ($doc->getHoldings() as $holding) {
+                if ($holding->getAvailabilityStatus() === 'available') {
+                    $doc->setAvailable(true);
+                }
                 $holding_id = $holding->getIlsId();
-                if ($items[$holding_id]) {
-                    $this->populateHolding($holding, $items[$holding_id]);
+                if (isset($items[$holding_id])) {
+                    $this->populateHolding($holding, $items[$holding_id][0]);
+
+                    foreach ($items[$holding_id] as $item) {
+                        $holding->addItem($item);
+                    }
                 }
             }
         }

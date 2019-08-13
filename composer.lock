@@ -8,16 +8,16 @@
     "packages": [
         {
             "name": "bclibraries/primo-client",
-            "version": "v0.6.4",
+            "version": "v0.6.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/BCLibraries/primo-client.git",
-                "reference": "81687275da3f630c848e964edf17f4a392c2093a"
+                "reference": "6b45c6d2dd141f4c960302ed72b7b262a864ec8f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/BCLibraries/primo-client/zipball/81687275da3f630c848e964edf17f4a392c2093a",
-                "reference": "81687275da3f630c848e964edf17f4a392c2093a",
+                "url": "https://api.github.com/repos/BCLibraries/primo-client/zipball/6b45c6d2dd141f4c960302ed72b7b262a864ec8f",
+                "reference": "6b45c6d2dd141f4c960302ed72b7b262a864ec8f",
                 "shasum": ""
             },
             "require": {
@@ -46,7 +46,7 @@
                 }
             ],
             "description": "A client for Ex Libris' Primo REST API",
-            "time": "2019-08-12T20:20:49+00:00"
+            "time": "2019-08-13T21:00:32+00:00"
         },
         {
             "name": "doctrine/annotations",
@@ -1295,16 +1295,16 @@
         },
         {
             "name": "egulias/email-validator",
-            "version": "2.1.10",
+            "version": "2.1.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/egulias/EmailValidator.git",
-                "reference": "a6c8d7101b19a451c1707b1b79bbbc56e4bdb7ec"
+                "reference": "92dd169c32f6f55ba570c309d83f5209cefb5e23"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/egulias/EmailValidator/zipball/a6c8d7101b19a451c1707b1b79bbbc56e4bdb7ec",
-                "reference": "a6c8d7101b19a451c1707b1b79bbbc56e4bdb7ec",
+                "url": "https://api.github.com/repos/egulias/EmailValidator/zipball/92dd169c32f6f55ba570c309d83f5209cefb5e23",
+                "reference": "92dd169c32f6f55ba570c309d83f5209cefb5e23",
                 "shasum": ""
             },
             "require": {
@@ -1323,7 +1323,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.0.x-dev"
+                    "dev-master": "2.1.x-dev"
                 }
             },
             "autoload": {
@@ -1349,7 +1349,7 @@
                 "validation",
                 "validator"
             ],
-            "time": "2019-07-19T20:52:08+00:00"
+            "time": "2019-08-13T17:33:27+00:00"
         },
         {
             "name": "elasticsearch/elasticsearch",

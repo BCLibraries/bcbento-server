@@ -28,6 +28,24 @@ class BookSearch
      */
     private $alma;
 
+    const TYPE_MAP = [
+        'book' => 'Book',
+        'video' => 'Video',
+        'journal' => 'Journal',
+        'government_document' => 'Government document',
+        'database' => 'Database',
+        'image' => 'Image',
+        'audio_music' => 'Musical recording',
+        'realia' => '',
+        'data' => 'Data',
+        'dissertation' => 'Thesis',
+        'article' => 'Article',
+        'review' => 'Review',
+        'reference_entry' => 'Reference entry',
+        'newspaper_article' => 'Newspaper article',
+        'other' => ''
+    ];
+
     public function __construct(QueryConfig $books_query_config, ApiClient $client, AlmaClient $alma)
     {
         $this->query_config = $books_query_config;
@@ -43,6 +61,10 @@ class BookSearch
 
         $json = $this->client->get($request->url());
         $results = SearchTranslator::translate($json);
+
+        foreach ($results->getDocs() as $doc) {
+            $doc->setType($this->displayType($doc));
+        }
 
         $this->updateRealTimeAvailability($results);
 
@@ -127,5 +149,10 @@ class BookSearch
                 }
             }
         }
+    }
+
+    protected function displayType(Doc $doc)
+    {
+        return self::TYPE_MAP[$doc->getType()] ?? ucfirst($doc->getType());
     }
 }

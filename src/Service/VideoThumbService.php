@@ -5,7 +5,6 @@ namespace App\Service;
 use App\Entity\Video;
 use App\Entity\VideoSearchResponse;
 use GuzzleHttp\Promise;
-use Psr\Log\LogLevel;
 use Symfony\Component\Cache\Adapter\AdapterInterface;
 use Symfony\Component\Cache\CacheItem;
 
@@ -55,7 +54,9 @@ class VideoThumbService
             // Set Films On Demand URLs separately, since they don't require HTTP
             $sources = $doc->pnx('display', 'lds30');
             if (isset($sources[0]) && $sources[0] === 'FILMS ON DEMAND') {
-                $cache_item->set($this->getFilmsOnDemandCapURL($doc));
+                $screencap = $this->getFilmsOnDemandCapURL($doc);
+                $doc->setScreenCap($screencap);
+                $cache_item->set($screencap);
             }
 
             // If the screen cap is not found in cache, try to request it.
@@ -78,7 +79,10 @@ class VideoThumbService
 
         // Set the screen cap value on the video.
         foreach ($cache_items as $id => $item) {
-            $cache_items[$id]['video']->setScreenCap($item['cache_item']->get());
+            $screencap = $item['cache_item']->get();
+            if ($screencap) {
+                $cache_items[$id]['video']->setScreenCap($item['cache_item']->get());
+            }
         }
     }
 

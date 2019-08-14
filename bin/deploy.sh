@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+# Branch to pull from
+BRANCH=${1:-master}
+
 # Repository to pull from
 REPO=https://github.com/BCLibraries/bcbento-server
 
@@ -7,16 +10,16 @@ REPO=https://github.com/BCLibraries/bcbento-server
 APP_BASE=/apps/bcbento-server
 
 # The new release
-TODAY=`date +%Y-%m-%d-%H%M%S`
+RIGHT_NOW=`date +%Y-%m-%d-%H%M%S`
 RELEASES_DIR=${APP_BASE}/releases
-NEW_RELEASE=${RELEASES_DIR}/${TODAY}
+NEW_RELEASE=${RELEASES_DIR}/${RIGHT_NOW}-${BRANCH}
 
 # Shared directories
 SHARED_DIR=${APP_BASE}/shared
 LOG_DIR=${SHARED_DIR}/log
 
 # Pull the latest commit from master
-git clone ${REPO} ${NEW_RELEASE}
+git clone ${REPO} -b ${BRANCH} ${NEW_RELEASE}
 cd ${NEW_RELEASE}
 find .git -type f -exec chmod 644 {} \;
 

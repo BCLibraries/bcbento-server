@@ -5,6 +5,7 @@ namespace App\Service;
 use App\Entity\Video;
 use App\Entity\VideoSearchResponse;
 use GuzzleHttp\Promise;
+use Psr\Log\LogLevel;
 use Symfony\Component\Cache\Adapter\AdapterInterface;
 use Symfony\Component\Cache\CacheItem;
 
@@ -49,7 +50,6 @@ class VideoThumbService
         $cache_items = [];
 
         foreach ($response->getDocs() as $doc) {
-
             $cache_item = $this->cache->getItem($this->cacheKey($doc->id));
 
             // Set Films On Demand URLs separately, since they don't require HTTP

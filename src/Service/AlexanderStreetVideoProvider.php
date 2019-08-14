@@ -36,7 +36,7 @@ class AlexanderStreetVideoProvider implements VideoProvider
             return false;
         }
         $link = $links[0];
-        return preg_match('#(https?://www.aspresolver.*)\$\$D#', $link);
+        return preg_match('#(https?://www.aspresolver.*)\$\$D#', $link->getUrl());
     }
 
     /**

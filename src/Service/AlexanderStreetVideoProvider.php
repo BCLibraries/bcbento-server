@@ -50,7 +50,7 @@ class AlexanderStreetVideoProvider implements VideoProvider
     public function getScreenCap(Doc $doc): PromiseInterface
     {
         $link = $doc->getLinkToResource()[0];
-        return $this->guzzle->getAsync($link, ['allow_redirects' => true])->then(
+        return $this->guzzle->getAsync($link->getUrl(), ['allow_redirects' => true])->then(
             function (ResponseInterface $response) use ($doc) {
                 $cap = $this->parseHTML($response);
                 $doc->setCoverImages([$cap]);

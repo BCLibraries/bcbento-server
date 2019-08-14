@@ -26,7 +26,7 @@ class VideoThumbService
      */
     private $promises;
 
-    public function __construct(AdapterInterface $cache = null)
+    public function __construct(AdapterInterface $cache)
     {
         $this->cache = $cache;
     }

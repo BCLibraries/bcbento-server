@@ -6,6 +6,7 @@ use App\Entity\Video;
 use App\Entity\VideoSearchResponse;
 use GuzzleHttp\Promise;
 use Symfony\Component\Cache\Adapter\AdapterInterface;
+use Symfony\Component\Cache\Adapter\TagAwareAdapter;
 use Symfony\Component\Cache\CacheItem;
 
 class VideoThumbService
@@ -25,9 +26,15 @@ class VideoThumbService
      */
     private $promises;
 
+    // Expire cached thumbnails after one month
+    private const CACHE_LIFETIME = 60 * 60 * 24 * 30;
+
+    // Tag for tracking cached thumbnails
+    private const CACHED_THUMBNAIL_TAG = 'video_thumb';
+
     public function __construct(AdapterInterface $cache)
     {
-        $this->cache = $cache;
+        $this->cache = new TagAwareAdapter($cache);
     }
 
     public function addProvider(VideoProvider $provider): void
@@ -74,6 +81,12 @@ class VideoThumbService
         $settled_promises = Promise\settle($this->promises)->wait();
         foreach ($settled_promises as $id => $promise) {
             $cache_items[$id]['cache_item']->set($promise['value']);
+
+            // All images should expire after one month. Also tag thumbnail caches
+            // in case we need to expire them earlier.
+            $cache_items[$id]['cache_item']->expiresAfter(self::CACHE_LIFETIME);
+            $cache_items[$id]['cache_item']->tag(self::CACHED_THUMBNAIL_TAG);
+
             $this->cache->save($cache_items[$id]['cache_item']);
         }
 

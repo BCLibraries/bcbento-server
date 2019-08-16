@@ -49,7 +49,7 @@ class BestBet
     /**
      * @Field()
      */
-    public function getTitle(): string
+    public function getTitle(): ?string
     {
         return $this->title;
     }
@@ -57,7 +57,7 @@ class BestBet
     /**
      * @Field()
      */
-    public function getDisplayText(): string
+    public function getDisplayText(): ?string
     {
         return $this->display_text;
     }
@@ -65,8 +65,8 @@ class BestBet
     /**
      * @Field()
      */
-    public function getLink(): string
+    public function getLink(): ?string
     {
-        return $this->link ? $this->link : null;
+        return $this->link ?: null;
     }
 }

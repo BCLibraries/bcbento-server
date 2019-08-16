@@ -42,7 +42,12 @@ class BestBetLookup
         if ($result['hits']['total'] > 0) {
             $json_best_bet = $result['hits']['hits'][0];
             $source = $json_best_bet['_source'];
-            $best_bet = new BestBet($json_best_bet['_id'], $source['title'], $source['displayText'], $source['link']);
+
+            $title = $source['title'] ?? null;
+            $display_text = $source['displayText'] ?? null;
+            $link = $source['link'] ?? null;
+
+            $best_bet = new BestBet($json_best_bet['_id'], $title, $display_text, $link);
         }
 
         return $best_bet;

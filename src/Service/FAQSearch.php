@@ -39,11 +39,9 @@ class  FAQSearch
         $response = new FAQResponse();
         $records = array_map([$this, 'processResult'], $search_json->results);
 
-        $num_found = $search_json->numFound ?: 0;
-
-        $response->setTotal($num_found)
-            ->setQuery($search_json->query)
-            ->setError($search_json->error)
+        $response->setTotal($search_json->numFound ?: 0)
+            ->setQuery($search_json->query ?: '')
+            ->setError($search_json->error ?: '')
             ->setResults($records);
         return $response;
     }

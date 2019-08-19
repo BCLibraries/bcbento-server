@@ -61,7 +61,7 @@ class VideoThumbService
             // Set Films On Demand URLs separately, since they don't require HTTP
             $sources = $doc->pnx('display', 'lds30');
             if (isset($sources[0]) && $sources[0] === 'FILMS ON DEMAND') {
-                $screencap = $this->getFilmsOnDemandCapURL($doc);
+                $screencap = $this->getFilmsOnDemandCap($doc);
                 $doc->setScreenCap($screencap);
                 $cache_item->set($screencap);
             }
@@ -116,10 +116,16 @@ class VideoThumbService
         }
     }
 
-    private function getFilmsOnDemandCapURL(Video $doc): ?String
+    private function getFilmsOnDemandCap(Video $doc): ?String
     {
-        $links = $doc->getLinkToResource();
+        // First try to get ID from custom PNX field.
+        $pnx13 = $doc->pnx('search','lsr13');
+        if ($pnx13 && $pnx13[0]) {
+            return $this->filmsOnDemandUrl($pnx13[0]);
+        }
 
+        // Next try to find it in links.
+        $links = $doc->getLinkToResource();
         if (!isset($links[0])) {
             return null;
         }
@@ -128,9 +134,13 @@ class VideoThumbService
         preg_match($pattern, $links[0]->getUrl(), $matches);
 
         if (isset($matches[1])) {
-            return "https://fod.infobase.com/image/{$matches[1]}";
+            return $this->filmsOnDemandUrl($matches[1]);
         }
 
         return null;
+    }
+
+    private function filmsOnDemandUrl(string $fod_id) {
+        return "https://fod.infobase.com/image/$fod_id";
     }
 }

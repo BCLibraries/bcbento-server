@@ -2,7 +2,6 @@
 
 namespace App\Service;
 
-use App\Entity\Video;
 use App\Entity\VideoSearchResponse;
 use BCLib\PrimoClient\Doc;
 use BCLib\PrimoClient\Link;
@@ -62,13 +61,10 @@ class VideoThumbService
             $cache_item = $this->cache->getItem($this->cacheKey($doc->id));
 
             // Set Films On Demand URLs separately, since they don't require HTTP
-            $sources = $doc->pnx('display', 'lds30');
-            if (isset($sources[0]) && $sources[0] === 'FILMS ON DEMAND') {
-                $screencap = $this->getFilmsOnDemandCap($doc);
+            if ($screencap = $this->getDesignatedCover($doc)) {
                 $doc->setScreenCap($screencap);
                 $cache_item->set($screencap);
-            } elseif (isset($sources[0]) && $sources[0] === 'KANOPY PDA') {
-                $screencap = $this->getKanopyCap($doc);
+            } elseif ($screencap = $this->getFilmsOnDemandCap($doc)) {
                 $doc->setScreenCap($screencap);
                 $cache_item->set($screencap);
             }
@@ -125,6 +121,12 @@ class VideoThumbService
 
     private function getFilmsOnDemandCap(Doc $doc): ?String
     {
+        $sources = $doc->pnx('display', 'lds30');
+
+        if (!isset($sources[0]) || $sources[0] !== 'FILMS ON DEMAND') {
+            return null;
+        }
+
         // First try to get ID from custom PNX field.
         $pnx13 = $doc->pnx('search', 'lsr13');
         if ($pnx13 && $pnx13[0]) {
@@ -152,12 +154,17 @@ class VideoThumbService
         return "https://fod.infobase.com/image/$fod_id";
     }
 
-    private function getKanopyCap(Doc $doc): ?string
+    /**
+     * Get a designated cover image
+     *
+     * Some services (e.g. Kanopy) include a screen cap with the MARC record.
+     */
+    private function getDesignatedCover(Doc $doc): ?string
     {
         $links = $doc->getLinks();
 
-        if (!$links['addlink']) {
-            return '';
+        if (!isset($links['addlink'])) {
+            return null;
         }
 
         /**
@@ -169,6 +176,6 @@ class VideoThumbService
             }
         }
 
-        return '';
+        return null;
     }
 }

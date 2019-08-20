@@ -36,21 +36,15 @@ class SearchController
      */
     private $faq_search;
 
-    /**
-     * @var VideoSearch
-     */
-    private $video_search;
 
     public function __construct(
         BookSearch $book_search,
         ArticleSearch $article_search,
-        FAQSearch $faq_search,
-        VideoSearch $video_search
+        FAQSearch $faq_search
     ) {
         $this->book_search = $book_search;
         $this->article_search = $article_search;
         $this->faq_search = $faq_search;
-        $this->video_search = $video_search;
     }
 
     /**
@@ -60,7 +54,7 @@ class SearchController
      */
     public function searchCatalog(string $keyword, int $limit = 3): CatalogSearchResponse
     {
-        return $this->book_search->search($keyword, $limit);
+        return $this->book_search->searchFullCatalog($keyword, $limit);
     }
 
     /**
@@ -82,9 +76,9 @@ class SearchController
     /**
      * @Query
      */
-    public function searchVideo(string $keyword, int $limit = 3): VideoSearchResponse
+    public function searchVideo(string $keyword, int $limit = 3): CatalogSearchResponse
     {
-        return $this->video_search->search($keyword, $limit);
+        return $this->book_search->searchVideo($keyword, $limit);
     }
 
 }

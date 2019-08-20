@@ -9,6 +9,7 @@ use BCLib\PrimoClient\Holding;
 use BCLib\PrimoClient\Item;
 use BCLib\PrimoClient\Query;
 use BCLib\PrimoClient\QueryConfig;
+use BCLib\PrimoClient\QueryFacet;
 use BCLib\PrimoClient\SearchRequest;
 use BCLib\PrimoClient\SearchResponse;
 use BCLib\PrimoClient\SearchTranslator;
@@ -68,7 +69,7 @@ class BookSearch
         $this->video_thumbs->addProvider(new MetOnDemandVideoProvider(new Client()));
     }
 
-    public function search(string $keyword, int $limit): CatalogSearchResponse
+    public function searchFullCatalog(string $keyword, int $limit): CatalogSearchResponse
     {
         $query = new Query(Query::FIELD_ANY, Query::PRECISION_CONTAINS, $keyword);
         $request = new SearchRequest($this->query_config, $query);
@@ -87,6 +88,31 @@ class BookSearch
 
         return $results;
     }
+
+    public function searchVideo(string $keyword, int $limit): CatalogSearchResponse
+    {
+        $query = new Query(Query::FIELD_ANY, Query::PRECISION_CONTAINS, $keyword);
+        $request = new SearchRequest($this->query_config, $query);
+        $request->limit($limit);
+
+        // @TODO change to use Primo sandbox after API issue fixed
+        $video_type_facet = new QueryFacet(QueryFacet::CATEGORY_RESOURCE_TYPE, QueryFacet::OPERATOR_EXACT, 'video');
+        $request = $request->include($video_type_facet);
+
+        $json = $this->client->get($request->url());
+        $results = new CatalogSearchResponse(SearchTranslator::translate($json));
+
+        foreach ($results->getDocs() as $doc) {
+            $doc->setType($this->displayType($doc));
+        }
+
+        $this->updateRealTimeAvailability($results);
+
+        $this->video_thumbs->fetch($results);
+
+        return $results;
+    }
+
 
     /**
      * Update holdings records to reflect current availability

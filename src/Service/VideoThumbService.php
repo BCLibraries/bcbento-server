@@ -30,7 +30,7 @@ class VideoThumbService
     private $promises;
 
     // Expire cached thumbnails after one month
-    private const CACHE_LIFETIME = 10;
+    private const CACHE_LIFETIME = 60 * 60 * 24 * 30;
 
     // Tag for tracking cached thumbnails
     private const CACHED_THUMBNAIL_TAG = 'video_thumb';

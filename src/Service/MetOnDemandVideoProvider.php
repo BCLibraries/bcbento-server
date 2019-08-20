@@ -34,12 +34,8 @@ class MetOnDemandVideoProvider implements VideoProvider
      */
     public function test(Doc $doc): bool
     {
-        $links = $doc->getLinkToResource();
-        if (!isset($links[0])) {
-            return false;
-        }
-        $link = $links[0];
-        return preg_match('#(https?://metopera.org/Season/On-Demand/opera/\?upc=.*)\$\$D#', $link->getUrl());
+        $providers = $doc->pnx('display','lds30');
+        return in_array('MET OPERA ON DEMAND', $providers, true);
     }
 
     /**
@@ -52,15 +48,13 @@ class MetOnDemandVideoProvider implements VideoProvider
      */
     public function getScreenCap(Doc $doc): PromiseInterface
     {
-        $link = $doc->getLinkToResource()[0];
+        $met_ids = $doc->pnx('addata','lad06');
+        $met_id = $met_ids[0] ?? '';
+        $link = "http://metopera.org/Season/On-Demand/opera/?upc=$met_id";
         return $this->guzzle->getAsync($link, ['allow_redirects' => true])->then(
-            function (ResponseInterface $response) {
-                return $response->getBody()->getContents();
-            },
-            function (\Exception $exception) {
-                return $exception->getMessage();
+            function (ResponseInterface $response) use ($doc) {
+                return $this->getOpenGraphImage((string)$response->getBody());
             }
         );
     }
-
 }

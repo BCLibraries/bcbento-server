@@ -31,6 +31,7 @@ class AlexanderStreetVideoProvider implements VideoProvider
      */
     public function test(Doc $doc): bool
     {
+        dump($doc->getLinks()); exit();
         $links = $doc->getLinkToResource();
         if (!isset($links[0])) {
             return false;

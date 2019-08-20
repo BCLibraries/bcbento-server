@@ -31,11 +31,17 @@ class MediciTVVideoProvider implements VideoProvider
      */
     public function test(Doc $doc): bool
     {
-        $links = $doc->getLinkToResource();
-        if (!isset($links[0])) {
+        $links = $doc->getLinks();
+
+        if (! isset($links['lln03'])) {
             return false;
         }
-        $link = $links[0]->getUrl();
+
+        if (!isset($links['lln03'][0])) {
+            return false;
+        }
+
+        $link = $links['lln03'][0]->getUrl();
         return (preg_match('#(https?://edu.medici.tv/movies.*)\$\$D#', $link) !== false);
     }
 
@@ -49,7 +55,7 @@ class MediciTVVideoProvider implements VideoProvider
      */
     public function getScreenCap(Doc $doc): PromiseInterface
     {
-        $link = $doc->getLinkToResource()[0]->getUrl();
+        $link = $doc->getLinks()['lln03'][0]->getUrl();
         return $this->guzzle->getAsync($link, ['allow_redirects' => true])->then(
             function (ResponseInterface $response) use ($doc) {
                 return $this->getOpenGraphImage((string)$response->getBody());

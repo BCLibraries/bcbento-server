@@ -4,6 +4,8 @@ namespace App\Service;
 
 use App\Entity\Video;
 use App\Entity\VideoSearchResponse;
+use BCLib\PrimoClient\Doc;
+use BCLib\PrimoClient\Link;
 use GuzzleHttp\Promise;
 use Symfony\Component\Cache\Adapter\AdapterInterface;
 use Symfony\Component\Cache\Adapter\TagAwareAdapter;
@@ -27,7 +29,7 @@ class VideoThumbService
     private $promises;
 
     // Expire cached thumbnails after one month
-    private const CACHE_LIFETIME = 60 * 60 * 24 * 30;
+    private const CACHE_LIFETIME = 10;
 
     // Tag for tracking cached thumbnails
     private const CACHED_THUMBNAIL_TAG = 'video_thumb';
@@ -62,6 +64,10 @@ class VideoThumbService
             $sources = $doc->pnx('display', 'lds30');
             if (isset($sources[0]) && $sources[0] === 'FILMS ON DEMAND') {
                 $screencap = $this->getFilmsOnDemandCap($doc);
+                $doc->setScreenCap($screencap);
+                $cache_item->set($screencap);
+            } elseif (isset($sources[0]) && $sources[0] === 'KANOPY PDA') {
+                $screencap = $this->getKanopyCap($doc);
                 $doc->setScreenCap($screencap);
                 $cache_item->set($screencap);
             }
@@ -119,7 +125,7 @@ class VideoThumbService
     private function getFilmsOnDemandCap(Video $doc): ?String
     {
         // First try to get ID from custom PNX field.
-        $pnx13 = $doc->pnx('search','lsr13');
+        $pnx13 = $doc->pnx('search', 'lsr13');
         if ($pnx13 && $pnx13[0]) {
             return $this->filmsOnDemandUrl($pnx13[0]);
         }
@@ -140,7 +146,28 @@ class VideoThumbService
         return null;
     }
 
-    private function filmsOnDemandUrl(string $fod_id) {
+    private function filmsOnDemandUrl(string $fod_id)
+    {
         return "https://fod.infobase.com/image/$fod_id";
+    }
+
+    private function getKanopyCap(Doc $doc): ?string
+    {
+        $links = $doc->getLinks();
+
+        if (!$links['addlink']) {
+            return '';
+        }
+
+        /**
+         * @var $link Link
+         */
+        foreach ($links['addlink'] as $link) {
+            if ($link->getLabel() === 'Cover Image') {
+                return $link->getUrl();
+            }
+        }
+
+        return '';
     }
 }

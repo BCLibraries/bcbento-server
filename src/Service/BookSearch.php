@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use App\Entity\CatalogSearchResponse;
 use BCLib\PrimoClient\ApiClient;
 use BCLib\PrimoClient\Doc;
 use BCLib\PrimoClient\Holding;
@@ -11,6 +12,7 @@ use BCLib\PrimoClient\QueryConfig;
 use BCLib\PrimoClient\SearchRequest;
 use BCLib\PrimoClient\SearchResponse;
 use BCLib\PrimoClient\SearchTranslator;
+use GuzzleHttp\Client;
 
 class BookSearch
 {
@@ -27,6 +29,11 @@ class BookSearch
      * @var AlmaClient
      */
     private $alma;
+
+    /**
+     * @var VideoThumbService
+     */
+    private $video_thumbs;
 
     const TYPE_MAP = [
         'book' => 'Book',
@@ -46,27 +53,37 @@ class BookSearch
         'other' => ''
     ];
 
-    public function __construct(QueryConfig $books_query_config, ApiClient $client, AlmaClient $alma)
-    {
+    public function __construct(
+        QueryConfig $books_query_config,
+        ApiClient $client,
+        AlmaClient $alma,
+        VideoThumbService $video_thumbs
+    ) {
         $this->query_config = $books_query_config;
         $this->client = $client;
         $this->alma = $alma;
+
+        $this->video_thumbs = $video_thumbs;
+        $this->video_thumbs->addProvider(new MediciTVVideoProvider(new Client()));
+        $this->video_thumbs->addProvider(new MetOnDemandVideoProvider(new Client()));
     }
 
-    public function search(string $keyword, int $limit): SearchResponse
+    public function search(string $keyword, int $limit): CatalogSearchResponse
     {
         $query = new Query(Query::FIELD_ANY, Query::PRECISION_CONTAINS, $keyword);
         $request = new SearchRequest($this->query_config, $query);
         $request->limit($limit);
 
         $json = $this->client->get($request->url());
-        $results = SearchTranslator::translate($json);
+        $results = new CatalogSearchResponse(SearchTranslator::translate($json));
 
         foreach ($results->getDocs() as $doc) {
             $doc->setType($this->displayType($doc));
         }
 
         $this->updateRealTimeAvailability($results);
+
+        $this->video_thumbs->fetch($results);
 
         return $results;
     }

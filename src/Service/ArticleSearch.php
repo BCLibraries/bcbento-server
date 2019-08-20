@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use App\Entity\CatalogSearchResponse;
 use BCLib\PrimoClient\ApiClient;
 use BCLib\PrimoClient\Query;
 use BCLib\PrimoClient\QueryConfig;
@@ -26,13 +27,13 @@ class ArticleSearch
         $this->client = $client;
     }
 
-    public function search(string $keyword, int $limit): SearchResponse
+    public function search(string $keyword, int $limit): CatalogSearchResponse
     {
         $query = new Query(Query::FIELD_ANY, Query::PRECISION_CONTAINS, $keyword);
         $request = new SearchRequest($this->query_config, $query);
         $request->limit($limit);
 
         $json = $this->client->get($request->url());
-        return SearchTranslator::translate($json);
+        return new CatalogSearchResponse(SearchTranslator::translate($json));
     }
 }

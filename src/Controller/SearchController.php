@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\CatalogSearchResponse;
 use App\Entity\FAQResponse;
 use App\Entity\VideoSearchResponse;
 use App\Service\ArticleSearch;
@@ -57,7 +58,7 @@ class SearchController
      *
      * @Query
      */
-    public function searchCatalog(string $keyword, int $limit = 3): SearchResponse
+    public function searchCatalog(string $keyword, int $limit = 3): CatalogSearchResponse
     {
         return $this->book_search->search($keyword, $limit);
     }

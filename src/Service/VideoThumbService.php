@@ -6,6 +6,7 @@ use App\Entity\Video;
 use App\Entity\VideoSearchResponse;
 use BCLib\PrimoClient\Doc;
 use BCLib\PrimoClient\Link;
+use BCLib\PrimoClient\SearchResponse;
 use GuzzleHttp\Promise;
 use Symfony\Component\Cache\Adapter\AdapterInterface;
 use Symfony\Component\Cache\Adapter\TagAwareAdapter;
@@ -48,7 +49,7 @@ class VideoThumbService
      * @param VideoSearchResponse $response
      * @throws \Psr\Cache\InvalidArgumentException
      */
-    public function fetch(VideoSearchResponse $response)
+    public function fetch(SearchResponse $response)
     {
         $this->promises = [];
 
@@ -111,9 +112,9 @@ class VideoThumbService
     }
 
     /**
-     * @param Video $doc
+     * @param Doc $doc
      */
-    protected function extractScreenCap(Video $doc): void
+    protected function extractScreenCap(Doc $doc): void
     {
         foreach ($this->providers as $provider) {
             if ($provider->test($doc)) {
@@ -122,7 +123,7 @@ class VideoThumbService
         }
     }
 
-    private function getFilmsOnDemandCap(Video $doc): ?String
+    private function getFilmsOnDemandCap(Doc $doc): ?String
     {
         // First try to get ID from custom PNX field.
         $pnx13 = $doc->pnx('search', 'lsr13');

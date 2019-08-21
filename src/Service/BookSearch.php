@@ -20,7 +20,13 @@ class BookSearch
     /**
      * @var QueryConfig
      */
-    private $query_config;
+    private $books_query_config;
+
+    /**
+     * @var QueryConfig
+     */
+    private $video_query_config;
+
     /**
      * @var ApiClient
      */
@@ -56,23 +62,25 @@ class BookSearch
 
     public function __construct(
         QueryConfig $books_query_config,
+        QueryConfig $video_query_config,
         ApiClient $client,
         AlmaClient $alma,
         VideoThumbService $video_thumbs
     ) {
-        $this->query_config = $books_query_config;
+        $this->books_query_config = $books_query_config;
         $this->client = $client;
         $this->alma = $alma;
 
         $this->video_thumbs = $video_thumbs;
         $this->video_thumbs->addProvider(new MediciTVVideoProvider(new Client()));
         $this->video_thumbs->addProvider(new MetOnDemandVideoProvider(new Client()));
+        $this->video_query_config = $video_query_config;
     }
 
     public function searchFullCatalog(string $keyword, int $limit): CatalogSearchResponse
     {
         $query = new Query(Query::FIELD_ANY, Query::PRECISION_CONTAINS, $keyword);
-        $request = new SearchRequest($this->query_config, $query);
+        $request = new SearchRequest($this->books_query_config, $query);
         $request->limit($limit);
 
         $json = $this->client->get($request->url());
@@ -92,12 +100,8 @@ class BookSearch
     public function searchVideo(string $keyword, int $limit): CatalogSearchResponse
     {
         $query = new Query(Query::FIELD_ANY, Query::PRECISION_CONTAINS, $keyword);
-        $request = new SearchRequest($this->query_config, $query);
+        $request = new SearchRequest($this->video_query_config, $query);
         $request->limit($limit);
-
-        // @TODO change to use Primo sandbox after API issue fixed
-        $video_type_facet = new QueryFacet(QueryFacet::CATEGORY_RESOURCE_TYPE, QueryFacet::OPERATOR_EXACT, 'video');
-        $request = $request->include($video_type_facet);
 
         $json = $this->client->get($request->url());
         $results = new CatalogSearchResponse(SearchTranslator::translate($json));

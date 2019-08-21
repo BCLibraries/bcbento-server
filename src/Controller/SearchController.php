@@ -6,7 +6,7 @@ use App\Entity\CatalogSearchResponse;
 use App\Entity\FAQResponse;
 use App\Entity\VideoSearchResponse;
 use App\Service\ArticleSearch;
-use App\Service\BookSearch;
+use App\Service\PrimoSearch;
 use App\Service\FAQSearch;
 use App\Service\VideoSearch;
 use BCLib\PrimoClient\SearchResponse;
@@ -22,7 +22,7 @@ use TheCodingMachine\GraphQLite\Annotations\Query;
 class SearchController
 {
     /**
-     * @var BookSearch
+     * @var PrimoSearch
      */
     private $book_search;
 
@@ -38,7 +38,7 @@ class SearchController
 
 
     public function __construct(
-        BookSearch $book_search,
+        PrimoSearch $book_search,
         ArticleSearch $article_search,
         FAQSearch $faq_search
     ) {
@@ -62,7 +62,7 @@ class SearchController
      */
     public function searchArticles(string $keyword, int $limit = 3): SearchResponse
     {
-        return $this->article_search->search($keyword, $limit);
+        return $this->book_search->searchArticle($keyword, $limit);
     }
 
     /**

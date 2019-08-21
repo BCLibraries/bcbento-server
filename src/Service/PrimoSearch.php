@@ -9,13 +9,14 @@ use BCLib\PrimoClient\Holding;
 use BCLib\PrimoClient\Item;
 use BCLib\PrimoClient\Query;
 use BCLib\PrimoClient\QueryConfig;
-use BCLib\PrimoClient\QueryFacet;
 use BCLib\PrimoClient\SearchRequest;
 use BCLib\PrimoClient\SearchResponse;
 use BCLib\PrimoClient\SearchTranslator;
 use GuzzleHttp\Client;
+use Symfony\Component\Cache\Adapter\AdapterInterface;
+use Symfony\Component\Cache\Adapter\TagAwareAdapter;
 
-class BookSearch
+class PrimoSearch
 {
     /**
      * @var QueryConfig
@@ -26,6 +27,11 @@ class BookSearch
      * @var QueryConfig
      */
     private $video_query_config;
+
+    /**
+     * @var QueryConfig
+     */
+    private $article_query_config;
 
     /**
      * @var ApiClient
@@ -41,6 +47,16 @@ class BookSearch
      * @var VideoThumbService
      */
     private $video_thumbs;
+
+    /**
+     * @var AdapterInterface
+     */
+    private $cache;
+
+    // Expire search results after three hours
+    private const CACHE_LIFETIME = 60 * 60 * 3;
+
+    private const CACHED_SEARCH_RESULT_TAG = 'catalog_search_result';
 
     const TYPE_MAP = [
         'book' => 'Book',
@@ -63,60 +79,75 @@ class BookSearch
     public function __construct(
         QueryConfig $books_query_config,
         QueryConfig $video_query_config,
+        QueryConfig $article_query_config,
         ApiClient $client,
         AlmaClient $alma,
-        VideoThumbService $video_thumbs
+        VideoThumbService $video_thumbs,
+        AdapterInterface $cache
     ) {
         $this->books_query_config = $books_query_config;
+        $this->video_query_config = $video_query_config;
+        $this->article_query_config = $article_query_config;
         $this->client = $client;
         $this->alma = $alma;
 
         $this->video_thumbs = $video_thumbs;
         $this->video_thumbs->addProvider(new MediciTVVideoProvider(new Client()));
         $this->video_thumbs->addProvider(new MetOnDemandVideoProvider(new Client()));
-        $this->video_query_config = $video_query_config;
+        $this->cache = new TagAwareAdapter($cache);
     }
 
     public function searchFullCatalog(string $keyword, int $limit): CatalogSearchResponse
     {
-        $query = new Query(Query::FIELD_ANY, Query::PRECISION_CONTAINS, $keyword);
-        $request = new SearchRequest($this->books_query_config, $query);
-        $request->limit($limit);
-
-        $json = $this->client->get($request->url());
-        $results = new CatalogSearchResponse(SearchTranslator::translate($json));
-
-        foreach ($results->getDocs() as $doc) {
-            $doc->setType($this->displayType($doc));
-        }
-
-        $this->updateRealTimeAvailability($results);
-
-        $this->video_thumbs->fetch($results);
-
-        return $results;
+        return $this->search($keyword, $limit, $this->books_query_config, false);
     }
 
     public function searchVideo(string $keyword, int $limit): CatalogSearchResponse
     {
-        $query = new Query(Query::FIELD_ANY, Query::PRECISION_CONTAINS, $keyword);
-        $request = new SearchRequest($this->video_query_config, $query);
-        $request->limit($limit);
-
-        $json = $this->client->get($request->url());
-        $results = new CatalogSearchResponse(SearchTranslator::translate($json));
-
-        foreach ($results->getDocs() as $doc) {
-            $doc->setType($this->displayType($doc));
-        }
-
-        $this->updateRealTimeAvailability($results);
-
-        $this->video_thumbs->fetch($results);
-
-        return $results;
+        return $this->search($keyword, $limit, $this->video_query_config, false);
     }
 
+    public function searchArticle(string $keyword, int $limit): CatalogSearchResponse
+    {
+        return $this->search($keyword, $limit, $this->article_query_config, true);
+    }
+
+    private function search(string $keyword, int $limit, QueryConfig $config, bool $is_pci): CatalogSearchResponse
+    {
+        // First check cache for search result.
+        $cache_item = $this->cache->getItem($this->cacheKey($keyword, $limit));
+
+        if ($cache_item->isHit()) {
+            $result = $cache_item->get();
+        } else {
+
+            // Not in cache, request from Ex Libris.
+            $result = $this->sendSearchQuery($keyword, $limit, $config);
+
+
+            // Non-Primo Central results have extra fields
+            if (! $is_pci) {
+
+                // Load display types
+                foreach ($result->getDocs() as $doc) {
+                    $doc->setType($this->displayType($doc));
+                }
+
+                // Load video thumbs
+                $this->video_thumbs->fetch($result);
+            }
+
+            // Add to cache.
+            $cache_item->set($result);
+            $cache_item->expiresAfter(self::CACHE_LIFETIME);
+            $cache_item->tag(self::CACHED_SEARCH_RESULT_TAG);
+            $this->cache->save($cache_item);
+        }
+
+        $this->updateRealTimeAvailability($result);
+
+        return $result;
+    }
 
     /**
      * Update holdings records to reflect current availability
@@ -198,8 +229,40 @@ class BookSearch
         }
     }
 
+    /**
+     * Map the type code to a display string
+     *
+     * @param Doc $doc
+     * @return mixed|string
+     */
     protected function displayType(Doc $doc)
     {
         return self::TYPE_MAP[$doc->getType()] ?? ucfirst($doc->getType());
+    }
+
+    protected function cacheKey(string $keyword, string $limit): string
+    {
+        return "bcbento-catalog-search_$keyword-$limit";
+    }
+
+    /**
+     * Send a search query to Ex Libris
+     *
+     * @param string $keyword
+     * @param int $limit
+     * @param QueryConfig $config
+     * @return CatalogSearchResponse
+     * @throws \BCLib\PrimoClient\Exceptions\BadAPIResponseException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \Psr\Cache\InvalidArgumentException
+     */
+    private function sendSearchQuery(string $keyword, int $limit, QueryConfig $config): CatalogSearchResponse
+    {
+        $query = new Query(Query::FIELD_ANY, Query::PRECISION_CONTAINS, $keyword);
+        $request = new SearchRequest($config, $query);
+        $request->limit($limit);
+
+        $json = $this->client->get($request->url());
+        return new CatalogSearchResponse(SearchTranslator::translate($json));
     }
 }

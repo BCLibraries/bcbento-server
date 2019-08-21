@@ -115,7 +115,7 @@ class PrimoSearch
     private function search(string $keyword, int $limit, QueryConfig $config, bool $is_pci): CatalogSearchResponse
     {
         // First check cache for search result.
-        $cache_item = $this->cache->getItem($this->cacheKey($keyword, $limit));
+        $cache_item = $this->cache->getItem($this->cacheKey($keyword, $limit, $config));
 
         if ($cache_item->isHit()) {
             $result = $cache_item->get();
@@ -240,9 +240,9 @@ class PrimoSearch
         return self::TYPE_MAP[$doc->getType()] ?? ucfirst($doc->getType());
     }
 
-    protected function cacheKey(string $keyword, string $limit): string
+    protected function cacheKey(string $keyword, string $limit, QueryConfig $config): string
     {
-        return "bcbento-catalog-search_$keyword-$limit";
+        return "bcbento-catalog-search_$keyword-$limit-{$config->scope}";
     }
 
     /**

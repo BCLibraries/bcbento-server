@@ -4,11 +4,8 @@ namespace App\Controller;
 
 use App\Entity\CatalogSearchResponse;
 use App\Entity\FAQResponse;
-use App\Entity\VideoSearchResponse;
-use App\Service\ArticleSearch;
 use App\Service\PrimoSearch;
 use App\Service\FAQSearch;
-use App\Service\VideoSearch;
 use BCLib\PrimoClient\SearchResponse;
 use TheCodingMachine\GraphQLite\Annotations\Query;
 
@@ -27,11 +24,6 @@ class SearchController
     private $book_search;
 
     /**
-     * @var ArticleSearch
-     */
-    private $article_search;
-
-    /**
      * @var FAQSearch
      */
     private $faq_search;
@@ -39,11 +31,9 @@ class SearchController
 
     public function __construct(
         PrimoSearch $book_search,
-        ArticleSearch $article_search,
         FAQSearch $faq_search
     ) {
         $this->book_search = $book_search;
-        $this->article_search = $article_search;
         $this->faq_search = $faq_search;
     }
 
@@ -58,6 +48,8 @@ class SearchController
     }
 
     /**
+     * Search Primo Central by keyword
+     *
      * @Query
      */
     public function searchArticles(string $keyword, int $limit = 3): SearchResponse
@@ -66,6 +58,8 @@ class SearchController
     }
 
     /**
+     * Search LibAnswers by keyword
+     *
      * @Query
      */
     public function searchFAQ(string $keyword, int $limit = 3): FAQResponse
@@ -74,6 +68,8 @@ class SearchController
     }
 
     /**
+     * Search Primo videos by keyword
+     *
      * @Query
      */
     public function searchVideo(string $keyword, int $limit = 3): CatalogSearchResponse

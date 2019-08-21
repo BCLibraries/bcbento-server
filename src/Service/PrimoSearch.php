@@ -53,8 +53,8 @@ class PrimoSearch
      */
     private $cache;
 
-    // Expire search results after three hours
-    private const CACHE_LIFETIME = 60 * 60 * 3;
+    // Expire search results after twelve hours
+    private const CACHE_LIFETIME = 60 * 60 * 12;
 
     private const CACHED_SEARCH_RESULT_TAG = 'catalog_search_result';
 
@@ -242,6 +242,8 @@ class PrimoSearch
 
     protected function cacheKey(string $keyword, string $limit, QueryConfig $config): string
     {
+        $keyword = strtolower($keyword);
+        $keyword = trim($keyword);
         return "bcbento-catalog-search_$keyword-$limit-{$config->scope}";
     }
 
@@ -254,7 +256,6 @@ class PrimoSearch
      * @return CatalogSearchResponse
      * @throws \BCLib\PrimoClient\Exceptions\BadAPIResponseException
      * @throws \GuzzleHttp\Exception\GuzzleException
-     * @throws \Psr\Cache\InvalidArgumentException
      */
     private function sendSearchQuery(string $keyword, int $limit, QueryConfig $config): CatalogSearchResponse
     {

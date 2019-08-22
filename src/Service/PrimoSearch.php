@@ -114,7 +114,7 @@ class PrimoSearch
 
     private function search(string $keyword, int $limit, QueryConfig $config, bool $is_pci): CatalogSearchResponse
     {
-        $keyword = str_replace(array(':', ';', ',', '.', '(', ')'), ' ', $keyword);
+        $keyword = str_replace(array(':', ';', ',', '.', '(', ')', '/', '\\'), ' ', $keyword);
 
         // First check cache for search result.
         $cache_item = $this->cache->getItem($this->cacheKey($keyword, $limit, $config));

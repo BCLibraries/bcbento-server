@@ -114,6 +114,8 @@ class PrimoSearch
 
     private function search(string $keyword, int $limit, QueryConfig $config, bool $is_pci): CatalogSearchResponse
     {
+        $keyword = str_replace(':', ' ', $keyword);
+
         // First check cache for search result.
         $cache_item = $this->cache->getItem($this->cacheKey($keyword, $limit, $config));
 
@@ -126,7 +128,7 @@ class PrimoSearch
 
 
             // Non-Primo Central results have extra fields
-            if (! $is_pci) {
+            if (!$is_pci) {
 
                 // Load display types
                 foreach ($result->getDocs() as $doc) {

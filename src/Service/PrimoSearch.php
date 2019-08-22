@@ -223,6 +223,10 @@ class PrimoSearch
                 if (isset($items[$holding_id])) {
                     $this->populateHolding($holding, $items[$holding_id][0]);
 
+                    if ($items[$holding_id][0]->getAvailability() === 'available') {
+                        $doc->setAvailable(true);
+                    }
+
                     foreach ($items[$holding_id] as $item) {
                         $holding->addItem($item);
                     }

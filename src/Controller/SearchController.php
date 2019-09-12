@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\ArticleSearchResponse;
 use App\Entity\CatalogSearchResponse;
 use App\Entity\FAQResponse;
 use App\Service\PrimoSearch;
@@ -52,7 +53,7 @@ class SearchController
      *
      * @Query
      */
-    public function searchArticles(string $keyword, int $limit = 3): SearchResponse
+    public function searchArticles(string $keyword, int $limit = 3): CatalogSearchResponse
     {
         return $this->book_search->searchArticle($keyword, $limit);
     }

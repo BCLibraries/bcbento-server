@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use App\Entity\ArticleSearchResponse;
 use App\Entity\CatalogSearchResponse;
 use BCLib\PrimoClient\ApiClient;
 use BCLib\PrimoClient\Doc;
@@ -99,17 +100,23 @@ class PrimoSearch
 
     public function searchFullCatalog(string $keyword, int $limit): CatalogSearchResponse
     {
-        return $this->search($keyword, $limit, $this->books_query_config, false);
+        $result = $this->search($keyword, $limit, $this->books_query_config, false);
+        $result->setSearchUrl($this->buildPrimoSearchUrl($keyword, 'bcl_only', 'bcl'));
+        return $result;
     }
 
     public function searchVideo(string $keyword, int $limit): CatalogSearchResponse
     {
-        return $this->search($keyword, $limit, $this->video_query_config, false);
+        $result = $this->search($keyword, $limit, $this->video_query_config, false);
+        $result->setSearchUrl($this->buildPrimoSearchUrl($keyword, 'video', 'VIDEO'));
+        return $result;
     }
 
     public function searchArticle(string $keyword, int $limit): CatalogSearchResponse
     {
-        return $this->search($keyword, $limit, $this->article_query_config, true);
+        $result = $this->search($keyword, $limit, $this->article_query_config, true);
+        $result->setSearchUrl($this->buildPrimoSearchUrl($keyword, 'pci_only', 'pci'));
+        return $result;
     }
 
     private function search(string $keyword, int $limit, QueryConfig $config, bool $is_pci): CatalogSearchResponse
@@ -271,5 +278,11 @@ class PrimoSearch
 
         $json = $this->client->get($request->url());
         return new CatalogSearchResponse(SearchTranslator::translate($json));
+    }
+
+    private function buildPrimoSearchUrl(string $keyword, string $tab, string $scope): string
+    {
+        return "https://bc-primo.hosted.exlibrisgroup.com/primo-explore/search?query=any,contains,$keyword&tab=$tab&search_scope=$scope&vid=bclib_new&lang=en_US&offset=0";
+
     }
 }

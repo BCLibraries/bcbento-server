@@ -14,6 +14,11 @@ use TheCodingMachine\GraphQLite\Annotations\Type;
 class CatalogSearchResponse extends SearchResponse
 {
     /**
+     * @var string
+     */
+    private $search_url;
+
+    /**
      * CatalogSearchResponse constructor
      *
      * Build a CatalogSearchResponse from a parent SearchResponse
@@ -49,5 +54,24 @@ class CatalogSearchResponse extends SearchResponse
     public function setDocs(array $docs): void
     {
         $this->docs = $docs;
+    }
+
+    /**
+     * @Field()
+     * @return string
+     */
+    public function getSearchUrl(): string
+    {
+        return $this->search_url;
+    }
+
+    /**
+     * @param string $search_url
+     * @return CatalogSearchResponse
+     */
+    public function setSearchUrl(string $search_url): CatalogSearchResponse
+    {
+        $this->search_url = $search_url;
+        return $this;
     }
 }

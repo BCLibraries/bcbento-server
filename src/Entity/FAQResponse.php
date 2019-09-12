@@ -23,7 +23,7 @@ class FAQResponse
     /**
      * @var FAQResult[]
      */
-    private $records;
+    private $docs;
 
     /**
      * @var string
@@ -63,14 +63,14 @@ class FAQResponse
      * @Field()
      * @return FAQResult[]
      */
-    public function getResults(): array
+    public function getDocs(): array
     {
-        return $this->records;
+        return $this->docs;
     }
 
-    public function setResults(array $records): self
+    public function setDocs(array $records): self
     {
-        $this->records = $records;
+        $this->docs = $records;
         return $this;
     }
 

@@ -42,7 +42,7 @@ class  FAQSearch
         $response->setTotal($search_json->numFound ?: 0)
             ->setQuery($search_json->query ?: '')
             ->setError($search_json->error ?: '')
-            ->setResults($records ?: []);
+            ->setDocs($records ?: []);
         return $response;
     }
 

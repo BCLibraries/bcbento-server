@@ -76,6 +76,21 @@ class FAQResponse
 
     /**
      * @Field()
+     * @return FAQResult[]
+     */
+    public function getResults(): array
+    {
+        return $this->docs;
+    }
+
+    public function setResults(array $records): self
+    {
+        $this->docs = $records;
+        return $this;
+    }
+
+    /**
+     * @Field()
      */
     public function getError(): string
     {

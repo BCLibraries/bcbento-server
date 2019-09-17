@@ -2,13 +2,8 @@
 
 namespace App\Entity;
 
-use TheCodingMachine\GraphQLite\Annotations\Field;
-use TheCodingMachine\GraphQLite\Annotations\Type;
-
 /**
  * A typeahead service response entry
- *
- * @Type()
  */
 class TypeaheadEntry implements \JsonSerializable
 {
@@ -28,18 +23,11 @@ class TypeaheadEntry implements \JsonSerializable
         $this->type = $type;
     }
 
-    /**
-     * @Field()
-     */
     public function getValue(): string
     {
         return $this->value;
     }
 
-
-    /**
-     * @Field()
-     */
     public function getType(): string
     {
         return $this->type;

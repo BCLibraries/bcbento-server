@@ -2,13 +2,11 @@
 
 namespace App\Controller;
 
-use App\Entity\TypeaheadResponse;
 use App\Service\TypeaheadService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-use TheCodingMachine\GraphQLite\Annotations\Query;
 
 class TypeaheadController extends AbstractController
 {
@@ -20,16 +18,6 @@ class TypeaheadController extends AbstractController
     public function __construct(TypeaheadService $typeahead)
     {
         $this->typeahead = $typeahead;
-    }
-
-    /**
-     * Lookup a term in typeahead as GraphQL
-     *
-     * @Query
-     */
-    public function typeahead(string $search_string): TypeaheadResponse
-    {
-        return $this->typeahead->fetch($search_string);
     }
 
     /**

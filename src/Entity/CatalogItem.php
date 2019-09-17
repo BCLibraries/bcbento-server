@@ -44,7 +44,7 @@ class CatalogItem extends Doc
     }
 
     /**
-     * @Field
+     * @Field()
      */
     public function getMms(): ?string
     {

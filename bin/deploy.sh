@@ -29,6 +29,9 @@ cp ${SHARED_DIR}/.env.local ${NEW_RELEASE}
 # Install
 APP_ENV=prod composer install --no-dev --optimize-autoloader
 
+# Flush the redish cache
+redis-cli FLUSHALL
+
 # Re-use existing log
 rm -r ${NEW_RELEASE}/var/log
 ln -s ${LOG_DIR} ${NEW_RELEASE}/var/log

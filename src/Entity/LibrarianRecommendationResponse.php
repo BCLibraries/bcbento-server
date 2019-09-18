@@ -13,7 +13,7 @@ class LibrarianRecommendationResponse
     /**
      * @var Librarian[]
      */
-    private $docs;
+    private $docs = [];
 
     /**
      * @Field()

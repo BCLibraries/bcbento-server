@@ -36,7 +36,7 @@ class AlmaClient
      * @param array $holding_ids
      * @return Item[]
      */
-    public function checkAvailability(array $holding_ids): array: array
+    public function checkAvailability(array $holding_ids): array
     {
         $all_items = [];
 
@@ -52,7 +52,7 @@ class AlmaClient
             foreach ($items as $item) {
                 $item->setHoldingId($key);
                 $array_key = '01BC_INST' . $item->getHoldingId();
-                if (! isset($all_items[$array_key])) {
+                if (!isset($all_items[$array_key])) {
                     $all_items[$array_key] = [];
                 }
                 $all_items[$array_key][] = $item;

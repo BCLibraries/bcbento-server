@@ -7,6 +7,8 @@ use App\Entity\WebsiteSearchResponse;
 use Elasticsearch\Client;
 use Psr\Cache\CacheException;
 use Psr\Cache\InvalidArgumentException;
+use Psr\Log\LoggerAwareInterface;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Cache\Adapter\AdapterInterface;
 use Symfony\Component\Cache\Adapter\TagAwareAdapter;
 use Symfony\Component\Cache\CacheItem;
@@ -14,7 +16,7 @@ use Symfony\Component\Cache\CacheItem;
 /**
  * Search the BC Website
  */
-class WebsiteSearch
+class WebsiteSearch implements LoggerAwareInterface
 {
     /**
      * @var Client
@@ -32,6 +34,11 @@ class WebsiteSearch
     // Tag for tracking cached searches
     private const CACHE_TAG = 'website_search';
 
+    /**
+     * @var LoggerInterface
+     */
+    private $logger;
+
     public function __construct(Client $elasticsearch, AdapterInterface $cache)
     {
         $this->cache = new TagAwareAdapter($cache);
@@ -45,6 +52,7 @@ class WebsiteSearch
         } catch (InvalidArgumentException $e) {
 
             // If cache lookup fails, return bare Elasticsearch response.
+            $this->logger->error("Site search cache error: {$e->getMessage()}\n{$e->getTraceAsString()}");
             return $this->queryElasticsearch($keyword);
         }
 
@@ -133,10 +141,22 @@ class WebsiteSearch
         try {
             $cache_item->tag(self::CACHE_TAG);
         } catch (InvalidArgumentException $e) {
-            // Don't fail on bad cache tagging
+            $this->logger->error("Site search cache error: {$e->getMessage()}\n{$e->getTraceAsString()}");
         } catch (CacheException $e) {
-            // Don't fail on bad cache tagging
+            $this->logger->error("Site search cache error: {$e->getMessage()}\n{$e->getTraceAsString()}");
         }
         $this->cache->save($cache_item);
+    }
+
+    /**
+     * Sets a logger instance on the object.
+     *
+     * @param LoggerInterface $logger
+     *
+     * @return void
+     */
+    public function setLogger(LoggerInterface $logger)
+    {
+        $this->logger =$logger;
     }
 }

@@ -3,10 +3,15 @@
 namespace App\Service;
 
 use Elasticsearch\Client;
+use Psr\Cache\CacheException;
+use Psr\Cache\InvalidArgumentException;
+use Psr\Log\LoggerAwareInterface;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Cache\Adapter\AdapterInterface;
 use Symfony\Component\Cache\Adapter\TagAwareAdapter;
+use Symfony\Component\Cache\CacheItem;
 
-abstract class AbstractRecommender
+abstract class AbstractRecommender implements LoggerAwareInterface
 {
     /**
      * @var Client
@@ -21,7 +26,7 @@ abstract class AbstractRecommender
     /**
      * @var TagAwareAdapter
      */
-    public $cache;
+    protected $cache;
 
     protected $index;
 
@@ -30,6 +35,11 @@ abstract class AbstractRecommender
 
     // Tag for tracking cached recommendations
     private const CACHE_TAG = 'recommendation';
+
+    /**
+     * @var LoggerInterface
+     */
+    protected $logger;
 
     public function __construct(Client $elasticsearch, AdapterInterface $cache, $elasticsearch_version = '1.2.1')
     {
@@ -61,12 +71,35 @@ abstract class AbstractRecommender
 
     protected function getRelevantTerms(string $keyword): array
     {
-        $cache_item = $this->cache->getItem($this->recommenderLookupCacheKey($keyword));
+        try {
+            $cache_item = $this->cache->getItem($this->recommenderLookupCacheKey($keyword));
+        } catch (InvalidArgumentException $e) {
+
+            // Cache failed? Return directly from Elasticsearch.
+            $this->logger->error("Recommender cache error: {$e->getMessage()} {$e->getTraceAsString()}");
+            return $this->queryElasticsearchForTerms($keyword);
+        }
 
         if ($cache_item->isHit()) {
             return $cache_item->get();
         }
 
+        $facet_array = $this->queryElasticsearchForTerms($keyword);
+        $this->cacheResponse($cache_item, $facet_array);
+        return $facet_array;
+    }
+
+    protected function recommenderLookupCacheKey(string $term): string
+    {
+        return 'bcbento_recommender-search_' . sha1($term);
+    }
+
+    /**
+     * @param string $keyword
+     * @return array
+     */
+    protected function queryElasticsearchForTerms(string $keyword): array
+    {
         $keyword = str_replace(':', '', $keyword);
 
         $score_script = ($this->elasticsearch_version < '1.3.2') ? 'doc.score' : '_score';
@@ -124,17 +157,35 @@ abstract class AbstractRecommender
                 $facet_array[] = $facet['terms'];
             }
         }
-
-        $cache_item->set($facet_array);
-        $cache_item->tag(self::CACHE_TAG);
-        $cache_item->expiresAfter(self::CACHE_LIFETIME);
-        $this->cache->save($cache_item);
-
         return $facet_array;
     }
 
-    protected function recommenderLookupCacheKey(string $term): string
+    public function setLogger(LoggerInterface $logger)
     {
-        return 'bcbento_recommender-search_' . sha1($term);
+        $this->logger = $logger;
     }
+
+    /**
+     * @param CacheItem $cache_item
+     * @param array $facet_array
+     */
+    protected function cacheResponse(CacheItem $cache_item, array $facet_array): void
+    {
+        try {
+
+            $cache_item->set($facet_array);
+            $cache_item->tag(self::CACHE_TAG);
+            $cache_item->expiresAfter(self::CACHE_LIFETIME);
+            $this->cache->save($cache_item);
+
+        } catch (InvalidArgumentException $e) {
+            // Cache failed? Don't worry about it, but write to log.
+            $this->logger->error("Recommender cache error: {$e->getMessage()} {$e->getTraceAsString()}");
+        } catch (CacheException $e) {
+            // Cache failed? Don't worry about it, but write to log.
+            $this->logger->error("Recommender cache error: {$e->getMessage()} {$e->getTraceAsString()}");
+        }
+    }
+
+
 }

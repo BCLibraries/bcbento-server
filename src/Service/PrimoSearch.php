@@ -14,10 +14,14 @@ use BCLib\PrimoClient\SearchRequest;
 use BCLib\PrimoClient\SearchResponse;
 use BCLib\PrimoClient\SearchTranslator;
 use GuzzleHttp\Client;
+use Psr\Cache\CacheException;
+use Psr\Cache\InvalidArgumentException;
+use Psr\Log\LoggerAwareInterface;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Cache\Adapter\AdapterInterface;
 use Symfony\Component\Cache\Adapter\TagAwareAdapter;
 
-class PrimoSearch
+class PrimoSearch implements LoggerAwareInterface
 {
     /**
      * @var QueryConfig
@@ -58,6 +62,11 @@ class PrimoSearch
     private const CACHE_LIFETIME = 60 * 60 * 12;
 
     private const CACHED_SEARCH_RESULT_TAG = 'catalog_search_result';
+
+    /**
+     * @var LoggerInterface
+     */
+    private $logger;
 
     const TYPE_MAP = [
         'book' => 'Book',
@@ -124,33 +133,21 @@ class PrimoSearch
         $keyword = str_replace(array(':', ';', ',', '(', ')', '\\'), ' ', $keyword);
 
         // First check cache for search result.
-        $cache_item = $this->cache->getItem($this->cacheKey($keyword, $limit, $config));
+        try {
+            $cache_item = $this->cache->getItem($this->cacheKey($keyword, $limit, $config));
+        } catch (InvalidArgumentException $e) {
+            // If cache fails, build result directly from Primo and log the error.
+            $this->logger->error("Primo cache error: {$e->getMessage()}\n{$e->getTraceAsString()}");
+            $result = $this->buildPrimoResult($keyword, $limit, $config, $is_pci);
+            $this->updateRealTimeAvailability($result);
+            return $result;
+        }
 
         if ($cache_item->isHit() && false) {
             $result = $cache_item->get();
         } else {
-
-            // Not in cache, request from Ex Libris.
-            $result = $this->sendSearchQuery($keyword, $limit, $config);
-
-
-            // Non-Primo Central results have extra fields
-            if (!$is_pci) {
-
-                // Load display types
-                foreach ($result->getDocs() as $doc) {
-                    $doc->setType($this->displayType($doc));
-                }
-
-                // Load video thumbs
-                $this->video_thumbs->fetch($result);
-            }
-
-            // Add to cache.
-            $cache_item->set($result);
-            $cache_item->expiresAfter(self::CACHE_LIFETIME);
-            $cache_item->tag(self::CACHED_SEARCH_RESULT_TAG);
-            $this->cache->save($cache_item);
+            $result = $this->buildPrimoResult($keyword, $limit, $config, $is_pci);
+            $this->cacheResult($cache_item, $result);
         }
 
         $this->updateRealTimeAvailability($result);
@@ -285,5 +282,69 @@ class PrimoSearch
     {
         return "https://bc-primo.hosted.exlibrisgroup.com/primo-explore/search?query=any,contains,$keyword&tab=$tab&search_scope=$scope&vid=bclib_new&lang=en_US&offset=0";
 
+    }
+
+    /**
+     * @param \Symfony\Component\Cache\CacheItem $cache_item
+     * @param CatalogSearchResponse $result
+     */
+    private function cacheResult(\Symfony\Component\Cache\CacheItem $cache_item, CatalogSearchResponse $result): void
+    {
+        try {
+            $cache_item->set($result);
+            $cache_item->expiresAfter(self::CACHE_LIFETIME);
+            $cache_item->tag(self::CACHED_SEARCH_RESULT_TAG);
+            $this->cache->save($cache_item);
+        } catch (InvalidArgumentException $e) {
+            $this->logger->error("Primo cache error: {$e->getMessage()}\n{$e->getTraceAsString()}");
+        } catch (CacheException $e) {
+            $this->logger->error("Primo cache error: {$e->getMessage()}\n{$e->getTraceAsString()}");
+        }
+    }
+
+    /**
+     * Sets a logger instance on the object.
+     *
+     * @param LoggerInterface $logger
+     *
+     * @return void
+     */
+    public function setLogger(LoggerInterface $logger)
+    {
+        $this->logger = $logger;
+    }
+
+    /**
+     * @param string $keyword
+     * @param int $limit
+     * @param QueryConfig $config
+     * @param bool $is_pci
+     * @return CatalogSearchResponse
+     * @throws InvalidArgumentException
+     * @throws \BCLib\PrimoClient\Exceptions\BadAPIResponseException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    private function buildPrimoResult(
+        string $keyword,
+        int $limit,
+        QueryConfig $config,
+        bool $is_pci
+    ): CatalogSearchResponse {
+        $result = $this->sendSearchQuery($keyword, $limit, $config);
+
+
+        // Non-Primo Central results have extra fields
+        if (!$is_pci) {
+
+            // Load display types
+            foreach ($result->getDocs() as $doc) {
+                $doc->setType($this->displayType($doc));
+            }
+
+            // Load video thumbs
+            $this->video_thumbs->fetch($result);
+        }
+
+        return $result;
     }
 }

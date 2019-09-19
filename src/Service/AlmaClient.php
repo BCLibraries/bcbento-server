@@ -36,7 +36,7 @@ class AlmaClient
      * @param array $holding_ids
      * @return Item[]
      */
-    public function checkAvailability(array $holding_ids)
+    public function checkAvailability(array $holding_ids): array: array
     {
         $all_items = [];
 
@@ -45,6 +45,9 @@ class AlmaClient
         $response = $this->client->get($url)->getBody()->getContents();
         $xml = simplexml_load_string($response);
 
+        /**
+         * @var $item Item
+         */
         foreach ($this->readAvailability($xml) as $key => $items) {
             foreach ($items as $item) {
                 $item->setHoldingId($key);
@@ -65,7 +68,7 @@ class AlmaClient
      * @param $availability_xml
      * @return Generator
      */
-    public function readAvailability($availability_xml)
+    public function readAvailability($availability_xml): ?Generator
     {
         foreach ($availability_xml->{'OAI-PMH'} as $oai) {
             $key_parts = explode(':', (string)$oai->ListRecords->record->header->identifier);
@@ -77,7 +80,7 @@ class AlmaClient
 
     }
 
-    private function buildUrl($ids)
+    private function buildUrl($ids): string
     {
         $query = http_build_query(
             [
@@ -92,9 +95,9 @@ class AlmaClient
      * Read a set of AVA records
      *
      * @param SimpleXMLElement $record_xml
-     * @return Availability[]
+     * @return Item[]
      */
-    public function readRecord(SimpleXMLElement $record_xml)
+    public function readRecord(SimpleXMLElement $record_xml): array
     {
         $record_xml->registerXPathNamespace('slim', 'http://www.loc.gov/MARC21/slim');
         $avas = $record_xml->xpath('//slim:datafield[@tag="AVA"]');

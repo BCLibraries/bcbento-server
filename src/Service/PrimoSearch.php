@@ -2,7 +2,6 @@
 
 namespace App\Service;
 
-use App\Entity\ArticleSearchResponse;
 use App\Entity\CatalogSearchResponse;
 use BCLib\PrimoClient\ApiClient;
 use BCLib\PrimoClient\Doc;
@@ -172,7 +171,7 @@ class PrimoSearch implements LoggerAwareInterface
         /**
          * @var $physical_docs Doc[]
          */
-        $physical_docs = array_filter($results->getDocs(), function ($doc) {
+        $physical_docs = array_filter($results->getDocs(), function (Doc $doc) {
             return $doc->isPhysical();
         });
 

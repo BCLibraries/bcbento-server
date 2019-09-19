@@ -2,7 +2,6 @@
 
 namespace App\Service;
 
-use App\Entity\VideoSearchResponse;
 use BCLib\PrimoClient\Doc;
 use BCLib\PrimoClient\Link;
 use BCLib\PrimoClient\SearchResponse;
@@ -46,10 +45,10 @@ class VideoThumbService
     }
 
     /**
-     * @param VideoSearchResponse $response
+     * @param SearchResponse $response
      * @throws InvalidArgumentException
      */
-    public function fetch(SearchResponse $response)
+    public function fetch(SearchResponse $response): void
     {
         $this->promises = [];
 
@@ -150,7 +149,7 @@ class VideoThumbService
         return null;
     }
 
-    private function filmsOnDemandUrl(string $fod_id)
+    private function filmsOnDemandUrl(string $fod_id): string
     {
         return "https://fod.infobase.com/image/$fod_id";
     }

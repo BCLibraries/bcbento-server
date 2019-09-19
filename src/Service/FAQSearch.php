@@ -33,7 +33,7 @@ class  FAQSearch
         return "https://api2.libanswers.com/1.0/search/$keyword?iid=45&limit=$limit";
     }
 
-    private function buildResponse($service_json, $keyword)
+    private function buildResponse($service_json, $keyword): FAQResponse
     {
         $search_json = $service_json->search;
         $response = new FAQResponse();
@@ -46,7 +46,7 @@ class  FAQSearch
         return $response;
     }
 
-    private function processResult($result_json)
+    private function processResult($result_json): FAQResult
     {
         $result = new FAQResult();
         $result->setId($result_json->id)

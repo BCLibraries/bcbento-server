@@ -3,6 +3,7 @@
 namespace App\Service;
 
 use DOMDocument;
+use DOMXPath;
 
 trait ParsesForScreenCapsTrait
 {
@@ -22,12 +23,14 @@ trait ParsesForScreenCapsTrait
     private function getOpenGraphImage(string $html): ?string
     {
         $dom = $this->loadDOM($html);
-        $xpath = new \DOMXPath($dom);
+        $xpath = new DOMXPath($dom);
         $metas = $xpath->query("//meta[@property='og:image']");
         for ($i = 0; $i < $metas->length; $i++) {
-            $url = $metas->item($i)->getAttribute('content');
-            if ($url) {
-                return $url;
+            if ($metas->item($i)) {
+                $url = $metas->item($i)->getAttribute('content');
+                if ($url) {
+                    return $url;
+                }
             }
         }
         return null;

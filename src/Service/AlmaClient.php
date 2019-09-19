@@ -3,7 +3,9 @@
 namespace App\Service;
 
 use BCLib\PrimoClient\Item;
+use Generator;
 use GuzzleHttp\Client;
+use SimpleXMLElement;
 
 class AlmaClient
 {
@@ -61,7 +63,7 @@ class AlmaClient
      * Yields tuples of Alma ID => availability information
      *
      * @param $availability_xml
-     * @return \Generator
+     * @return Generator
      */
     public function readAvailability($availability_xml)
     {
@@ -89,17 +91,17 @@ class AlmaClient
     /**
      * Read a set of AVA records
      *
-     * @param \SimpleXMLElement $record_xml
+     * @param SimpleXMLElement $record_xml
      * @return Availability[]
      */
-    public function readRecord(\SimpleXMLElement $record_xml)
+    public function readRecord(SimpleXMLElement $record_xml)
     {
         $record_xml->registerXPathNamespace('slim', 'http://www.loc.gov/MARC21/slim');
         $avas = $record_xml->xpath('//slim:datafield[@tag="AVA"]');
         return array_map([$this, 'readAVA'], $avas);
     }
 
-    private function readAVA(\SimpleXMLElement $ava_xml): Item
+    private function readAVA(SimpleXMLElement $ava_xml): Item
     {
         $item = new Item();
 

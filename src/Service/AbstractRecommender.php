@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use function count;
 use Elasticsearch\Client;
 use Psr\Cache\CacheException;
 use Psr\Cache\InvalidArgumentException;
@@ -153,7 +154,7 @@ abstract class AbstractRecommender implements LoggerAwareInterface
         $response = $this->elasticsearch->search($params);
 
         foreach ($response['facets'] as $facet) {
-            if (\count($facet['terms'])) {
+            if (count($facet['terms'])) {
                 $facet_array[] = $facet['terms'];
             }
         }

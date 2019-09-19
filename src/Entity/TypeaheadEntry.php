@@ -2,10 +2,12 @@
 
 namespace App\Entity;
 
+use JsonSerializable;
+
 /**
  * A typeahead service response entry
  */
-class TypeaheadEntry implements \JsonSerializable
+class TypeaheadEntry implements JsonSerializable
 {
     /**
      * @var string

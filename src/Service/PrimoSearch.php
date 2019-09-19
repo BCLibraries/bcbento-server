@@ -6,6 +6,7 @@ use App\Entity\ArticleSearchResponse;
 use App\Entity\CatalogSearchResponse;
 use BCLib\PrimoClient\ApiClient;
 use BCLib\PrimoClient\Doc;
+use BCLib\PrimoClient\Exceptions\BadAPIResponseException;
 use BCLib\PrimoClient\Holding;
 use BCLib\PrimoClient\Item;
 use BCLib\PrimoClient\Query;
@@ -14,12 +15,14 @@ use BCLib\PrimoClient\SearchRequest;
 use BCLib\PrimoClient\SearchResponse;
 use BCLib\PrimoClient\SearchTranslator;
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\GuzzleException;
 use Psr\Cache\CacheException;
 use Psr\Cache\InvalidArgumentException;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Cache\Adapter\AdapterInterface;
 use Symfony\Component\Cache\Adapter\TagAwareAdapter;
+use Symfony\Component\Cache\CacheItem;
 
 class PrimoSearch implements LoggerAwareInterface
 {
@@ -265,8 +268,8 @@ class PrimoSearch implements LoggerAwareInterface
      * @param int $limit
      * @param QueryConfig $config
      * @return CatalogSearchResponse
-     * @throws \BCLib\PrimoClient\Exceptions\BadAPIResponseException
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws BadAPIResponseException
+     * @throws GuzzleException
      */
     private function sendSearchQuery(string $keyword, int $limit, QueryConfig $config): CatalogSearchResponse
     {
@@ -285,10 +288,10 @@ class PrimoSearch implements LoggerAwareInterface
     }
 
     /**
-     * @param \Symfony\Component\Cache\CacheItem $cache_item
+     * @param CacheItem $cache_item
      * @param CatalogSearchResponse $result
      */
-    private function cacheResult(\Symfony\Component\Cache\CacheItem $cache_item, CatalogSearchResponse $result): void
+    private function cacheResult(CacheItem $cache_item, CatalogSearchResponse $result): void
     {
         try {
             $cache_item->set($result);
@@ -321,8 +324,8 @@ class PrimoSearch implements LoggerAwareInterface
      * @param bool $is_pci
      * @return CatalogSearchResponse
      * @throws InvalidArgumentException
-     * @throws \BCLib\PrimoClient\Exceptions\BadAPIResponseException
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws BadAPIResponseException
+     * @throws GuzzleException
      */
     private function buildPrimoResult(
         string $keyword,

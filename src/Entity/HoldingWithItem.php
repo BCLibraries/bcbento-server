@@ -3,11 +3,12 @@
 namespace App\Entity;
 
 use BCLib\PrimoClient\Holding;
+use BCLib\PrimoClient\Item;
 
 class HoldingWithItem extends Holding
 {
     /**
-     * @var \BCLib\PrimoClient\Item[]
+     * @var Item[]
      */
     protected $items = [];
 
@@ -32,7 +33,7 @@ class HoldingWithItem extends Holding
     }
 
     /**
-     * @param \BCLib\PrimoClient\Item[] $items
+     * @param Item[] $items
      * @return HoldingWithItem
      */
     public function setItems(array $items): HoldingWithItem

@@ -7,6 +7,7 @@ use BCLib\PrimoClient\Doc;
 use BCLib\PrimoClient\Link;
 use BCLib\PrimoClient\SearchResponse;
 use GuzzleHttp\Promise;
+use Psr\Cache\InvalidArgumentException;
 use Symfony\Component\Cache\Adapter\AdapterInterface;
 use Symfony\Component\Cache\Adapter\TagAwareAdapter;
 use Symfony\Component\Cache\CacheItem;
@@ -46,7 +47,7 @@ class VideoThumbService
 
     /**
      * @param VideoSearchResponse $response
-     * @throws \Psr\Cache\InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function fetch(SearchResponse $response)
     {

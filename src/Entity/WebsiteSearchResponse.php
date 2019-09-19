@@ -18,7 +18,7 @@ class WebsiteSearchResponse
     /**
      * @var Webpage[]
      */
-    private $docs;
+    private $docs = [];
 
     /**
      * @var string

@@ -2,15 +2,17 @@
 
 namespace App\Service;
 
+use DOMDocument;
+
 trait ParsesForScreenCapsTrait
 {
     /**
      * @param string $html
-     * @return \DOMDocument
+     * @return DOMDocument
      */
-    private function loadDOM(string $html): \DOMDocument
+    private function loadDOM(string $html): DOMDocument
     {
-        $dom = new \DOMDocument();
+        $dom = new DOMDocument();
         libxml_use_internal_errors(true);
         $dom->loadHTML($html);
         libxml_use_internal_errors(false);

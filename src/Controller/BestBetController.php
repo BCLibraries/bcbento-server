@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\BestBet;
 use App\Service\BestBetLookup;
 use TheCodingMachine\GraphQLite\Annotations\Query;
 
@@ -20,7 +21,7 @@ class BestBetController
     /**
      * @Query()
      */
-    public function bestBet(string $keyword): ?\App\Entity\BestBet
+    public function bestBet(string $keyword): ?BestBet
     {
         return $this->best_bets->lookup($keyword);
     }

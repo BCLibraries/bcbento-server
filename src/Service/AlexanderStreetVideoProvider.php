@@ -3,6 +3,7 @@
 namespace App\Service;
 
 use BCLib\PrimoClient\Doc;
+use DOMXPath;
 use GuzzleHttp\Client;
 use GuzzleHttp\Promise\PromiseInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -64,7 +65,7 @@ class AlexanderStreetVideoProvider implements VideoProvider
         $html = (string)$response->getBody();
         $dom = $this->loadDOM($html);
 
-        $xpath = new \DOMXPath($dom);
+        $xpath = new DOMXPath($dom);
         $imgs = $xpath->query("//script[@type='application/ld+json']");
         if ($imgs->length > 0) {
             $json = $imgs->item(0)->textContent;

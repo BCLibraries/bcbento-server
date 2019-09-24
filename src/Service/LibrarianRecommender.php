@@ -79,8 +79,8 @@ class LibrarianRecommender extends AbstractRecommender
         $librarian = new Librarian(
             $librarian_json['_id'],
             $source['first_name'] . ' ' . $source['last_name'],
-            $this->buildImageUrl($source),
             $source['email'],
+            $this->buildImageUrl($source),
             $librarian_json['_score'],
             $source['subjects']
         );

@@ -54,7 +54,7 @@ class WebsiteSearchResponse
     public function getSearchUrl(): string
     {
         $keyword = urlencode($this->query);
-        return "http://libguides.bc.edu/srch.php?q=$keyword";
+        return "https://libguides.bc.edu/srch.php?q=$keyword";
     }
 
     public function addDoc(Webpage $webpage): void

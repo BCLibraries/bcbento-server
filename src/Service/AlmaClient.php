@@ -88,7 +88,7 @@ class AlmaClient
                 'library' => $this->library
             ]
         );
-        return "http://{$this->alma_host}/view/publish_avail?$query";
+        return "https://{$this->alma_host}/view/publish_avail?$query";
     }
 
     /**

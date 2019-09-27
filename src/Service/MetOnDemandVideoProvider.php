@@ -50,7 +50,7 @@ class MetOnDemandVideoProvider implements VideoProvider
     {
         $met_ids = $doc->pnx('addata','lad06');
         $met_id = $met_ids[0] ?? '';
-        $link = "http://metopera.org/Season/On-Demand/opera/?upc=$met_id";
+        $link = "https://metopera.org/Season/On-Demand/opera/?upc=$met_id";
         return $this->guzzle->getAsync($link, ['allow_redirects' => true])->then(
             function (ResponseInterface $response) use ($doc) {
                 return $this->getOpenGraphImage((string)$response->getBody());

@@ -112,7 +112,7 @@ class PrimoSearch implements LoggerAwareInterface
     public function searchFullCatalog(string $keyword, int $limit): CatalogSearchResponse
     {
         $result = $this->search($keyword, $limit, $this->books_query_config, false);
-        $result->setSearchUrl($this->buildPrimoSearchUrl($keyword, 'bcl_only', 'bcl'));
+        $result->setSearchUrl($this->buildPrimoSearchUrl($keyword, 'bcl_only', 'bcl', 'false'));
         return $result;
     }
 
@@ -280,9 +280,14 @@ class PrimoSearch implements LoggerAwareInterface
         return new CatalogSearchResponse(SearchTranslator::translate($json));
     }
 
-    private function buildPrimoSearchUrl(string $keyword, string $tab, string $scope): string
-    {
-        return "https://bc-primo.hosted.exlibrisgroup.com/primo-explore/search?query=any,contains,$keyword&tab=$tab&search_scope=$scope&vid=bclib_new&lang=en_US&offset=0";
+    private function buildPrimoSearchUrl(
+        string $keyword,
+        string $tab,
+        string $scope,
+        string $pcAvailability = null
+    ): string {
+        $extra = isset($pcAvailability) ? '&pcAvailability=false' : '';
+        return "https://bc-primo.hosted.exlibrisgroup.com/primo-explore/search?query=any,contains,$keyword&tab=$tab&search_scope=$scope&vid=bclib_new&lang=en_US&offset=0$extra";
 
     }
 

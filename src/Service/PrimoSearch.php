@@ -112,7 +112,7 @@ class PrimoSearch implements LoggerAwareInterface
     public function searchFullCatalog(string $keyword, int $limit): CatalogSearchResponse
     {
         $result = $this->search($keyword, $limit, $this->books_query_config, false);
-        $result->setSearchUrl($this->buildPrimoSearchUrl($keyword, 'bcl_only', 'bcl', 'false'));
+        $result->setSearchUrl($this->buildPrimoSearchUrl($keyword, 'bcl_only', 'bcl'));
         return $result;
     }
 
@@ -126,7 +126,7 @@ class PrimoSearch implements LoggerAwareInterface
     public function searchArticle(string $keyword, int $limit): CatalogSearchResponse
     {
         $result = $this->search($keyword, $limit, $this->article_query_config, true);
-        $result->setSearchUrl($this->buildPrimoSearchUrl($keyword, 'pci_only', 'pci'));
+        $result->setSearchUrl($this->buildPrimoSearchUrl($keyword, 'pci_only', 'pci', 'false'));
         return $result;
     }
 

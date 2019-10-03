@@ -275,6 +275,9 @@ class PrimoSearch implements LoggerAwareInterface
         $query = new Query(Query::FIELD_ANY, Query::PRECISION_CONTAINS, $keyword);
         $request = new SearchRequest($config, $query);
         $request->limit($limit);
+        if ($config->scope=== 'pci') {
+            $request->pcAvailability(false);
+        }
 
         $json = $this->client->get($request->url());
         return new CatalogSearchResponse(SearchTranslator::translate($json));

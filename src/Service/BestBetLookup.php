@@ -2,7 +2,7 @@
 
 namespace App\Service;
 
-use App\Entity\LocalBestBet;
+use App\Entity\BestBet;
 use Elasticsearch\Client as ElasticsearchClient;
 
 class BestBetLookup
@@ -21,7 +21,7 @@ class BestBetLookup
      * @param string $keyword
      * @return BestBet|null
      */
-    public function lookup(string $keyword): ?LocalBestBet
+    public function lookup(string $keyword): ?BestBet
     {
         $params = [
             'index' => 'bestbets',
@@ -47,7 +47,7 @@ class BestBetLookup
             $display_text = $source['displayText'] ?? null;
             $link = $source['link'] ?? null;
 
-            $best_bet = new LocalBestBet($json_best_bet['_id'], $title, $display_text, $link);
+            $best_bet = new BestBet($json_best_bet['_id'], $title, $display_text, $link);
         }
 
         return $best_bet;

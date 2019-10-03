@@ -1,10 +1,4 @@
 {
-    "bclibraries/fulltext-finder": {
-        "version": "v0.1.4"
-    },
-    "bclibraries/libkey-client": {
-        "version": "v0.1.0"
-    },
     "bclibraries/primo-client": {
         "version": "v0.3.1"
     },
@@ -205,9 +199,6 @@
         "version": "1.0.1"
     },
     "psr/container": {
-        "version": "1.0.0"
-    },
-    "psr/http-client": {
         "version": "1.0.0"
     },
     "psr/http-factory": {

@@ -27,6 +27,9 @@ services:
             $article_query_config: '@query_config.articles'
             $books_query_config: '@query_config.books'
             $video_query_config: '@query_config.video'
+            string $libkey_id: '%env(string:LIBKEY_ID)%'
+            string $libkey_apikey: '%env(string:LIBKEY_APIKEY)%'
+            string $crossref_mailto: '%env(string:CROSSREF_MAILTO)%'
 
 
     # makes classes in src/ available to be used as services
@@ -48,9 +51,11 @@ services:
     BCLib\PrimoClient\PrimoClient:
         factory: ['App\ServiceFactory\PrimoClientFactory', 'createCatalogService']
 
-        # custom aliases for autowiring
     Elasticsearch\Client:
         factory: ['App\ServiceFactory\ElasticsearchClientFactory', 'createElasticsearchClient']
+
+    BCLib\FulltextFinder\FullTextFinder:
+      factory: ['App\ServiceFactory\FullTextFinderFactory', 'createFullTextFinder']
 
     # QueryConfig for books & more
     query_config.books:

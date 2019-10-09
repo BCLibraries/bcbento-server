@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\BestBet;
+use App\Entity\CitationBestBet;
 use App\Service\BestBetLookup;
 use BCLib\FulltextFinder\FullTextFinder;
 use TheCodingMachine\GraphQLite\Annotations\Query;
@@ -37,12 +38,7 @@ class BestBetController
 
         $fulltext_query_result = $this->fulltext_finder->find($keyword);
         if (isset($fulltext_query_result) && $fulltext_query_result->getFullText()) {
-            return new BestBet(
-                'Citation',
-                $fulltext_query_result->getTitle(),
-                'We have found the  full text',
-                $fulltext_query_result->getFullText()
-            );
+            return new CitationBestBet('Citation', $fulltext_query_result->getTitle(), $fulltext_query_result);
         }
 
         return null;

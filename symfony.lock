@@ -2,6 +2,9 @@
     "bclibraries/fulltext-finder": {
         "version": "v0.1.4"
     },
+    "bclibraries/libkey-client": {
+        "version": "v0.1.0"
+    },
     "bclibraries/primo-client": {
         "version": "v0.3.1"
     },

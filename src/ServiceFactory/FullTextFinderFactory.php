@@ -19,6 +19,6 @@ class FullTextFinderFactory
         string $crossref_mailto
     ): FullTextFinder {
         $crossref_user_agent = "BCBento/0.1 (https://library.bc.edu/search; mailto:$crossref_mailto)";
-        return FullTextFinder::build($libkey_id, $libkey_apikey, $crossref_user_agent);
+        return FullTextFinder::build($libkey_id, $libkey_apikey);
     }
 }

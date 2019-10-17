@@ -2,6 +2,7 @@
 
 namespace App\ServiceFactory;
 
+use BCLib\FulltextFinder\Config;
 use BCLib\FulltextFinder\FullTextFinder;
 
 /**
@@ -18,7 +19,9 @@ class FullTextFinderFactory
         string $libkey_apikey,
         string $crossref_mailto
     ): FullTextFinder {
-        $crossref_user_agent = "BCBento/0.1 (https://library.bc.edu/search; mailto:$crossref_mailto)";
-        return FullTextFinder::build($libkey_id, $libkey_apikey);
+        $config = new Config();
+        $config->setUserAgent("BCBento/0.1 (https://library.bc.edu/search; mailto:$crossref_mailto)")
+            ->setFindByCitationMinLength(50);
+        return FullTextFinder::build($libkey_id, $libkey_apikey, $config);
     }
 }

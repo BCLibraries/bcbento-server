@@ -289,7 +289,7 @@ class PrimoSearch implements LoggerAwareInterface
         string $scope,
         string $pcAvailability = null
     ): string {
-        $extra = isset($pcAvailability) ? '&pcAvailability=false' : '';
+        $extra = isset($pcAvailability) ? '&pcAvailability=true' : '';
         return "https://bc-primo.hosted.exlibrisgroup.com/primo-explore/search?query=any,contains,$keyword&tab=$tab&search_scope=$scope&vid=bclib_new&lang=en_US&offset=0$extra";
 
     }

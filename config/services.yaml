@@ -27,6 +27,8 @@ services:
             $article_query_config: '@query_config.articles'
             $books_query_config: '@query_config.books'
             $video_query_config: '@query_config.video'
+            $libkey_apikey: '%env(string:LIBKEY_APIKEY)%'
+            $library_id: '%env(string:LIBKEY_ID)%'
 
 
     # makes classes in src/ available to be used as services
@@ -92,3 +94,6 @@ services:
 
     BCLib\PrimoClient\ApiClient:
         class: BCLib\PrimoClient\ApiClient
+
+    BCLib\LibKeyClient\LibKeyClient:
+        class: BCLib\LibKeyClient\LibKeyClient

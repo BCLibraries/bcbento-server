@@ -3,7 +3,12 @@
 namespace App\Controller;
 
 use App\Entity\CatalogSearchResponse;
+use App\Service\LibKeyService;
 use App\Service\PrimoSearch;
+use Psr\Log\LoggerInterface;
+use Symfony\Component\Cache\Adapter\AdapterInterface;
+use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
+use Symfony\Contracts\HttpClient\ResponseInterface;
 use TheCodingMachine\GraphQLite\Annotations\Query;
 
 /**
@@ -20,9 +25,15 @@ class PrimoSearchController
      */
     private $primo_search;
 
-    public function __construct(PrimoSearch $primo_search)
+    /**
+     * @var LibKeyService
+     */
+    private $libkey;
+
+    public function __construct(PrimoSearch $primo_search, LibKeyService $libkey)
     {
         $this->primo_search = $primo_search;
+        $this->libkey = $libkey;
     }
 
     /**
@@ -42,7 +53,9 @@ class PrimoSearchController
      */
     public function searchArticles(string $keyword, int $limit = 3): CatalogSearchResponse
     {
-        return $this->primo_search->searchArticle($keyword, $limit);
+        $result = $this->primo_search->searchArticle($keyword, $limit);
+        $this->libkey->addLibKeyAvailability($result->getDocs());
+        return $result;
     }
 
     /**

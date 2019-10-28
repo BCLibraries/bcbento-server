@@ -145,7 +145,7 @@ class PrimoSearch implements LoggerAwareInterface
             return $result;
         }
 
-        if ($cache_item->isHit() && false) {
+        if ($cache_item->isHit()) {
             $result = $cache_item->get();
         } else {
             $result = $this->buildPrimoResult($keyword, $limit, $config, $is_pci);
@@ -257,7 +257,8 @@ class PrimoSearch implements LoggerAwareInterface
         $keyword = strtolower($keyword);
         $keyword = trim($keyword);
         $keyword = str_replace(array(':', ';', ',', '.', '(', ')', '/', '\\'), ' ', $keyword);
-        return "bcbento-catalog-search_$keyword-$limit-{$config->scope}";
+        $key = md5("$keyword-$limit-{$config->scope}");
+        return "bcbento-catalog-search_$key";
     }
 
     /**
@@ -275,7 +276,7 @@ class PrimoSearch implements LoggerAwareInterface
         $query = new Query(Query::FIELD_ANY, Query::PRECISION_CONTAINS, $keyword);
         $request = new SearchRequest($config, $query);
         $request->limit($limit);
-        if ($config->scope=== 'pci') {
+        if ($config->scope === 'pci') {
             $request->pcAvailability(false);
         }
 
@@ -289,7 +290,7 @@ class PrimoSearch implements LoggerAwareInterface
         string $scope,
         string $pcAvailability = null
     ): string {
-        $extra = isset($pcAvailability) ? '&pcAvailability=false' : '';
+        $extra = isset($pcAvailability) ? '&pcAvailability=true' : '';
         return "https://bc-primo.hosted.exlibrisgroup.com/primo-explore/search?query=any,contains,$keyword&tab=$tab&search_scope=$scope&vid=bclib_new&lang=en_US&offset=0$extra";
 
     }
@@ -319,7 +320,7 @@ class PrimoSearch implements LoggerAwareInterface
      *
      * @return void
      */
-    public function setLogger(LoggerInterface $logger)
+    public function setLogger(LoggerInterface $logger): void
     {
         $this->logger = $logger;
     }

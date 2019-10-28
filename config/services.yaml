@@ -27,8 +27,9 @@ services:
             $article_query_config: '@query_config.articles'
             $books_query_config: '@query_config.books'
             $video_query_config: '@query_config.video'
-            string $libkey_id: '%env(string:LIBKEY_ID)%'
-            string $libkey_apikey: '%env(string:LIBKEY_APIKEY)%'
+            $libkey_apikey: '%env(string:LIBKEY_APIKEY)%'
+            $libkey_id: '%env(string:LIBKEY_ID)%'
+            $library_id: '%env(string:LIBKEY_ID)%'
             string $crossref_mailto: '%env(string:CROSSREF_MAILTO)%'
 
 
@@ -97,3 +98,6 @@ services:
 
     BCLib\PrimoClient\ApiClient:
         class: BCLib\PrimoClient\ApiClient
+
+    BCLib\LibKeyClient\LibKeyClient:
+        class: BCLib\LibKeyClient\LibKeyClient

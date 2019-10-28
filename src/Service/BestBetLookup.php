@@ -4,7 +4,6 @@ namespace App\Service;
 
 use App\Entity\LocalBestBet;
 use Elasticsearch\Client as ElasticsearchClient;
-use Psr\Log\LoggerInterface;
 
 class BestBetLookup
 {
@@ -12,15 +11,10 @@ class BestBetLookup
      * @var ElasticsearchClient
      */
     private $elasticsearch;
-    /**
-     * @var LoggerInterface
-     */
-    private $logger;
 
-    public function __construct(ElasticsearchClient $elasticsearch, LoggerInterface $logger)
+    public function __construct(ElasticsearchClient $elasticsearch)
     {
         $this->elasticsearch = $elasticsearch;
-        $this->logger = $logger;
     }
 
     /**
@@ -29,7 +23,6 @@ class BestBetLookup
      */
     public function lookup(string $keyword): ?LocalBestBet
     {
-        $this->logger->info("Looking up $keyword");
         $params = [
             'index' => 'bestbets',
             'type' => 'bestbet',

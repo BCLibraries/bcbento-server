@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use BCLib\LibKeyClient\LibKeyResponse;
 use BCLib\PrimoClient\Doc;
 use TheCodingMachine\GraphQLite\Annotations\Field;
 use TheCodingMachine\GraphQLite\Annotations\Type;
@@ -14,6 +15,12 @@ use TheCodingMachine\GraphQLite\Annotations\Type;
 class CatalogItem extends Doc
 {
     protected $screen_cap;
+
+    /** @var string|null */
+    protected $full_text_url;
+
+    /** @var LibKeyResponse|null */
+    protected $libkey_availability;
 
     /**
      * CatalogItem constructor
@@ -51,4 +58,41 @@ class CatalogItem extends Doc
         $pnx = $this->pnx('search', 'addsrcrecordid');
         return $pnx[0] ?? null;
     }
+
+    /**
+     * @Field()
+     */
+    public function getDOI(): ?string
+    {
+        $pnx = $this->pnx('addata','doi');
+        return $pnx[0] ?? null;
+    }
+
+    /**
+     * @Field()
+     */
+    public function getFullTextUrl(): ?string
+    {
+        return $this->full_text_url;
+
+    }
+
+    public function setFullTextUrl(?string $url):void
+    {
+        $this->full_text_url = $url;
+    }
+
+    /**
+     * @Field()
+     */
+    public function getLibkeyAvailability(): ?LibKeyResponse
+    {
+        return $this->libkey_availability;
+    }
+
+    public function setLibkeyAvailability(?LibKeyResponse $libkey_availability): void
+    {
+        $this->libkey_availability = $libkey_availability;
+    }
+
 }

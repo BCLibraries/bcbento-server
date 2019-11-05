@@ -97,3 +97,9 @@ services:
 
     BCLib\LibKeyClient\LibKeyClient:
         class: BCLib\LibKeyClient\LibKeyClient
+
+    # Log client errors to their own channel.
+    App\Service\ClientErrorLog\ClientErrorLog:
+        arguments: ['@logger']
+        tags:
+            - { name: monolog.logger, channel: client }

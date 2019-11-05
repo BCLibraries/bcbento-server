@@ -5,10 +5,6 @@ namespace App\Controller;
 use App\Entity\CatalogSearchResponse;
 use App\Service\LibKeyService;
 use App\Service\PrimoSearch;
-use Psr\Log\LoggerInterface;
-use Symfony\Component\Cache\Adapter\AdapterInterface;
-use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
-use Symfony\Contracts\HttpClient\ResponseInterface;
 use TheCodingMachine\GraphQLite\Annotations\Query;
 
 /**

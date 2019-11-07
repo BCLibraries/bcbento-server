@@ -1,5 +1,11 @@
 monolog:
     handlers:
+        client:
+            level:    info
+            type:     rotating_file
+            path:     '%kernel.logs_dir%/%kernel.environment%-client.log'
+            channels: [client]
+            max_files: 365
         main:
             type: fingers_crossed
             action_level: error

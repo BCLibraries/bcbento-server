@@ -1,4 +1,7 @@
 {
+    "bclibraries/fulltext-finder": {
+        "version": "v0.1.12"
+    },
     "bclibraries/libkey-client": {
         "version": "v0.1.2"
     },

@@ -4,8 +4,56 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7a1bb2d76352c4b73b980cc2f5d360a6",
+    "content-hash": "c5055eb521b4b117cdaf5231c718320f",
     "packages": [
+        {
+            "name": "bclibraries/fulltext-finder",
+            "version": "v0.1.12",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/BCLibraries/FulltextFinder.git",
+                "reference": "23b0751ad2b283078402fc7648024001d16cdfef"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/BCLibraries/FulltextFinder/zipball/23b0751ad2b283078402fc7648024001d16cdfef",
+                "reference": "23b0751ad2b283078402fc7648024001d16cdfef",
+                "shasum": ""
+            },
+            "require": {
+                "bclibraries/libkey-client": "^0.1",
+                "ext-json": "*",
+                "nyholm/psr7": "^1.0",
+                "php": ">=7.1.26",
+                "psr/http-client": "^1.0",
+                "psr/http-factory": "^1.0",
+                "symfony/http-client": "^4.3"
+            },
+            "require-dev": {
+                "codedungeon/phpunit-result-printer": "0.25.1",
+                "mockery/mockery": "^1.2",
+                "php-http/mock-client": "^1.3",
+                "phpunit/phpunit": "^7"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "BCLib\\FulltextFinder\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Benjamin Florin",
+                    "email": "benjamin.florin@bc.edu"
+                }
+            ],
+            "description": "Finds links to fulltexts from citations",
+            "time": "2019-10-22T18:19:13+00:00"
+        },
         {
             "name": "bclibraries/libkey-client",
             "version": "v0.1.3",

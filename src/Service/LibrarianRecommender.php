@@ -8,8 +8,17 @@ use function count;
 use Elasticsearch\Client;
 use Symfony\Component\Cache\Adapter\AdapterInterface;
 
+/**
+ * Recommender for librarians
+ *
+ * See AbstractRecommender for an explanation of how recommenders work.
+ *
+ * @package App\Service
+ */
 class LibrarianRecommender extends AbstractRecommender
 {
+
+    // Don't return any librarian recommendations that score less than this.
     private const MIN_LIBRARIAN_SCORE = '.1';
 
     public $max_boost = 0;
@@ -20,6 +29,13 @@ class LibrarianRecommender extends AbstractRecommender
         $this->index = 'librarians';
     }
 
+    /**
+     * Build the query from common terms
+     *
+     * @param string $keyword
+     * @param array $taxonomy_terms
+     * @return array
+     */
     public function buildQuery(string $keyword, array $taxonomy_terms): array
     {
         $must = [];
@@ -57,6 +73,12 @@ class LibrarianRecommender extends AbstractRecommender
         return $query;
     }
 
+    /**
+     * Create the response
+     *
+     * @param array $librarians_json JSON returned from Elasticsearch
+     * @return LibrarianRecommendationResponse
+     */
     public function buildResponse(array $librarians_json): LibrarianRecommendationResponse
     {
         $response = new LibrarianRecommendationResponse();
@@ -68,8 +90,15 @@ class LibrarianRecommender extends AbstractRecommender
         return $response;
     }
 
+    /**
+     * Parse the Elasticsearch response JSON and add a Librarian to the response
+     *
+     * @param array $librarian_json
+     * @param LibrarianRecommendationResponse $response
+     */
     private function addLibrarian(array $librarian_json, LibrarianRecommendationResponse $response): void
     {
+        // Skip low scorers.
         if ($librarian_json['_score'] < self::MIN_LIBRARIAN_SCORE) {
             return;
         }
@@ -88,6 +117,12 @@ class LibrarianRecommender extends AbstractRecommender
         $response->addLibrarian($librarian);
     }
 
+    /**
+     * Build subquery for each taxonomy term to search against
+     *
+     * @param array $taxonomy_terms
+     * @return array
+     */
     protected function buildTaxonomySubQueries(array $taxonomy_terms): array
     {
         // Increase to make lower-level taxonomy results comparatively more valuable.
@@ -118,6 +153,16 @@ class LibrarianRecommender extends AbstractRecommender
         return $taxonomy_queries;
     }
 
+    /**
+     * Boost term weight
+     *
+     * There are three levels of term responses, each corresponding to a level of specificity. This
+     * generates greater boosts for more specific matches.
+     *
+     * @param array $taxonomy_term
+     * @param float $level_boost
+     * @return float
+     */
     private function calculateBoost(array $taxonomy_term, float $level_boost): float
     {
         $boost = $taxonomy_term['total'] * $level_boost;
@@ -125,6 +170,12 @@ class LibrarianRecommender extends AbstractRecommender
         return $boost;
     }
 
+    /**
+     * Build URL for librarian photo
+     *
+     * @param array $source
+     * @return string
+     */
     private function buildImageUrl(array $source): string
     {
         if (!$source['image']) {

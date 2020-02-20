@@ -8,9 +8,10 @@ use App\Service\PrimoSearch;
 use TheCodingMachine\GraphQLite\Annotations\Query;
 
 /**
- * Class PrimoSearchController
+ * Handle Primo searches
  *
- * Here is some controller documentation.
+ * Each bento box that shows results from Primo (catalog, articles, videos) has a separate
+ * method.
  *
  * @package App\Controller
  */

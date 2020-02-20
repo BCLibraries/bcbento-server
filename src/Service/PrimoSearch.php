@@ -104,8 +104,8 @@ class PrimoSearch implements LoggerAwareInterface
         $this->alma = $alma;
 
         $this->video_thumbs = $video_thumbs;
-        $this->video_thumbs->addProvider(new MediciTVVideoProvider(new Client()));
-        $this->video_thumbs->addProvider(new MetOnDemandVideoProvider(new Client()));
+        $this->video_thumbs->addProvider(new MediciTVScreencapProvider(new Client()));
+        $this->video_thumbs->addProvider(new MetOnDemandScreencapProvider(new Client()));
         $this->cache = new TagAwareAdapter($cache);
     }
 

@@ -7,9 +7,18 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Promise\PromiseInterface;
 use Psr\Http\Message\ResponseInterface;
 
-class MediciTVVideoProvider implements VideoProvider
+/**
+ * Grabs screen caps for MediciTV videos
+ *
+ * MediciTV stores information about the video in Open Graph (https://ogp.me/) metadata
+ * embedded in the video page. Links to the MediciTV pages are in the lln03 field of
+ * the PNX record.
+ *
+ * @package App\Service
+ */
+class MediciTVScreencapProvider implements ScreencapProvider
 {
-    use ParsesForScreenCapsTrait;
+    use LoadsOpenGraphImages;
 
     /**
      * @var Client

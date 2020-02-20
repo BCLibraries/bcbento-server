@@ -5,11 +5,20 @@ namespace App\Service;
 use App\Entity\LocalBestBet;
 use Elasticsearch\Client as ElasticsearchClient;
 
+/**
+ * Lookup Best bets
+ *
+ * Local BestBets (e.g. databases, journals, helpful hints) are stored in Elasticsearch and
+ * indexed by keyword. For example, the JSTOR entry is indexed by "jstor", "jstore", and
+ * maybe some other things. Matches have to be exact.
+ *
+ * TODO Add richer indexing possibilities (e.g. regular expressions)
+ *
+ * @package App\Service
+ */
 class BestBetLookup
 {
-    /**
-     * @var ElasticsearchClient
-     */
+    /** @var ElasticsearchClient */
     private $elasticsearch;
 
     public function __construct(ElasticsearchClient $elasticsearch)
@@ -18,11 +27,14 @@ class BestBetLookup
     }
 
     /**
+     * Lookup best bets for a keyword search
+     *
      * @param string $keyword
      * @return LocalBestBet|null
      */
     public function lookup(string $keyword): ?LocalBestBet
     {
+        // Build param list and query Elasticsearch
         $params = [
             'index' => 'bestbets',
             'type' => 'bestbet',

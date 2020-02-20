@@ -23,54 +23,57 @@ use Symfony\Component\Cache\Adapter\AdapterInterface;
 use Symfony\Component\Cache\Adapter\TagAwareAdapter;
 use Symfony\Component\Cache\CacheItem;
 
+/**
+ * Search Primo
+ *
+ * Primo searches are used to populate three bento boxes:
+ *
+ *     * catalog (books)
+ *     * articles
+ *     * videos
+ *
+ * Each service has its own configuration. All three configurations are inserted when the
+ * object is constructed.
+ *
+ * TODO Should we refactor Primo search to multiple services? It's very big.
+ *
+ * @package App\Service
+ */
 class PrimoSearch implements LoggerAwareInterface
 {
-    /**
-     * @var QueryConfig
-     */
+    /** @var QueryConfig */
     private $books_query_config;
 
-    /**
-     * @var QueryConfig
-     */
+    /** @var QueryConfig */
     private $video_query_config;
 
-    /**
-     * @var QueryConfig
-     */
+    /** @var QueryConfig */
     private $article_query_config;
 
-    /**
-     * @var ApiClient
-     */
+    /** @var ApiClient */
     private $client;
 
-    /**
-     * @var AlmaClient
-     */
+    /** @var AlmaClient */
     private $alma;
 
-    /**
-     * @var VideoThumbService
-     */
+    /** @var VideoThumbService */
     private $video_thumbs;
 
-    /**
-     * @var AdapterInterface
-     */
+    /** @var AdapterInterface */
     private $cache;
 
-    // Expire search results after twelve hours
+    // Expire search results after twelve hours (in seconds)
     private const CACHE_LIFETIME = 60 * 60 * 12;
 
     private const CACHED_SEARCH_RESULT_TAG = 'catalog_search_result';
 
-    /**
-     * @var LoggerInterface
-     */
+    /** @var LoggerInterface */
     private $logger;
 
-    const TYPE_MAP = [
+    /**
+     * Maps types from PNX records to display names
+     */
+    private const TYPE_MAP = [
         'book' => 'Book',
         'video' => 'Video',
         'journal' => 'Journal',
@@ -103,12 +106,24 @@ class PrimoSearch implements LoggerAwareInterface
         $this->client = $client;
         $this->alma = $alma;
 
+        $this->cache = new TagAwareAdapter($cache);
+
+        // Save thumnail service and add providers we need.
         $this->video_thumbs = $video_thumbs;
         $this->video_thumbs->addProvider(new MediciTVScreencapProvider(new Client()));
         $this->video_thumbs->addProvider(new MetOnDemandScreencapProvider(new Client()));
-        $this->cache = new TagAwareAdapter($cache);
     }
 
+    /**
+     * Search the full catalog
+     *
+     * @param string $keyword
+     * @param int $limit
+     * @return CatalogSearchResponse
+     * @throws BadAPIResponseException
+     * @throws GuzzleException
+     * @throws InvalidArgumentException
+     */
     public function searchFullCatalog(string $keyword, int $limit): CatalogSearchResponse
     {
         $result = $this->search($keyword, $limit, $this->books_query_config, false);
@@ -116,6 +131,17 @@ class PrimoSearch implements LoggerAwareInterface
         return $result;
     }
 
+
+    /**
+     * Search video service
+     *
+     * @param string $keyword
+     * @param int $limit
+     * @return CatalogSearchResponse
+     * @throws BadAPIResponseException
+     * @throws GuzzleException
+     * @throws InvalidArgumentException
+     */
     public function searchVideo(string $keyword, int $limit): CatalogSearchResponse
     {
         $result = $this->search($keyword, $limit, $this->video_query_config, false);
@@ -123,6 +149,16 @@ class PrimoSearch implements LoggerAwareInterface
         return $result;
     }
 
+    /**
+     * Search for articles
+     *
+     * @param string $keyword
+     * @param int $limit
+     * @return CatalogSearchResponse
+     * @throws BadAPIResponseException
+     * @throws GuzzleException
+     * @throws InvalidArgumentException
+     */
     public function searchArticle(string $keyword, int $limit): CatalogSearchResponse
     {
         $result = $this->search($keyword, $limit, $this->article_query_config, true);
@@ -130,8 +166,21 @@ class PrimoSearch implements LoggerAwareInterface
         return $result;
     }
 
+    /**
+     * Perform the search
+     *
+     * @param string $keyword
+     * @param int $limit
+     * @param QueryConfig $config
+     * @param bool $is_pci
+     * @return CatalogSearchResponse
+     * @throws BadAPIResponseException
+     * @throws GuzzleException
+     * @throws InvalidArgumentException
+     */
     private function search(string $keyword, int $limit, QueryConfig $config, bool $is_pci): CatalogSearchResponse
     {
+        // Filter out characters Primo doesn't like.
         $keyword = str_replace(array(':', ';', ',', '(', ')', '\\'), ' ', $keyword);
 
         // First check cache for search result.
@@ -148,10 +197,13 @@ class PrimoSearch implements LoggerAwareInterface
         if ($cache_item->isHit()) {
             $result = $cache_item->get();
         } else {
+
+            // No cache hit? Query Primo.
             $result = $this->buildPrimoResult($keyword, $limit, $config, $is_pci);
             $this->cacheResult($cache_item, $result);
         }
 
+        // Get current availability of physical items.
         $this->updateRealTimeAvailability($result);
 
         return $result;
@@ -220,11 +272,19 @@ class PrimoSearch implements LoggerAwareInterface
     protected function reconcileRealTimeAvailability(array $physical_docs, array $items): void
     {
         foreach ($physical_docs as $doc) {
+
+            // By default set to unavailable
             $doc->setAvailable(false);
+
+
             foreach ($doc->getHoldings() as $holding) {
+
+                // If there is one available holding, the item is available
                 if ($holding->getAvailabilityStatus() === 'available') {
                     $doc->setAvailable(true);
                 }
+
+                // Fill the holding record
                 $holding_id = $holding->getIlsId();
                 if (isset($items[$holding_id])) {
                     $this->populateHolding($holding, $items[$holding_id][0]);
@@ -252,6 +312,14 @@ class PrimoSearch implements LoggerAwareInterface
         return self::TYPE_MAP[$doc->getType()] ?? ucfirst($doc->getType());
     }
 
+    /**
+     * Build the cache key
+     *
+     * @param string $keyword
+     * @param string $limit
+     * @param QueryConfig $config
+     * @return string
+     */
     protected function cacheKey(string $keyword, string $limit, QueryConfig $config): string
     {
         $keyword = strtolower($keyword);
@@ -296,6 +364,8 @@ class PrimoSearch implements LoggerAwareInterface
     }
 
     /**
+     * Cache the search result
+     *
      * @param CacheItem $cache_item
      * @param CatalogSearchResponse $result
      */

@@ -4,6 +4,13 @@ namespace App\Entity;
 
 use TheCodingMachine\GraphQLite\Annotations\Field;
 
+/**
+ * A Best Bet created locally
+ *
+ * E.g. the record for JSTOR or the New York Times.
+ *
+ * @package App\Entity
+ */
 class LocalBestBet extends BestBet
 {
     /**

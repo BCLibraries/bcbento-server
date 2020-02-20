@@ -5,7 +5,12 @@ namespace App\Service;
 use BCLib\PrimoClient\Doc;
 use GuzzleHttp\Promise\PromiseInterface;
 
-interface VideoProvider
+/**
+ * Get video captures from video documents
+ *
+ * @package App\Service
+ */
+interface ScreencapProvider
 {
     /**
      * Is a doc from this service?

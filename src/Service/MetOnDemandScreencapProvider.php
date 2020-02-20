@@ -9,9 +9,20 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Promise\PromiseInterface;
 use Psr\Http\Message\ResponseInterface;
 
-class MetOnDemandVideoProvider implements VideoProvider
+/**
+ * Met On Demand screencap provider
+ *
+ * Met On Demand stores information about the video in Open Graph (https://ogp.me/) metadata
+ * embedded in the video page. IDs for Met On Demand videos are stored in field lad06 of the
+ * PNX record. Get the video HTML page by plugging those IDs into the base Met on Demand URL.
+ *
+ * @package App\Service
+ */
+class MetOnDemandScreencapProvider implements ScreencapProvider
 {
-    use ParsesForScreenCapsTrait;
+    use LoadsOpenGraphImages;
+
+    private const MET_ON_DEMAND_URL_BASE = 'https://metopera.org/Season/On-Demand/opera/?upc=';
 
     /**
      * @var Client
@@ -25,9 +36,7 @@ class MetOnDemandVideoProvider implements VideoProvider
     }
 
     /**
-     * Is a doc from this service?
-     *
-     * Returns true if a screencap could be grabbed from this service.
+     * Is a doc from Met On Demand?
      *
      * @param Doc $doc
      * @return bool
@@ -50,8 +59,8 @@ class MetOnDemandVideoProvider implements VideoProvider
     {
         $met_ids = $doc->pnx('addata','lad06');
         $met_id = $met_ids[0] ?? '';
-        $link = "https://metopera.org/Season/On-Demand/opera/?upc=$met_id";
-        return $this->guzzle->getAsync($link, ['allow_redirects' => true])->then(
+        $link_to_video_page = self::MET_ON_DEMAND_URL_BASE . $met_id;
+        return $this->guzzle->getAsync($link_to_video_page, ['allow_redirects' => true])->then(
             function (ResponseInterface $response) use ($doc) {
                 return $this->getOpenGraphImage((string)$response->getBody());
             }

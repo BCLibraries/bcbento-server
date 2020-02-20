@@ -32,7 +32,7 @@ $books_config = new \BCLib\PrimoClient\QueryConfig($config['apikey'], $config['t
 $thumb_service = new \App\Service\VideoThumbService($cache);
 
 $guzzle_thumbs = new GuzzleHttp\Client();
-$medici = new \App\Service\MediciTVVideoProvider($guzzle_thumbs);
+$medici = new \App\Service\MediciTVScreencapProvider($guzzle_thumbs);
 $films = new \App\Service\FilmsOnDemandProvider();
 $alex = new \App\Service\AlexanderStreetVideoProvider($guzzle_thumbs);
 $thumb_service->addProvider($medici);

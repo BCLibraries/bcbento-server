@@ -9,6 +9,15 @@ use Symfony\Component\HttpClient\Exception\ClientException;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 use Symfony\Contracts\HttpClient\ResponseInterface;
 
+/**
+ * Get LibKey links to articles
+ *
+ * LibKey provides direct links to articles, usually linking straight to a PDF on LibKey's
+ * own servers. LibKey has an index of recent articles in popular journals keyed by DOI. If
+ * an article record is recent and we have its DOI, we can usually find a link to a PDF.
+ *
+ * @package App\Service
+ */
 class LibKeyService
 {
     /** @var LibKeyClient */
@@ -27,6 +36,11 @@ class LibKeyService
     }
 
     /**
+     * Add LibKey links to a set of documents
+     *
+     * Look up each doc in the list in LibKey, fetch any article links, and add them to
+     * the document.
+     *
      * @param CatalogItem[] $docs
      */
     public function addLibKeyAvailability(array $docs): void
@@ -50,10 +64,13 @@ class LibKeyService
     }
 
     /**
+     * Look up a single document in LibKey
+     *
      * @param CatalogItem $doc
      */
     private function lookup(CatalogItem $doc): void
     {
+        // Skip documents without DOIs
         if (!$doi = $doc->getDOI()) {
             return;
         }
@@ -65,6 +82,8 @@ class LibKeyService
     }
 
     /**
+     * Process the response and add it to the document
+     *
      * @param CatalogItem $doc
      * @throws TransportExceptionInterface
      * @throws ClientException

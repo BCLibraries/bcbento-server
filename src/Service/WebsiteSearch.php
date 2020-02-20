@@ -14,29 +14,30 @@ use Symfony\Component\Cache\Adapter\TagAwareAdapter;
 use Symfony\Component\Cache\CacheItem;
 
 /**
- * Search the BC Website
+ * Search the BC Libraries Websites
+ *
+ * Our LibGuides are indexed in Elasticsearch nightly by a crawler on libdev at:
+ *
+ *     /apps/bcbento.versions/current/server/util/crawl_libguides.php
+ *
+ * TODO Move LibGuides indexer into this repository
+ *
  */
 class WebsiteSearch implements LoggerAwareInterface
 {
-    /**
-     * @var Client
-     */
+    /** @var Client */
     private $elasticsearch;
 
-    /**
-     * @var TagAwareAdapter
-     */
+    /** @var TagAwareAdapter */
     public $cache;
 
-    // Expire cached searches after one day
+    // Expire cached searches after one day (in seconds)
     private const CACHE_LIFETIME = 60 * 60 * 24;
 
     // Tag for tracking cached searches
     private const CACHE_TAG = 'website_search';
 
-    /**
-     * @var LoggerInterface
-     */
+    /** @var LoggerInterface */
     private $logger;
 
     public function __construct(Client $elasticsearch, AdapterInterface $cache)
@@ -45,8 +46,16 @@ class WebsiteSearch implements LoggerAwareInterface
         $this->elasticsearch = $elasticsearch;
     }
 
+    /**
+     * Search the website
+     *
+     * @param string $keyword
+     * @return WebsiteSearchResponse
+     */
     public function fetch(string $keyword): WebsiteSearchResponse
     {
+
+        // First look for the search in cache.
         try {
             $cache_item = $this->cache->getItem($this->cacheKey($keyword));
         } catch (InvalidArgumentException $e) {
@@ -60,11 +69,19 @@ class WebsiteSearch implements LoggerAwareInterface
             return $cache_item->get();
         }
 
+        // If no result, look in Elasticsearch and cache the result.
         $response = $this->queryElasticsearch($keyword);
         $this->cacheResponse($cache_item, $response);
         return $response;
     }
 
+    /**
+     * Build the user's response
+     *
+     * @param $json_response
+     * @param $keyword
+     * @return WebsiteSearchResponse
+     */
     private function buildResponse($json_response, $keyword): WebsiteSearchResponse
     {
         $response = new WebsiteSearchResponse($json_response['hits']['total'], $keyword);
@@ -75,6 +92,12 @@ class WebsiteSearch implements LoggerAwareInterface
         return $response;
     }
 
+    /**
+     * Build a single item
+     *
+     * @param $page_json
+     * @return Webpage
+     */
     private function buildItem($page_json): Webpage
     {
         return new Webpage(
@@ -87,13 +110,26 @@ class WebsiteSearch implements LoggerAwareInterface
         );
     }
 
+    /**
+     * Cache key string
+     *
+     * @param $keyword
+     * @return string
+     */
     private function cacheKey($keyword): string
     {
         return "bcbento_site_search_$keyword";
     }
 
+    /**
+     * Send search query to Elasticsearch
+     *
+     * @param string $keyword
+     * @return WebsiteSearchResponse
+     */
     private function queryElasticsearch(string $keyword): WebsiteSearchResponse
     {
+        // The query
         $params = [
             'index' => 'website',
             'body' => [
@@ -134,6 +170,12 @@ class WebsiteSearch implements LoggerAwareInterface
         return $this->buildResponse($elasticsearch_response, $keyword);
     }
 
+    /**
+     * Cache search response
+     *
+     * @param CacheItem $cache_item
+     * @param WebsiteSearchResponse $response
+     */
     private function cacheResponse(CacheItem $cache_item, WebsiteSearchResponse $response): void
     {
         $cache_item->set($response);
@@ -155,8 +197,8 @@ class WebsiteSearch implements LoggerAwareInterface
      *
      * @return void
      */
-    public function setLogger(LoggerInterface $logger)
+    public function setLogger(LoggerInterface $logger): void
     {
-        $this->logger =$logger;
+        $this->logger = $logger;
     }
 }

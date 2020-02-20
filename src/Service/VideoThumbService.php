@@ -11,24 +11,40 @@ use Symfony\Component\Cache\Adapter\AdapterInterface;
 use Symfony\Component\Cache\Adapter\TagAwareAdapter;
 use Symfony\Component\Cache\CacheItem;
 
+/**
+ * Gets thumbnail images to use on video display
+ *
+ * We usually need to fetch thumbnails from many different videos from several different
+ * providers, so the VideoThumbService runs in parallel. To fetch screencaps:
+ *
+ *     // Build the VideoThumbService
+ *     $thumbs = new VideoThumbService($symfony_cache)
+ *
+ *     // Prepare all the video services we might need.
+ *     $thumbs->addProvider($medicitv_provider);
+ *     $thumbs->addProvider($metondemand_provider);
+ *     $thumbs->addProvider($some_other_provider);
+ *
+ *     // Fetch screencaps for the videos in a PrimoClient\SearchResponse and
+ *     // update the SearchResponse object with the thumbs.
+ *     $thumbs->fetch($search_response);
+ *
+ * Use the ScreencapProvider interface to add new screencap providers.
+ *
+ * @package App\Service
+ */
 class VideoThumbService
 {
-    /**
-     * @var AdapterInterface
-     */
+    /**  @var AdapterInterface */
     private $cache;
 
-    /**
-     * @var VideoProvider[]
-     */
+    /** @var ScreencapProvider[] */
     private $providers = [];
 
-    /**
-     * @var Promise\PromiseInterface[]
-     */
+    /** @var Promise\PromiseInterface[] */
     private $promises;
 
-    // Expire cached thumbnails after one month
+    // Expire cached thumbnails after one month (in seconds)
     private const CACHE_LIFETIME = 60 * 60 * 24 * 30;
 
     // Tag for tracking cached thumbnails
@@ -39,12 +55,23 @@ class VideoThumbService
         $this->cache = new TagAwareAdapter($cache);
     }
 
-    public function addProvider(VideoProvider $provider): void
+    /**
+     * Add a provider
+     *
+     * @param ScreencapProvider $provider
+     */
+    public function addProvider(ScreencapProvider $provider): void
     {
         $this->providers[] = $provider;
     }
 
     /**
+     * Fetch screencaps for all videos in a SearchResponse
+     *
+     * Fetching uses Guzzle's promises (https://github.com/guzzle/promises) to facilitate
+     * concurrent fetching. If you haven't worked with promises before (e.g. in Javascript),
+     * read up on them before trying to understand this.
+     *
      * @param SearchResponse $response
      * @throws InvalidArgumentException
      */
@@ -52,9 +79,7 @@ class VideoThumbService
     {
         $this->promises = [];
 
-        /**
-         * @var $cache_items CacheItem[]
-         */
+        /** @var $cache_items CacheItem[] */
         $cache_items = [];
 
         foreach ($response->getDocs() as $doc) {
@@ -102,12 +127,20 @@ class VideoThumbService
         }
     }
 
+    /**
+     * Build cache key string
+     *
+     * @param $id
+     * @return string
+     */
     private function cacheKey($id): string
     {
         return "bcbento_video-thumb_$id";
     }
 
     /**
+     * Get a screencap for a Doc
+     *
      * @param Doc $doc
      */
     protected function extractScreenCap(Doc $doc): void
@@ -119,6 +152,17 @@ class VideoThumbService
         }
     }
 
+    /**
+     * Locate a FoD screencap
+     *
+     * Films On Demand screencaps are built from the Films On Demand ID. Sometimes this ID is
+     * stored in the PNX records as a search field, and sometimes we can extract it from another
+     * link in a PNX link field.
+     *
+     * TODO Refactor Films On Demand cap fetching to a ScreencapProvider implementation
+     * @param Doc $doc
+     * @return String|null
+     */
     private function getFilmsOnDemandCap(Doc $doc): ?String
     {
         $sources = $doc->pnx('display', 'lds30');
@@ -149,6 +193,12 @@ class VideoThumbService
         return null;
     }
 
+    /**
+     * Build FilmsOnDemand URL
+     *
+     * @param string $fod_id
+     * @return string
+     */
     private function filmsOnDemandUrl(string $fod_id): string
     {
         return "https://fod.infobase.com/image/$fod_id";

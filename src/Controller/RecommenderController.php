@@ -24,6 +24,6 @@ class RecommenderController extends AbstractController
      */
     public function recommendLibrarian(string $keyword): LibrarianRecommendationResponse
     {
-        return $this->librarian_recommender->fetch($keyword);
+        return $this->librarian_recommender->fetchRecommendation($keyword);
     }
 }

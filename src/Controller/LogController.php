@@ -8,6 +8,11 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+/**
+ * Handles log requests from clients
+ *
+ * @package App\Controller
+ */
 class LogController extends AbstractController
 {
     /** @var ClientErrorLog */
@@ -19,6 +24,8 @@ class LogController extends AbstractController
     }
 
     /**
+     * Log a client error
+     *
      * @Route("/log", methods={"POST"})
      */
     public function logError(Request $request): Response

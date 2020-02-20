@@ -7,6 +7,11 @@ use App\Entity\WebsiteSearchResponse;
 use App\Service\WebsiteSearch;
 use TheCodingMachine\GraphQLite\Annotations\Query;
 
+/**
+ * Handle requests for library website searches
+ *
+ * @package App\Controller
+ */
 class WebsiteSearchController
 {
     /**
@@ -20,6 +25,8 @@ class WebsiteSearchController
     }
 
     /**
+     * Handle website searches
+     *
      * @Query()
      */
     public function searchWebsite(string $keyword): WebsiteSearchResponse

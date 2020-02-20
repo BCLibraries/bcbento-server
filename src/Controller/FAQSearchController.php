@@ -6,6 +6,11 @@ use App\Entity\FAQResponse;
 use App\Service\FAQSearch;
 use TheCodingMachine\GraphQLite\Annotations\Query;
 
+/**
+ * Search LibAnswers FAQ entries
+ *
+ * @package App\Controller
+ */
 class FAQSearchController
 {
     /**

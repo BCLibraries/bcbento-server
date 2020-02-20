@@ -8,6 +8,14 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
+/**
+ * Handle typeahead (autocomplete) queries
+ *
+ * The typeahead service takes a string as input and returns a JSON result with a list of
+ * possible full terms.
+ *
+ * @package App\Controller
+ */
 class TypeaheadController extends AbstractController
 {
     /**
@@ -21,9 +29,9 @@ class TypeaheadController extends AbstractController
     }
 
     /**
-     * Lookup a term in typeahead as GraphQL
+     * Lookup a term in typeahead
      *
-     * Preserves backwards compatibility with older typeahead clients.
+     * Returns result as JSON to preserves backwards compatibility with older typeahead clients.
      *
      * @Route("/typeahead", name="typeahead")
      */

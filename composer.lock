@@ -8,16 +8,16 @@
     "packages": [
         {
             "name": "bclibraries/fulltext-finder",
-            "version": "v0.1.12",
+            "version": "v0.1.14",
             "source": {
                 "type": "git",
                 "url": "https://github.com/BCLibraries/FulltextFinder.git",
-                "reference": "23b0751ad2b283078402fc7648024001d16cdfef"
+                "reference": "5382e741e64720c11c6d5370439ca0c592669d46"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/BCLibraries/FulltextFinder/zipball/23b0751ad2b283078402fc7648024001d16cdfef",
-                "reference": "23b0751ad2b283078402fc7648024001d16cdfef",
+                "url": "https://api.github.com/repos/BCLibraries/FulltextFinder/zipball/5382e741e64720c11c6d5370439ca0c592669d46",
+                "reference": "5382e741e64720c11c6d5370439ca0c592669d46",
                 "shasum": ""
             },
             "require": {
@@ -52,7 +52,7 @@
                 }
             ],
             "description": "Finds links to fulltexts from citations",
-            "time": "2019-10-22T18:19:13+00:00"
+            "time": "2020-03-04T19:57:08+00:00"
         },
         {
             "name": "bclibraries/libkey-client",

@@ -21,7 +21,7 @@ class FullTextFinderFactory
     ): FullTextFinder {
         $config = new Config();
         $config->setUserAgent("BCBento/0.1 (https://library.bc.edu/search; mailto:$crossref_mailto)")
-            ->setFindByCitationMinLength(50);
+            ->setFindByCitationMinLength(32);
         return FullTextFinder::build($libkey_id, $libkey_apikey, $config);
     }
 }

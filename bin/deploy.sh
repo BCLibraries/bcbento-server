@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+# TODO Move deployment to Bamboo
+
 # Branch to pull from
 BRANCH=${1:-master}
 

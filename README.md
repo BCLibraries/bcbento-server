@@ -16,6 +16,7 @@ composer install
 ### Requirements
 
 * PHP 7.1+
+* A Boston College VPN connection
 
 ## Starting the development server
 

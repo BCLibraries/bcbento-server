@@ -26,6 +26,7 @@ services:
             string $alma_library: '%env(string:ALMA_LIBRARY)%'
             $article_query_config: '@query_config.articles'
             $books_query_config: '@query_config.books'
+            $online_query_config: '@query_config.online'
             $video_query_config: '@query_config.video'
             $libkey_apikey: '%env(string:LIBKEY_APIKEY)%'
             $libkey_id: '%env(string:LIBKEY_ID)%'
@@ -67,6 +68,17 @@ services:
             - '%env(string:PRIMO_CATALOG_TAB)%'
             - '%env(string:PRIMO_VID)%'
             - '%env(string:PRIMO_CATALOG_SCOPE)%'
+            - '%env(string:PRIMO_INST)%'
+
+    # QueryConfig for books & more
+    query_config.online:
+        class: BCLib\PrimoClient\QueryConfig
+        autowire: false
+        arguments:
+            - '%env(string:PRIMO_APIKEY)%'
+            - '%env(string:PRIMO_ONLINE_TAB)%'
+            - '%env(string:PRIMO_VID)%'
+            - '%env(string:PRIMO_ONLINE_SCOPE)%'
             - '%env(string:PRIMO_INST)%'
 
     # QueryConfig for video

@@ -44,6 +44,16 @@ class PrimoSearchController
     }
 
     /**
+     * Search online resources by keyword
+     *
+     * @Query
+     */
+    public function searchOnline(string $keyword, int $limit = 3): CatalogSearchResponse
+    {
+        return $this->primo_search->searchOnlineResources($keyword, $limit);
+    }
+
+    /**
      * Search Primo Central by keyword
      *
      * @Query

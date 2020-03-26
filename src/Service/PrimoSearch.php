@@ -45,6 +45,9 @@ class PrimoSearch implements LoggerAwareInterface
     private $books_query_config;
 
     /** @var QueryConfig */
+    private $online_query_config;
+
+    /** @var QueryConfig */
     private $video_query_config;
 
     /** @var QueryConfig */
@@ -95,6 +98,7 @@ class PrimoSearch implements LoggerAwareInterface
         QueryConfig $books_query_config,
         QueryConfig $video_query_config,
         QueryConfig $article_query_config,
+        QueryConfig $online_query_config,
         ApiClient $client,
         AlmaClient $alma,
         VideoThumbService $video_thumbs,
@@ -112,6 +116,7 @@ class PrimoSearch implements LoggerAwareInterface
         $this->video_thumbs = $video_thumbs;
         $this->video_thumbs->addProvider(new MediciTVScreencapProvider(new Client()));
         $this->video_thumbs->addProvider(new MetOnDemandScreencapProvider(new Client()));
+        $this->online_query_config = $online_query_config;
     }
 
     /**
@@ -131,6 +136,22 @@ class PrimoSearch implements LoggerAwareInterface
         return $result;
     }
 
+    /**
+     * Search only online resources
+     *
+     * @param string $keyword
+     * @param int $limit
+     * @return CatalogSearchResponse
+     * @throws BadAPIResponseException
+     * @throws GuzzleException
+     * @throws InvalidArgumentException
+     */
+    public function searchOnlineResources(string $keyword, int $limit): CatalogSearchResponse
+    {
+        $result = $this->search($keyword, $limit, $this->online_query_config, false);
+        $result->setSearchUrl($this->buildPrimoSearchUrl($keyword, 'online', 'online'));
+        return $result;
+    }
 
     /**
      * Search video service

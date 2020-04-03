@@ -22,6 +22,9 @@ class CatalogItem extends Doc
     /** @var LibKeyResponse|null */
     protected $libkey_availability;
 
+    /** @var string|null */
+    protected $hathitrust_url;
+
     /**
      * CatalogItem constructor
      *
@@ -93,6 +96,24 @@ class CatalogItem extends Doc
     public function setLibkeyAvailability(?LibKeyResponse $libkey_availability): void
     {
         $this->libkey_availability = $libkey_availability;
+    }
+
+    /**
+     * @Field()
+     */
+    public function getHathitrustUrl(): ?string
+    {
+        return $this->hathitrust_url;
+    }
+
+    /**
+     * @param string|null $hathitrust_url
+     * @return CatalogItem
+     */
+    public function setHathitrustUrl(?string $hathitrust_url): CatalogItem
+    {
+        $this->hathitrust_url = $hathitrust_url;
+        return $this;
     }
 
 }

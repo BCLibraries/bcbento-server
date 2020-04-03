@@ -32,6 +32,7 @@ services:
             $libkey_id: '%env(string:LIBKEY_ID)%'
             $library_id: '%env(string:LIBKEY_ID)%'
             string $crossref_mailto: '%env(string:CROSSREF_MAILTO)%'
+            $shib_idp: '%env(string:SHIB_IDP)%'
 
 
     # makes classes in src/ available to be used as services

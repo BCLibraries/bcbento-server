@@ -3,8 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\CatalogSearchResponse;
+use App\Service\HathiTrust\HathiClient;
 use App\Service\LibKeyService;
 use App\Service\PrimoSearch;
+use Psr\Log\LoggerInterface;
 use TheCodingMachine\GraphQLite\Annotations\Query;
 
 /**
@@ -27,10 +29,16 @@ class PrimoSearchController
      */
     private $libkey;
 
-    public function __construct(PrimoSearch $primo_search, LibKeyService $libkey)
+    /**
+     * @var HathiClient
+     */
+    private $hathi;
+
+    public function __construct(PrimoSearch $primo_search, LibKeyService $libkey, HathiClient $hathi)
     {
         $this->primo_search = $primo_search;
         $this->libkey = $libkey;
+        $this->hathi = $hathi;
     }
 
     /**
@@ -40,7 +48,9 @@ class PrimoSearchController
      */
     public function searchCatalog(string $keyword, int $limit = 3): CatalogSearchResponse
     {
-        return $this->primo_search->searchFullCatalog($keyword, $limit);
+        $result = $this->primo_search->searchFullCatalog($keyword, $limit);
+        $this->hathi->getHathiLinks($result->getDocs());
+        return $result;
     }
 
     /**

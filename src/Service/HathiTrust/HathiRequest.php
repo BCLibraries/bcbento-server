@@ -56,9 +56,9 @@ class HathiRequest
      * @param CatalogItem $doc
      * @return string
      */
-    private function getBestId(CatalogItem $doc): string
+    private function getBestId(CatalogItem $doc): ?string
     {
-        $id = '';
+        $id = null;
         if (isset($doc->oclcid[0])) {
             $id = "oclc:{$doc->oclcid[0]}";
         } elseif (isset($doc->isbn[0])) {

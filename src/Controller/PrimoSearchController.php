@@ -49,7 +49,11 @@ class PrimoSearchController
     public function searchCatalog(string $keyword, int $limit = 3): CatalogSearchResponse
     {
         $result = $this->primo_search->searchFullCatalog($keyword, $limit);
-        $this->hathi->getHathiLinks($result->getDocs());
+        try {
+            $this->hathi->getHathiLinks($result->getDocs());
+        } catch (\Exception $e) {
+
+        }
         return $result;
     }
 

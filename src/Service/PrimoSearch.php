@@ -84,6 +84,7 @@ class PrimoSearch implements LoggerAwareInterface
         'database' => 'Database',
         'image' => 'Image',
         'audio_music' => 'Musical recording',
+        'audio_other' => 'Audio',
         'realia' => '',
         'data' => 'Data',
         'dissertation' => 'Thesis',
@@ -131,8 +132,25 @@ class PrimoSearch implements LoggerAwareInterface
      */
     public function searchFullCatalog(string $keyword, int $limit): CatalogSearchResponse
     {
-        $result = $this->search($keyword, $limit, $this->books_query_config, false);
+        $extended_limit = $limit + 1;
+        $result = $this->search($keyword, $extended_limit, $this->books_query_config, false);
         $result->setSearchUrl($this->buildPrimoSearchUrl($keyword, 'bcl_only', 'bcl'));
+
+        // Hack to fix audio book being promoted over regular ebook for a specific
+        // title ('Tattoos on the Heart').
+        $original_docs = $result->getDocs();
+        if ($result->getDocs()[0]->getMms() === '99137813822601021'
+            && $extended_limit === 4
+            && $result->getDocs()[3]->getMms() === '99137911879401021') {
+            $result->setDocs([
+                $original_docs[3],
+                $original_docs[1],
+                $original_docs[2]
+            ]);
+        } else {
+            $result->setDocs(array_slice($original_docs, 0, $limit));
+        }
+
         return $result;
     }
 

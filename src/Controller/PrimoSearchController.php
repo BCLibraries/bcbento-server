@@ -65,6 +65,12 @@ class PrimoSearchController
     public function searchOnline(string $keyword, int $limit = 3): CatalogSearchResponse
     {
         return $this->primo_search->searchOnlineResources($keyword, $limit);
+        try {
+            $this->hathi->getHathiLinks($result->getDocs());
+        } catch (\Exception $e) {
+
+        }
+        return $result;
     }
 
     /**

@@ -61,9 +61,6 @@ class HathiRequest
         $id = null;
         if (isset($doc->oclcid[0])) {
             $id = "oclc:{$doc->oclcid[0]}";
-        } elseif (isset($doc->isbn[0])) {
-            $numeric_isbn = preg_replace('/\D/', '', $doc->isbn[0]);
-            $id = "isbn:{$numeric_isbn}";
         }
         return $id;
     }

@@ -6,7 +6,6 @@ use App\Entity\CatalogSearchResponse;
 use App\Service\HathiTrust\HathiClient;
 use App\Service\LibKeyService;
 use App\Service\PrimoSearch;
-use Psr\Log\LoggerInterface;
 use TheCodingMachine\GraphQLite\Annotations\Query;
 
 /**
@@ -64,7 +63,7 @@ class PrimoSearchController
      */
     public function searchOnline(string $keyword, int $limit = 3): CatalogSearchResponse
     {
-        return $this->primo_search->searchOnlineResources($keyword, $limit);
+        $result = $this->primo_search->searchOnlineResources($keyword, $limit);
         try {
             $this->hathi->getHathiLinks($result->getDocs());
         } catch (\Exception $e) {

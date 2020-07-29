@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use BCLib\LibKeyClient\LibKeyResponse;
 use BCLib\PrimoClient\Doc;
+use BCLib\PrimoClient\Link;
 use TheCodingMachine\GraphQLite\Annotations\Field;
 use TheCodingMachine\GraphQLite\Annotations\Type;
 
@@ -35,7 +36,7 @@ class CatalogItem extends Doc
     public function __construct(Doc $parent)
     {
         $parent_props = get_object_vars($parent);
-        foreach ($parent_props AS $key => $value) {
+        foreach ($parent_props as $key => $value) {
             $this->$key = $value;
         }
     }
@@ -65,9 +66,27 @@ class CatalogItem extends Doc
     /**
      * @Field()
      */
+    public function getLinkToFindingAid(): ?Link
+    {
+        $pnx = $this->pnx('links', 'linktofa');
+
+        if (!isset($pnx[0])) {
+            return null;
+        }
+
+        // Look for a URL & label in the PNX field value. Return null if anything
+        // goes wrong. Return a Link if everything went right.
+        //@todo Move link generation into Primo Client
+        preg_match('/^\$\$U(.*) \$\$D(.*)$/', $pnx[0], $matches);
+        return count($matches) === 3 ? new Link($matches[2], $matches[1], 'Finding aid') : null;
+    }
+
+    /**
+     * @Field()
+     */
     public function getDOI(): ?string
     {
-        $pnx = $this->pnx('addata','doi');
+        $pnx = $this->pnx('addata', 'doi');
         return $pnx[0] ?? null;
     }
 
@@ -80,7 +99,7 @@ class CatalogItem extends Doc
 
     }
 
-    public function setFullTextUrl(?string $url):void
+    public function setFullTextUrl(?string $url): void
     {
         $this->full_text_url = $url;
     }

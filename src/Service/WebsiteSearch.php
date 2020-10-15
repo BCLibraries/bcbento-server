@@ -118,7 +118,7 @@ class WebsiteSearch implements LoggerAwareInterface
      */
     private function cacheKey($keyword): string
     {
-        return "bcbento_site_search_$keyword";
+        return 'bcbento_site_search_' . sha1($keyword);
     }
 
     /**

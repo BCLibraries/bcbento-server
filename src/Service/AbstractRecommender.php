@@ -175,7 +175,7 @@ abstract class AbstractRecommender implements LoggerAwareInterface
     protected function queryElasticsearchForTerms(string $keyword): array
     {
         // TODO Is there more we need to do to sanitize Elasticsearch queries?
-        $keyword = str_replace(':', '', $keyword);
+        $keyword = ElasticSearchCleaner::clean($keyword);
 
         // Elasticsearch changed term scoring syntax with version 1.3.2.
         $score_script = ($this->elasticsearch_version < '1.3.2') ? 'doc.score' : '_score';

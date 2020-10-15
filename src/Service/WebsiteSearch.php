@@ -135,7 +135,7 @@ class WebsiteSearch implements LoggerAwareInterface
             'body' => [
                 'query' => [
                     'multi_match' => [
-                        'query' => $keyword,
+                        'query' => ElasticSearchCleaner::clean($keyword),
                         'fields' => [
                             'title^5',
                             'title.english^5',

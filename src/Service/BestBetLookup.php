@@ -34,6 +34,10 @@ class BestBetLookup
      */
     public function lookup(string $keyword): ?LocalBestBet
     {
+        // Normalize search term
+        $keyword = trim($keyword);
+        $keyword = str_replace(array('"', "'"), "", $keyword);
+
         // Build param list and query Elasticsearch
         $params = [
             'index' => 'bestbets',

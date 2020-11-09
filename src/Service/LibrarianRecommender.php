@@ -19,14 +19,19 @@ class LibrarianRecommender extends AbstractRecommender
 {
 
     // Don't return any librarian recommendations that score less than this.
-    private const MIN_LIBRARIAN_SCORE = '.1';
+    private const MIN_LIBRARIAN_SCORE = '.6';
 
-    public $max_boost = 0;
+    public $max_boost = 1;
 
     public function __construct(Client $elasticsearch, AdapterInterface $cache, $elasticsearch_version = '1.2.1')
     {
         parent::__construct($elasticsearch, $cache, $elasticsearch_version);
         $this->index = 'librarians';
+    }
+
+    public function fetchRecommendation(string $keyword)
+    {
+        return $this->getResult($keyword, []);
     }
 
     /**
@@ -39,7 +44,7 @@ class LibrarianRecommender extends AbstractRecommender
     public function buildQuery(string $keyword, array $taxonomy_terms): array
     {
         $must = [];
-        $should = $this->buildTaxonomySubQueries($taxonomy_terms);
+        $should = [];
 
         $terms_query = [
             'match' => [

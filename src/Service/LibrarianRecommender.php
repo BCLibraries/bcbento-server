@@ -4,9 +4,9 @@ namespace App\Service;
 
 use App\Entity\Librarian;
 use App\Entity\LibrarianRecommendationResponse;
-use function count;
 use Elasticsearch\Client;
 use Symfony\Component\Cache\Adapter\AdapterInterface;
+use function count;
 
 /**
  * Recommender for librarians
@@ -43,39 +43,15 @@ class LibrarianRecommender extends AbstractRecommender
      */
     public function buildQuery(string $keyword, array $taxonomy_terms): array
     {
-        $must = [];
-        $should = [];
-
-        $terms_query = [
-            'match' => [
-                'terms' => [
-                    'query' => $keyword,
-                    'boost' => $this->max_boost
+        // @todo restore recommendation feature when the large DB is back up
+        return [
+            "query" => [
+                "query_string" => [
+                    "fields" => ["*_name", "subjects", "terms"],
+                    "query" => $keyword
                 ]
-            ],
-        ];
-
-        if (count($taxonomy_terms)) {
-            $should[] = $terms_query;
-        } else {
-            $must[] = $terms_query;
-        }
-
-        $query = [
-            'query' => [
-                'bool' => []
             ]
         ];
-
-        if (count($should)) {
-            $query['query']['bool']['should'] = $should;
-        }
-
-        if (count($must)) {
-            $query['query']['bool']['must'] = $must;
-        }
-
-        return $query;
     }
 
     /**

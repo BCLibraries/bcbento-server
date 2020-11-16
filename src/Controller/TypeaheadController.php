@@ -37,7 +37,8 @@ class TypeaheadController extends AbstractController
      */
     public function indexAction(Request $request): JsonResponse
     {
-        $response = $this->typeahead->fetch($request->get('any'));
-        return $this->json($response);
+        // @todo re-enable typeahead when data is reloaded into Elasticsearch
+        // $response = $this->typeahead->fetch($request->get('any'));
+        return $this->json([]);
     }
 }

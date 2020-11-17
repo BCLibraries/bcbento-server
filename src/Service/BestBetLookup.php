@@ -41,7 +41,6 @@ class BestBetLookup
         // Build param list and query Elasticsearch
         $params = [
             'index' => 'bestbets',
-            'type' => 'bestbet',
             'body' => [
                 'query' => [
                     'match' => [

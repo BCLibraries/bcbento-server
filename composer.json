@@ -21,7 +21,7 @@
     "bclibraries/fulltext-finder": "^0.1",
     "bclibraries/libkey-client": "^0.1",
     "bclibraries/primo-client": "^0.6",
-    "elasticsearch/elasticsearch": "~2.0",
+    "elasticsearch/elasticsearch": "^7.0",
     "myclabs/php-enum": "~1.7",
     "nelmio/cors-bundle": "~1.5",
     "sensio/framework-extra-bundle": "^5.3",

@@ -84,7 +84,7 @@ class WebsiteSearch implements LoggerAwareInterface
      */
     private function buildResponse($json_response, $keyword): WebsiteSearchResponse
     {
-        $response = new WebsiteSearchResponse($json_response['hits']['total'], $keyword);
+        $response = new WebsiteSearchResponse($json_response['hits']['total']['value'], $keyword);
         foreach ($json_response['hits']['hits'] as $page) {
             $response->addDoc($this->buildItem($page));
         }

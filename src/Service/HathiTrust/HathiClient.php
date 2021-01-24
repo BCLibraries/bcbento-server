@@ -44,14 +44,27 @@ class HathiClient
         foreach ($ids as $id) {
             $match = $response_json[$id];
 
-            foreach ($match['records'] as $record) {
-                $request->updateDoc($id, $this->buildRecordURL($record));
+            if ($this->isOutOfCopyright($match)) {
+                foreach ($match['records'] as $record) {
+                    $request->updateDoc($id, $this->buildRecordURL($record));
+                }
             }
+
         }
     }
 
     public function buildRecordURL(array $record): string
     {
         return $record['recordURL'] . "?urlappend=%3Bsignon=swle:{$this->shib_idp}";
+    }
+
+    private function isOutOfCopyright(array $match): bool
+    {
+        foreach ($match['items'] as $item) {
+            if ($item['rightsCode'] === 'ic') {
+                return false;
+            }
+        }
+        return true;
     }
 }

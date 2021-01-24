@@ -61,7 +61,7 @@ class HathiClient
     private function isOutOfCopyright(array $match): bool
     {
         foreach ($match['items'] as $item) {
-            if ($item['rightsCode'] === 'ic') {
+            if ($item['usRightsString'] !== 'Full view') {
                 return false;
             }
         }

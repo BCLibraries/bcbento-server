@@ -55,7 +55,7 @@ class HathiClient
 
     public function buildRecordURL(array $record): string
     {
-        return $record['recordURL'] . "?urlappend=%3Bsignon=swle:{$this->shib_idp}";
+        return $record['recordURL'];
     }
 
     private function isOutOfCopyright(array $match): bool

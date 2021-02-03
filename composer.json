@@ -21,6 +21,7 @@
     "bclibraries/fulltext-finder": "^0.1",
     "bclibraries/libkey-client": "^0.1",
     "bclibraries/primo-client": "^0.6",
+    "doctrine/doctrine-migrations-bundle": "^2.0",
     "elasticsearch/elasticsearch": "^7.0",
     "myclabs/php-enum": "~1.7",
     "nelmio/cors-bundle": "~1.5",
@@ -46,8 +47,7 @@
     "symfony/validator": "4.4.*",
     "symfony/web-link": "4.4.*",
     "symfony/yaml": "4.4.*",
-    "doctrine/doctrine-migrations-bundle": "^2.0",
-    "thecodingmachine/graphqlite-bundle": "^3.0"
+    "thecodingmachine/graphqlite-bundle": "^4.1"
   },
   "require-dev": {
     "symfony/debug-pack": "^1.0",

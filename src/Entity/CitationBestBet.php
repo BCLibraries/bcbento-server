@@ -4,7 +4,11 @@ namespace App\Entity;
 
 use BCLib\FulltextFinder\FinderResponse;
 use TheCodingMachine\GraphQLite\Annotations\Field;
+use TheCodingMachine\GraphQLite\Annotations\Type;
 
+/**
+ * @Type()
+ */
 class CitationBestBet extends BestBet
 {
     /**

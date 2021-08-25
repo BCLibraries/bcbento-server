@@ -4,6 +4,7 @@ namespace App\Service;
 
 use App\Entity\LocalBestBet;
 use Elasticsearch\Client as ElasticsearchClient;
+use PHPUnit\Util\Exception;
 
 /**
  * Lookup Best bets
@@ -54,7 +55,7 @@ class BestBetLookup
 
         $best_bet = null;
 
-        if ($result['hits']['total'] > 0) {
+        if ($result['hits']['total'] &&$result['hits']['total']['value'] > 0 ) {
             $json_best_bet = $result['hits']['hits'][0];
             $source = $json_best_bet['_source'];
 
@@ -62,7 +63,9 @@ class BestBetLookup
             $display_text = $source['displayText'] ?? null;
             $link = $source['link'] ?? null;
 
-            $best_bet = new LocalBestBet($json_best_bet['_id'], $title, $display_text, $link);
+            if ($json_best_bet['_id']) {
+                $best_bet = new LocalBestBet($json_best_bet['_id'], $title, $display_text, $link);
+            }
         }
 
         return $best_bet;

@@ -3,11 +3,15 @@
 namespace App\Entity;
 
 use TheCodingMachine\GraphQLite\Annotations\Field;
+use TheCodingMachine\GraphQLite\Annotations\Type;
+
 
 /**
  * A Best Bet created locally
  *
  * E.g. the record for JSTOR or the New York Times.
+ *
+ * @Type()
  *
  * @package App\Entity
  */

@@ -51,6 +51,7 @@ class  FAQSearch
      */
     private function url(string $keyword, int $limit): string
     {
+        $keyword = urlencode($keyword);
         return "https://api2.libanswers.com/1.0/search/$keyword?iid=" . self::LIBANSWERS_ID . "&limit=$limit";
     }
 

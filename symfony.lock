@@ -8,6 +8,9 @@
     "bclibraries/primo-client": {
         "version": "v0.3.1"
     },
+    "composer/package-versions-deprecated": {
+        "version": "1.11.99.5"
+    },
     "doctrine/annotations": {
         "version": "1.0",
         "recipe": {
@@ -28,6 +31,9 @@
     },
     "doctrine/dbal": {
         "version": "2.12.1"
+    },
+    "doctrine/deprecations": {
+        "version": "v1.0.0"
     },
     "doctrine/doctrine-bundle": {
         "version": "2.0",
@@ -62,6 +68,9 @@
     },
     "doctrine/inflector": {
         "version": "v1.3.0"
+    },
+    "doctrine/instantiator": {
+        "version": "1.4.1"
     },
     "doctrine/lexer": {
         "version": "1.0.2"
@@ -111,6 +120,9 @@
     "mouf/classname-mapper": {
         "version": "v1.0.2"
     },
+    "myclabs/deep-copy": {
+        "version": "1.11.0"
+    },
     "myclabs/php-enum": {
         "version": "1.7.1"
     },
@@ -141,9 +153,6 @@
             "config/packages/nyholm_psr7.yaml"
         ]
     },
-    "ocramius/package-versions": {
-        "version": "1.4.0"
-    },
     "overblog/graphiql-bundle": {
         "version": "0.1",
         "recipe": {
@@ -156,6 +165,12 @@
             "config/routes/dev/graphiql.yaml"
         ]
     },
+    "phar-io/manifest": {
+        "version": "2.0.3"
+    },
+    "phar-io/version": {
+        "version": "3.2.1"
+    },
     "php-http/message-factory": {
         "version": "v1.0.2"
     },
@@ -167,6 +182,38 @@
     },
     "phpdocumentor/type-resolver": {
         "version": "0.4.0"
+    },
+    "phpspec/prophecy": {
+        "version": "v1.15.0"
+    },
+    "phpunit/php-code-coverage": {
+        "version": "9.2.15"
+    },
+    "phpunit/php-file-iterator": {
+        "version": "3.0.6"
+    },
+    "phpunit/php-invoker": {
+        "version": "3.1.1"
+    },
+    "phpunit/php-text-template": {
+        "version": "2.0.4"
+    },
+    "phpunit/php-timer": {
+        "version": "5.0.3"
+    },
+    "phpunit/phpunit": {
+        "version": "9.5",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "main",
+            "version": "9.3",
+            "ref": "a6249a6c4392e9169b87abf93225f7f9f59025e6"
+        },
+        "files": [
+            ".env.test",
+            "phpunit.xml.dist",
+            "tests/bootstrap.php"
+        ]
     },
     "psr/cache": {
         "version": "1.0.1"
@@ -203,6 +250,54 @@
     },
     "react/promise": {
         "version": "v2.7.1"
+    },
+    "sebastian/cli-parser": {
+        "version": "1.0.1"
+    },
+    "sebastian/code-unit": {
+        "version": "1.0.8"
+    },
+    "sebastian/code-unit-reverse-lookup": {
+        "version": "2.0.3"
+    },
+    "sebastian/comparator": {
+        "version": "4.0.6"
+    },
+    "sebastian/complexity": {
+        "version": "2.0.2"
+    },
+    "sebastian/diff": {
+        "version": "4.0.4"
+    },
+    "sebastian/environment": {
+        "version": "5.1.4"
+    },
+    "sebastian/exporter": {
+        "version": "4.0.4"
+    },
+    "sebastian/global-state": {
+        "version": "5.0.5"
+    },
+    "sebastian/lines-of-code": {
+        "version": "1.0.3"
+    },
+    "sebastian/object-enumerator": {
+        "version": "4.0.4"
+    },
+    "sebastian/object-reflector": {
+        "version": "2.0.4"
+    },
+    "sebastian/recursion-context": {
+        "version": "4.0.4"
+    },
+    "sebastian/resource-operations": {
+        "version": "3.0.3"
+    },
+    "sebastian/type": {
+        "version": "3.0.0"
+    },
+    "sebastian/version": {
+        "version": "3.0.2"
     },
     "sensio/framework-extra-bundle": {
         "version": "5.2",
@@ -431,6 +526,9 @@
     "symfony/polyfill-php80": {
         "version": "v1.18.1"
     },
+    "symfony/polyfill-php81": {
+        "version": "v1.25.0"
+    },
     "symfony/process": {
         "version": "v4.3.1"
     },
@@ -600,6 +698,9 @@
     },
     "thecodingmachine/graphqlite-symfony-validator-bridge": {
         "version": "v4.1.0"
+    },
+    "theseer/tokenizer": {
+        "version": "1.2.1"
     },
     "twig/twig": {
         "version": "v2.11.2"

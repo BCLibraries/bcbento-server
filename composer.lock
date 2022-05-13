@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "db8a52fb092dc91bb8f6d6ef4b40c24e",
+    "content-hash": "1210658516b27771363f390f641d946c",
     "packages": [
         {
             "name": "bclibraries/fulltext-finder",
@@ -156,6 +156,79 @@
             "time": "2021-02-02T19:06:58+00:00"
         },
         {
+            "name": "composer/package-versions-deprecated",
+            "version": "1.11.99.5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/composer/package-versions-deprecated.git",
+                "reference": "b4f54f74ef3453349c24a845d22392cd31e65f1d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/composer/package-versions-deprecated/zipball/b4f54f74ef3453349c24a845d22392cd31e65f1d",
+                "reference": "b4f54f74ef3453349c24a845d22392cd31e65f1d",
+                "shasum": ""
+            },
+            "require": {
+                "composer-plugin-api": "^1.1.0 || ^2.0",
+                "php": "^7 || ^8"
+            },
+            "replace": {
+                "ocramius/package-versions": "1.11.99"
+            },
+            "require-dev": {
+                "composer/composer": "^1.9.3 || ^2.0@dev",
+                "ext-zip": "^1.13",
+                "phpunit/phpunit": "^6.5 || ^7"
+            },
+            "type": "composer-plugin",
+            "extra": {
+                "class": "PackageVersions\\Installer",
+                "branch-alias": {
+                    "dev-master": "1.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "PackageVersions\\": "src/PackageVersions"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Marco Pivetta",
+                    "email": "ocramius@gmail.com"
+                },
+                {
+                    "name": "Jordi Boggiano",
+                    "email": "j.boggiano@seld.be"
+                }
+            ],
+            "description": "Composer plugin that provides efficient querying for installed package versions (no runtime IO)",
+            "support": {
+                "issues": "https://github.com/composer/package-versions-deprecated/issues",
+                "source": "https://github.com/composer/package-versions-deprecated/tree/1.11.99.5"
+            },
+            "funding": [
+                {
+                    "url": "https://packagist.com",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/composer",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/composer/composer",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2022-01-17T14:14:24+00:00"
+        },
+        {
             "name": "doctrine/annotations",
             "version": "1.13.2",
             "source": {
@@ -229,16 +302,16 @@
         },
         {
             "name": "doctrine/cache",
-            "version": "1.12.1",
+            "version": "2.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/cache.git",
-                "reference": "4cf401d14df219fa6f38b671f5493449151c9ad8"
+                "reference": "331b4d5dbaeab3827976273e9356b3b453c300ce"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/cache/zipball/4cf401d14df219fa6f38b671f5493449151c9ad8",
-                "reference": "4cf401d14df219fa6f38b671f5493449151c9ad8",
+                "url": "https://api.github.com/repos/doctrine/cache/zipball/331b4d5dbaeab3827976273e9356b3b453c300ce",
+                "reference": "331b4d5dbaeab3827976273e9356b3b453c300ce",
                 "shasum": ""
             },
             "require": {
@@ -308,7 +381,7 @@
             ],
             "support": {
                 "issues": "https://github.com/doctrine/cache/issues",
-                "source": "https://github.com/doctrine/cache/tree/1.12.1"
+                "source": "https://github.com/doctrine/cache/tree/2.1.1"
             },
             "funding": [
                 {
@@ -324,7 +397,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-07-17T14:39:21+00:00"
+            "time": "2021-07-17T14:49:29+00:00"
         },
         {
             "name": "doctrine/collections",
@@ -2252,68 +2325,6 @@
                 }
             ],
             "time": "2022-02-02T18:37:57+00:00"
-        },
-        {
-            "name": "ocramius/package-versions",
-            "version": "2.1.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/Ocramius/PackageVersions.git",
-                "reference": "1478d1a6e167d9250f6c41d75bee806b47bec4c3"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/Ocramius/PackageVersions/zipball/1478d1a6e167d9250f6c41d75bee806b47bec4c3",
-                "reference": "1478d1a6e167d9250f6c41d75bee806b47bec4c3",
-                "shasum": ""
-            },
-            "require": {
-                "composer-runtime-api": "^2.0.0",
-                "php": "^7.4.7 || ~8.0.0"
-            },
-            "replace": {
-                "composer/package-versions-deprecated": "*"
-            },
-            "require-dev": {
-                "composer/composer": "^2.0.0@dev",
-                "doctrine/coding-standard": "^8.1.0",
-                "ext-zip": "^1.15.0",
-                "infection/infection": "dev-master#8d6c4d6b15ec58d3190a78b7774a5d604ec1075a",
-                "phpunit/phpunit": "~9.3.11",
-                "vimeo/psalm": "^4.0.1"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "PackageVersions\\": "src/PackageVersions"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Marco Pivetta",
-                    "email": "ocramius@gmail.com"
-                }
-            ],
-            "description": "Provides efficient querying for installed package versions (no runtime IO)",
-            "support": {
-                "issues": "https://github.com/Ocramius/PackageVersions/issues",
-                "source": "https://github.com/Ocramius/PackageVersions/tree/2.1.1"
-            },
-            "funding": [
-                {
-                    "url": "https://github.com/Ocramius",
-                    "type": "github"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/ocramius/package-versions",
-                    "type": "tidelift"
-                }
-            ],
-            "time": "2022-03-05T17:58:25+00:00"
         },
         {
             "name": "overblog/graphiql-bundle",
@@ -8489,16 +8500,16 @@
         },
         {
             "name": "thecodingmachine/graphqlite",
-            "version": "v4.3.0",
+            "version": "v5.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thecodingmachine/graphqlite.git",
-                "reference": "65e082d9d101fc111b9484ff6ad5ff3f1b548099"
+                "reference": "21bc850eb24c056106f66a58137d2a1680dde801"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thecodingmachine/graphqlite/zipball/65e082d9d101fc111b9484ff6ad5ff3f1b548099",
-                "reference": "65e082d9d101fc111b9484ff6ad5ff3f1b548099",
+                "url": "https://api.github.com/repos/thecodingmachine/graphqlite/zipball/21bc850eb24c056106f66a58137d2a1680dde801",
+                "reference": "21bc850eb24c056106f66a58137d2a1680dde801",
                 "shasum": ""
             },
             "require": {
@@ -8519,7 +8530,7 @@
                 "thecodingmachine/cache-utils": "^1",
                 "thecodingmachine/class-explorer": "^1.1.0",
                 "webmozart/assert": "^1.10",
-                "webonyx/graphql-php": "^0.13.4"
+                "webonyx/graphql-php": "^v14.9.0"
             },
             "require-dev": {
                 "beberlei/porpaginas": "^1.2",
@@ -8542,7 +8553,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "4.2.x-dev"
+                    "dev-master": "5.0.x-dev"
                 }
             },
             "autoload": {
@@ -8563,27 +8574,26 @@
             "description": "Write your GraphQL queries in simple to write controllers (using webonyx/graphql-php).",
             "support": {
                 "issues": "https://github.com/thecodingmachine/graphqlite/issues",
-                "source": "https://github.com/thecodingmachine/graphqlite/tree/v4.3.0"
+                "source": "https://github.com/thecodingmachine/graphqlite/tree/v5.0.2"
             },
-            "time": "2021-08-31T09:23:59+00:00"
+            "time": "2021-11-13T20:17:35+00:00"
         },
         {
             "name": "thecodingmachine/graphqlite-bundle",
-            "version": "v4.1.4",
+            "version": "v5.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thecodingmachine/graphqlite-bundle.git",
-                "reference": "3afc2eea90d1ae94d29e748b520866a8e019cb95"
+                "reference": "b7682aa13ccec13f8eb0073b8ed89f7a757d831f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thecodingmachine/graphqlite-bundle/zipball/3afc2eea90d1ae94d29e748b520866a8e019cb95",
-                "reference": "3afc2eea90d1ae94d29e748b520866a8e019cb95",
+                "url": "https://api.github.com/repos/thecodingmachine/graphqlite-bundle/zipball/b7682aa13ccec13f8eb0073b8ed89f7a757d831f",
+                "reference": "b7682aa13ccec13f8eb0073b8ed89f7a757d831f",
                 "shasum": ""
             },
             "require": {
-                "doctrine/annotations": "^1.10.4",
-                "doctrine/cache": "^1.8",
+                "doctrine/annotations": "^1.13",
                 "ext-json": "*",
                 "laminas/laminas-diactoros": "^2.2.2",
                 "nyholm/psr7": "^1.1",
@@ -8595,8 +8605,8 @@
                 "symfony/translation": "^4.2 || ^5",
                 "symfony/validator": "^4.2 || ^5",
                 "thecodingmachine/cache-utils": "^1",
-                "thecodingmachine/graphqlite": "^4.1.2",
-                "thecodingmachine/graphqlite-symfony-validator-bridge": "^4.1"
+                "thecodingmachine/graphqlite": "^5.0",
+                "thecodingmachine/graphqlite-symfony-validator-bridge": "^5.0"
             },
             "conflict": {
                 "mouf/classname-mapper": "<1.0.2",
@@ -8622,12 +8632,12 @@
             "type": "symfony-bundle",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "4.1.x-dev"
+                    "dev-master": "5.0.x-dev"
                 }
             },
             "autoload": {
                 "psr-4": {
-                    "TheCodingMachine\\Graphqlite\\Bundle\\": ""
+                    "TheCodingMachine\\GraphQLite\\Bundle\\": ""
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -8650,32 +8660,32 @@
             ],
             "support": {
                 "issues": "https://github.com/thecodingmachine/graphqlite-bundle/issues",
-                "source": "https://github.com/thecodingmachine/graphqlite-bundle/tree/v4.1.4"
+                "source": "https://github.com/thecodingmachine/graphqlite-bundle/tree/v5.0.0"
             },
-            "time": "2021-06-22T08:26:43+00:00"
+            "time": "2021-11-09T14:07:36+00:00"
         },
         {
             "name": "thecodingmachine/graphqlite-symfony-validator-bridge",
-            "version": "v4.1.0",
+            "version": "v5.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thecodingmachine/graphqlite-symfony-validator-bridge.git",
-                "reference": "ae2c741c6224b36ca4642822601e2efa6376fe9c"
+                "reference": "a2a9ae187d5069f8b4cfff3d250ede7e61fa3d95"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thecodingmachine/graphqlite-symfony-validator-bridge/zipball/ae2c741c6224b36ca4642822601e2efa6376fe9c",
-                "reference": "ae2c741c6224b36ca4642822601e2efa6376fe9c",
+                "url": "https://api.github.com/repos/thecodingmachine/graphqlite-symfony-validator-bridge/zipball/a2a9ae187d5069f8b4cfff3d250ede7e61fa3d95",
+                "reference": "a2a9ae187d5069f8b4cfff3d250ede7e61fa3d95",
                 "shasum": ""
             },
             "require": {
                 "doctrine/annotations": "^1.6",
                 "php": ">=7.2",
-                "symfony/validator": "^4 | ^5",
-                "thecodingmachine/graphqlite": "^4.1"
+                "symfony/validator": "^4.2 | ^5",
+                "thecodingmachine/graphqlite": "^5.0"
             },
             "require-dev": {
-                "doctrine/coding-standard": "^7.0",
+                "doctrine/coding-standard": "^9.0",
                 "mouf/picotainer": "^1.1",
                 "php-coveralls/php-coveralls": "^2.1.0",
                 "phpstan/phpstan": "^0.12.14",
@@ -8685,12 +8695,12 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "4.1.x-dev"
+                    "dev-master": "5.0.x-dev"
                 }
             },
             "autoload": {
                 "psr-4": {
-                    "TheCodingMachine\\Graphqlite\\Validator\\": "src/"
+                    "TheCodingMachine\\GraphQLite\\Validator\\": "src/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -8714,9 +8724,9 @@
             ],
             "support": {
                 "issues": "https://github.com/thecodingmachine/graphqlite-symfony-validator-bridge/issues",
-                "source": "https://github.com/thecodingmachine/graphqlite-symfony-validator-bridge/tree/v4.1.0"
+                "source": "https://github.com/thecodingmachine/graphqlite-symfony-validator-bridge/tree/v5.0.0"
             },
-            "time": "2020-10-07T15:00:10+00:00"
+            "time": "2021-10-29T10:54:36+00:00"
         },
         {
             "name": "twig/twig",
@@ -8854,33 +8864,37 @@
         },
         {
             "name": "webonyx/graphql-php",
-            "version": "v0.13.9",
+            "version": "v14.11.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/webonyx/graphql-php.git",
-                "reference": "d9a94fddcad0a35d4bced212b8a44ad1bc59bdf3"
+                "reference": "6070542725b61fc7d0654a8a9855303e5e157434"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/webonyx/graphql-php/zipball/d9a94fddcad0a35d4bced212b8a44ad1bc59bdf3",
-                "reference": "d9a94fddcad0a35d4bced212b8a44ad1bc59bdf3",
+                "url": "https://api.github.com/repos/webonyx/graphql-php/zipball/6070542725b61fc7d0654a8a9855303e5e157434",
+                "reference": "6070542725b61fc7d0654a8a9855303e5e157434",
                 "shasum": ""
             },
             "require": {
                 "ext-json": "*",
                 "ext-mbstring": "*",
-                "php": "^7.1||^8.0"
+                "php": "^7.1 || ^8"
             },
             "require-dev": {
+                "amphp/amp": "^2.3",
                 "doctrine/coding-standard": "^6.0",
-                "phpbench/phpbench": "^0.14.0",
-                "phpstan/phpstan": "^0.11.4",
-                "phpstan/phpstan-phpunit": "^0.11.0",
-                "phpstan/phpstan-strict-rules": "^0.11.0",
-                "phpunit/phpcov": "^5.0",
-                "phpunit/phpunit": "^7.2",
+                "nyholm/psr7": "^1.2",
+                "phpbench/phpbench": "^1.2",
+                "phpstan/extension-installer": "^1.0",
+                "phpstan/phpstan": "0.12.82",
+                "phpstan/phpstan-phpunit": "0.12.18",
+                "phpstan/phpstan-strict-rules": "0.12.9",
+                "phpunit/phpunit": "^7.2 || ^8.5",
                 "psr/http-message": "^1.0",
-                "react/promise": "2.*"
+                "react/promise": "2.*",
+                "simpod/php-coveralls-mirror": "^3.0",
+                "squizlabs/php_codesniffer": "3.5.4"
             },
             "suggest": {
                 "psr/http-message": "To use standard GraphQL server",
@@ -8904,7 +8918,7 @@
             ],
             "support": {
                 "issues": "https://github.com/webonyx/graphql-php/issues",
-                "source": "https://github.com/webonyx/graphql-php/tree/0.13.x"
+                "source": "https://github.com/webonyx/graphql-php/tree/v14.11.6"
             },
             "funding": [
                 {
@@ -8912,7 +8926,7 @@
                     "type": "open_collective"
                 }
             ],
-            "time": "2020-07-02T05:49:25+00:00"
+            "time": "2022-04-13T16:25:32+00:00"
         }
     ],
     "packages-dev": [

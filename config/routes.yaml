@@ -3,4 +3,4 @@
 #    controller: App\Controller\DefaultController::index
 # Add these 2 lines to config/routes.yaml
 graphqlite_bundle:
-  resource: '@GraphqliteBundle/Resources/config/routes.xml'
+  resource: '@GraphQLiteBundle/Resources/config/routes.xml'

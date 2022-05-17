@@ -33,6 +33,10 @@ services:
             $library_id: '%env(string:LIBKEY_ID)%'
             string $crossref_mailto: '%env(string:CROSSREF_MAILTO)%'
             $shib_idp: '%env(string:SHIB_IDP)%'
+            $website_index_name: '%env(string:WEBSITE_INDEX_NAME)%'
+            int $crawl_delay: 10
+            $libguides_site_id: '%env(string:LIBGUIDES_SITE_ID)%'
+            $libguides_api_key: '%env(string:LIBGUIDES_APIKEY)%'
 
 
     # makes classes in src/ available to be used as services

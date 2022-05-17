@@ -36,27 +36,30 @@ class Index
 
     public function addAlias(string $new_index_name)
     {
-        $alias = $this->website_index_name;
-
         // Remove the old alias if there is one.
-        $old_index = $this->getIndexName($alias);
+        $old_index = $this->getIndexName();
         if ($old_index) {
-            $this->elasticsearch->indices()->deleteAlias(['name' => $alias, 'index' => $old_index]);
+            $this->elasticsearch->indices()->deleteAlias(['name' => $this->website_index_name, 'index' => $old_index]);
         }
 
         // Update the website alias to the new index.
-        $this->elasticsearch->indices()->putAlias(['index' => $new_index_name, 'name' => $alias]);
+        $this->elasticsearch->indices()->putAlias(['index' => $new_index_name, 'name' => $this->website_index_name]);
     }
 
-    public function getIndexName(string $alias): string
+    public function getIndexName(): string
     {
         try {
-            $response = $this->elasticsearch->indices()->getAlias(['name' => $alias]);
+            $response = $this->elasticsearch->indices()->getAlias(['name' => $this->website_index_name]);
             $indexes = array_keys($response);
             return $indexes[0] ?? '';
         } catch (\Exception $e) {
             return '';
         }
+    }
+
+    public function setIndexName(string $name)
+    {
+        $this->website_index_name = $name;
     }
 
     /**

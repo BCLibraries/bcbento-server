@@ -6,15 +6,13 @@ use App\Indexer\Website\Index;
 use App\Indexer\Website\Indexer;
 use App\Indexer\Website\LibGuidesClient;
 use App\Indexer\Website\WebCrawler;
-use Elasticsearch\Client;
-use \Elasticsearch\ClientBuilder;
 use \Symfony\Component\Console\Command\Command;
 use \Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use \Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
-class IndexCommand extends Command
+class IndexWebsiteCommand extends Command
 {
     protected static $defaultName = 'website:index';
     private const SUCCESS = 0;
@@ -31,11 +29,30 @@ class IndexCommand extends Command
         $this->crawler = $crawler;
     }
 
+    /**
+     * Add more options and whatnot
+     *
+     * @return void
+     */
+    protected function configure(): void
+    {
+        $this->setDescription('Index the website, including LibGuides')
+            ->addOption('all', 'a', InputOption::VALUE_NONE, 'Reindex all guides instead of only updated guides')
+            ->addOption('index-name', null, InputOption::VALUE_REQUIRED, 'Name for the index, if not website')
+            ->setHelp('This command crawls and reindexes the Libraries web site (i.e. LibGuides). By default it only indexes pages updated since the last indexing run.');
+    }
+
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $styled_out = new SymfonyStyle($input, $output);
 
         try {
+            if ($input->getOption('index-name')) {
+                $index_name = $input->getOption('index-name');
+                $this->index->setIndexName($index_name);
+                $styled_out->writeln("Indexing to {$index_name}");
+            }
+
             $indexer = new Indexer($this->index, $this->libguides, $this->crawler, $output);
 
             if ($input->getOption('all')) {
@@ -52,18 +69,6 @@ class IndexCommand extends Command
             return self::FAILURE;
         }
 
-    }
-
-    /**
-     * Add more options and whatnot
-     *
-     * @return void
-     */
-    protected function configure(): void
-    {
-        $this->setDescription('Index the website, including LibGuides')
-            ->addOption('all', 'a', InputOption::VALUE_NONE, 'Reindex all guides instead of only updated guides')
-            ->setHelp('This command crawls and reindexes the Libraries web site (i.e. LibGuides). By default it only indexes pages updated since the last indexing run.');
     }
 
     /**

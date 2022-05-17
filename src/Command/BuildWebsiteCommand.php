@@ -8,7 +8,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
-class BuildCommand extends \Symfony\Component\Console\Command\Command
+class BuildWebsiteCommand extends \Symfony\Component\Console\Command\Command
 {
     protected static $defaultName = 'website:build';
     private Index $index;

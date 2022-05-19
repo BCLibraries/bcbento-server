@@ -106,9 +106,11 @@ class VideoThumbService
         }
 
         // Wait for outstanding requests to be settled and add the values to cache.
-        $settled_promises = Promise\settle($this->promises)->wait();
+        $settled_promises = \GuzzleHttp\Promise\Utils::settle($this->promises)->wait();
         foreach ($settled_promises as $id => $promise) {
-            $cache_items[$id]['cache_item']->set($promise['value']);
+            if (isset($promise['value'])) {
+                $cache_items[$id]['cache_item']->set($promise['value']);
+            }
 
             // All images should expire after one month. Also tag thumbnail caches
             // in case we need to expire them earlier.

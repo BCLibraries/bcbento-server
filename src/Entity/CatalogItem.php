@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Service\LoanMonitor\Availability;
 use BCLib\LibKeyClient\LibKeyResponse;
 use BCLib\PrimoClient\Doc;
 use BCLib\PrimoClient\Link;
@@ -25,6 +26,9 @@ class CatalogItem extends Doc
 
     /** @var string|null */
     protected $hathitrust_url;
+
+    /** @var Availability|null */
+    protected $availability;
 
     /**
      * CatalogItem constructor
@@ -135,4 +139,16 @@ class CatalogItem extends Doc
         return $this;
     }
 
+    /**
+     * @Field()
+     */
+    public function getAvailability(): ?Availability
+    {
+        return $this->availability;
+    }
+
+    public function setAvailability(?Availability $availability): void
+    {
+        $this->availability = $availability;
+    }
 }

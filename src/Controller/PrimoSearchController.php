@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\CatalogSearchResponse;
 use App\Service\HathiTrust\HathiClient;
 use App\Service\LibKeyService;
+use App\Service\LoanMonitor\LoanMonitorClient;
 use App\Service\PrimoSearch;
 use TheCodingMachine\GraphQLite\Annotations\Query;
 
@@ -33,11 +34,17 @@ class PrimoSearchController
      */
     private $hathi;
 
-    public function __construct(PrimoSearch $primo_search, LibKeyService $libkey, HathiClient $hathi)
+    private LoanMonitorClient $loan_monitor;
+
+    public function __construct(PrimoSearch       $primo_search,
+                                LibKeyService     $libkey,
+                                HathiClient       $hathi,
+                                LoanMonitorClient $loan_monitor)
     {
         $this->primo_search = $primo_search;
         $this->libkey = $libkey;
         $this->hathi = $hathi;
+        $this->loan_monitor = $loan_monitor;
     }
 
     /**
@@ -53,6 +60,7 @@ class PrimoSearchController
         } catch (\Exception $e) {
 
         }
+        $this->addRealTimeAvailability($result);
         return $result;
     }
 
@@ -91,7 +99,34 @@ class PrimoSearchController
      */
     public function searchVideo(string $keyword, int $limit = 3): CatalogSearchResponse
     {
-        return $this->primo_search->searchVideo($keyword, $limit);
+        $result = $this->primo_search->searchVideo($keyword, $limit);
+        $this->addRealTimeAvailability($result);
+        return $result;
+    }
+
+    private function addRealTimeAvailability(CatalogSearchResponse $response)
+    {
+
+        $all_mms = [];
+
+        $physical_docs = array_filter($response->getDocs(), function ($doc) {
+            return $doc->isPhysical();
+        });
+
+        foreach ($physical_docs as $doc) {
+            $all_mms = array_merge($all_mms, $doc->pnx('search', 'addsrcrecordid'));
+        }
+
+        if (count($all_mms) === 0) {
+            return;
+        }
+
+        $lon_mon_result = $this->loan_monitor->fetch($all_mms);
+
+        foreach ($response->getDocs() as $doc) {
+            $mmses = $doc->pnx('search', 'addsrcrecordid');
+            $doc->setAvailability($lon_mon_result->bestAvailability($mmses));
+        }
     }
 
 }

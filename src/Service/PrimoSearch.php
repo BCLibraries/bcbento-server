@@ -3,6 +3,7 @@
 namespace App\Service;
 
 use App\Entity\CatalogSearchResponse;
+use App\Service\LoanMonitor\LoanMonitorClient;
 use BCLib\PrimoClient\ApiClient;
 use BCLib\PrimoClient\Doc;
 use BCLib\PrimoClient\Exceptions\BadAPIResponseException;
@@ -77,34 +78,36 @@ class PrimoSearch implements LoggerAwareInterface
      * Maps types from PNX records to display names
      */
     private const TYPE_MAP = [
-        'book' => 'Book',
-        'video' => 'Video',
-        'journal' => 'Journal',
+        'book'                => 'Book',
+        'video'               => 'Video',
+        'journal'             => 'Journal',
         'government_document' => 'Government document',
-        'database' => 'Database',
-        'image' => 'Image',
-        'audio_music' => 'Musical recording',
-        'audio_other' => 'Audio',
-        'realia' => '',
-        'data' => 'Data',
-        'dissertation' => 'Thesis',
-        'article' => 'Article',
-        'review' => 'Review',
-        'reference_entry' => 'Reference entry',
-        'newspaper_article' => 'Newspaper article',
-        'other' => ''
+        'database'            => 'Database',
+        'image'               => 'Image',
+        'audio_music'         => 'Musical recording',
+        'audio_other'         => 'Audio',
+        'realia'              => '',
+        'data'                => 'Data',
+        'dissertation'        => 'Thesis',
+        'article'             => 'Article',
+        'review'              => 'Review',
+        'reference_entry'     => 'Reference entry',
+        'newspaper_article'   => 'Newspaper article',
+        'other'               => ''
     ];
 
     public function __construct(
-        QueryConfig $books_query_config,
-        QueryConfig $video_query_config,
-        QueryConfig $article_query_config,
-        QueryConfig $online_query_config,
-        ApiClient $client,
-        AlmaClient $alma,
+        QueryConfig       $books_query_config,
+        QueryConfig       $video_query_config,
+        QueryConfig       $article_query_config,
+        QueryConfig       $online_query_config,
+        ApiClient         $client,
+        AlmaClient        $alma,
         VideoThumbService $video_thumbs,
-        AdapterInterface $cache
-    ) {
+        AdapterInterface  $cache,
+        LoanMonitorClient $loan_monitor
+    )
+    {
         $this->books_query_config = $books_query_config;
         $this->video_query_config = $video_query_config;
         $this->article_query_config = $article_query_config;
@@ -246,16 +249,29 @@ class PrimoSearch implements LoggerAwareInterface
      */
     protected function updateRealTimeAvailability(SearchResponse $results): void
     {
-        /**
-         * @var $physical_docs Doc[]
-         */
         $physical_docs = array_filter($results->getDocs(), function (Doc $doc) {
             return $doc->isPhysical();
         });
 
+        $mmses = $this->getMMSIds($physical_docs);
+
+
         $holding_ids = $this->getHoldingIdsForRTA($physical_docs);
         $items = $this->alma->checkAvailability($holding_ids);
         $this->reconcileRealTimeAvailability($physical_docs, $items);
+    }
+
+    /**
+     * @param Doc[] $physical_docs
+     * @return string[]
+     */
+    protected function getMMSIds(array $physical_docs): array
+    {
+        $mmses = [];
+        foreach ($physical_docs as $doc) {
+            $mmses = array_merge($doc->pnx('display', 'lds11'), $mmses);
+        }
+        return $mmses;
     }
 
     /**
@@ -383,7 +399,8 @@ class PrimoSearch implements LoggerAwareInterface
         string $tab,
         string $scope,
         string $pcAvailability = null
-    ): string {
+    ): string
+    {
         $extra = isset($pcAvailability) ? '&pcAvailability=false' : '';
         $keyword = urlencode($keyword);
         return "https://bc-primo.hosted.exlibrisgroup.com/primo-explore/search?query=any,contains,$keyword&tab=$tab&search_scope=$scope&vid=bclib_new&lang=en_US&offset=0$extra";
@@ -433,11 +450,12 @@ class PrimoSearch implements LoggerAwareInterface
      * @throws GuzzleException
      */
     private function buildPrimoResult(
-        string $keyword,
-        int $limit,
+        string      $keyword,
+        int         $limit,
         QueryConfig $config,
-        bool $is_pci
-    ): CatalogSearchResponse {
+        bool        $is_pci
+    ): CatalogSearchResponse
+    {
         $result = $this->sendSearchQuery($keyword, $limit, $config);
 
 

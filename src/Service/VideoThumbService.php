@@ -175,8 +175,8 @@ class VideoThumbService
 
         // First try to get ID from custom PNX field.
         $pnx13 = $doc->pnx('search', 'lsr13');
-        if ($pnx13 && $pnx13[0]) {
-            return $this->filmsOnDemandUrl($pnx13[0]);
+        if ($pnx13 && count($pnx13) > 0) {
+            return $this->filmsOnDemandUrl(array_pop($pnx13));
         }
 
         // Next try to find it in links.

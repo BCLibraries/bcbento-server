@@ -101,7 +101,7 @@ class VideoThumbService
 
             $cache_items[$doc->id] = [
                 'cache_item' => $cache_item,
-                'video' => $doc
+                'video'      => $doc
             ];
         }
 
@@ -165,7 +165,7 @@ class VideoThumbService
      * @param Doc $doc
      * @return String|null
      */
-    private function getFilmsOnDemandCap(Doc $doc): ?String
+    private function getFilmsOnDemandCap(Doc $doc): ?string
     {
         $sources = $doc->pnx('display', 'lds30');
 
@@ -173,10 +173,13 @@ class VideoThumbService
             return null;
         }
 
-        // First try to get ID from custom PNX field.
+        // First try to get ID from custom PNX field. The field might have multiple IDs. The
+        // correct ID is usually the one without the 's' in it.
         $pnx13 = $doc->pnx('search', 'lsr13');
-        if ($pnx13 && count($pnx13) > 0) {
-            return $this->filmsOnDemandUrl(array_pop($pnx13));
+        foreach ($pnx13 as $id) {
+            if (!str_contains($id, 's')) {
+                return $this->filmsOnDemandUrl(array_pop($pnx13));
+            }
         }
 
         // Next try to find it in links.

@@ -6,6 +6,7 @@ use App\Indexer\Website\Index;
 use App\Indexer\Website\Indexer;
 use App\Indexer\Website\LibGuidesClient;
 use App\Indexer\Website\WebCrawler;
+use Elasticsearch\Client;
 use \Symfony\Component\Console\Command\Command;
 use \Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -17,16 +18,16 @@ class IndexWebsiteCommand extends Command
     protected static $defaultName = 'website:index';
     private const SUCCESS = 0;
     private const FAILURE = 1;
-    private Index $index;
     private LibGuidesClient $libguides;
     private WebCrawler $crawler;
+    private Client $elasticsearch;
 
-    public function __construct(Index $index, LibGuidesClient $libguides, WebCrawler $crawler)
+    public function __construct(Client $elasticsearch, LibGuidesClient $libguides, WebCrawler $crawler)
     {
         parent::__construct();
-        $this->index = $index;
         $this->libguides = $libguides;
         $this->crawler = $crawler;
+        $this->elasticsearch = $elasticsearch;
     }
 
     /**
@@ -47,13 +48,11 @@ class IndexWebsiteCommand extends Command
         $styled_out = new SymfonyStyle($input, $output);
 
         try {
-            if ($input->getOption('index-name')) {
-                $index_name = $input->getOption('index-name');
-                $this->index->setIndexName($index_name);
-                $styled_out->writeln("Indexing to {$index_name}");
-            }
+            $index_name = $input->getOption('index-name') ?: null;
+            $styled_out->writeln("Indexing to {$index_name}");
 
-            $indexer = new Indexer($this->index, $this->libguides, $this->crawler, $output);
+            $index = new Index($this->elasticsearch, $index_name);
+            $indexer = new Indexer($index, $this->libguides, $this->crawler, $output);
 
             if ($input->getOption('all')) {
                 $indexer->indexAllGuides();

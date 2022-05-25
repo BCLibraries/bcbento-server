@@ -48,7 +48,7 @@ class Indexer
     }
 
     /**
-     * Index a single guide
+     * Index some guides
      *
      * @param Guide[] $guides
      * @return void

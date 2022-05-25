@@ -13,10 +13,10 @@ class BuildWebsiteCommand extends \Symfony\Component\Console\Command\Command
     protected static $defaultName = 'website:build';
     private Index $index;
 
-    public function __construct(Index $index)
+    public function __construct(Index $elasticsearch)
     {
         parent::__construct();
-        $this->index = $index;
+        $this->index = $elasticsearch;
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)

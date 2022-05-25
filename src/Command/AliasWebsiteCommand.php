@@ -15,10 +15,10 @@ class AliasWebsiteCommand extends Command
     protected static $defaultName = 'website:alias';
     private Index $index;
 
-    public function __construct(Index $index)
+    public function __construct(Index $elasticsearch)
     {
         parent::__construct();
-        $this->index = $index;
+        $this->index = $elasticsearch;
     }
 
     /**

@@ -45,6 +45,19 @@ class Index extends \App\Indexer\Index
         return ($result['found'] > 0) ? Librarian::buildFromElasticSearch($result) : null;
     }
 
+    public function getAll(): \Generator
+    {
+        $params = [
+            'index' => self::ALIAS,
+            'from' => 0,
+            'size' => 1000
+        ];
+        $response = $this->elasticsearch->search($params);
+        foreach ($response['hits']['hits'] as $hit) {
+            yield Librarian::buildFromElasticSearch($hit);
+        }
+    }
+
     public function delete(Librarian $librarian)
     {
         $params = [

@@ -5,33 +5,33 @@ namespace App\Indexer\Librarians;
 class Librarian
 {
     private string $id;
-    private string $email;
+    private ?string $email;
     private string $first_name;
     private string $last_name;
-    private string $image;
-    private string $title;
+    private ?string $image;
+    private ?string $title;
 
     /** @var string[] */
-    private array $subjects;
+    private array $subjects = [];
 
     /** @var string[] */
-    private array $taxonomy;
+    private array $taxonomy = [];
 
     /** @var string[] */
-    private array $terms;
+    private array $terms = [];
 
     /**
      * @param string $id
-     * @param string $email
+     * @param ?string $email
      * @param string $first_name
      * @param string $last_name
-     * @param string $image
-     * @param string $title
+     * @param ?string $image
+     * @param ?string $title
      * @param string[] $subjects
      * @param string[] $taxonomy
      * @param string[] $terms
      */
-    public function __construct(string $id, string $email, string $first_name, string $last_name, string $image, string $title, array $subjects, array $taxonomy, array $terms)
+    public function __construct(string $id, ?string $email, string $first_name, string $last_name, ?string $image, ?string $title, ?array $subjects, ?array $taxonomy, ?array $terms)
     {
         $this->id = $id;
         $this->email = $email;
@@ -39,9 +39,9 @@ class Librarian
         $this->last_name = $last_name;
         $this->image = $image;
         $this->title = $title;
-        $this->subjects = $subjects;
-        $this->taxonomy = $taxonomy;
-        $this->terms = $terms;
+        $this->subjects = $subjects ?? [];
+        $this->taxonomy = $taxonomy ?? [];
+        $this->terms = $terms ?? [];
     }
 
     /**
@@ -52,13 +52,15 @@ class Librarian
      */
     public static function buildFromElasticSearch(array $json): Librarian
     {
+
+
         return new Librarian(
             $json['_id'],
-            $json['_source']['email'],
+            $json['_source']['email'] ?? null,
             $json['_source']['first_name'],
             $json['_source']['last_name'],
-            $json['_source']['image'],
-            $json['_source']['title'],
+            $json['_source']['image'] ?? null,
+            $json['_source']['title'] ?? null,
             $json['_source']['subjects'],
             $json['_source']['taxonomy'],
             $json['_source']['terms']
@@ -70,7 +72,7 @@ class Librarian
         return $this->id;
     }
 
-    public function getEmail(): string
+    public function getEmail(): ?string
     {
         return $this->email;
     }
@@ -85,12 +87,12 @@ class Librarian
         return $this->last_name;
     }
 
-    public function getImage(): string
+    public function getImage(): ?string
     {
         return $this->image;
     }
 
-    public function getTitle(): string
+    public function getTitle(): ?string
     {
         return $this->title;
     }

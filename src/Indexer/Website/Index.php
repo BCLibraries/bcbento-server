@@ -52,7 +52,6 @@ class Index extends \App\Indexer\Index
     public function update($single_item): void
     {
         $guide = $single_item->getGuide();
-        echo "INDEXING TO {$this->index_name}\n";
         $params = [
             'index' => $this->index_name,
             'id'    => $single_item->getId(),

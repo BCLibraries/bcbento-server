@@ -7,6 +7,7 @@ use App\Service\HathiTrust\HathiClient;
 use App\Service\LibKeyService;
 use App\Service\LoanMonitor\LoanMonitorClient;
 use App\Service\PrimoSearch;
+use PHPUnit\Exception;
 use TheCodingMachine\GraphQLite\Annotations\Query;
 
 /**
@@ -121,11 +122,15 @@ class PrimoSearchController
             return;
         }
 
-        $lon_mon_result = $this->loan_monitor->fetch($all_mms);
+        try {
+            $lon_mon_result = $this->loan_monitor->fetch($all_mms);
 
-        foreach ($response->getDocs() as $doc) {
-            $mmses = $doc->pnx('search', 'addsrcrecordid');
-            $doc->setAvailability($lon_mon_result->bestAvailability($mmses));
+            foreach ($response->getDocs() as $doc) {
+                $mmses = $doc->pnx('search', 'addsrcrecordid');
+                $doc->setAvailability($lon_mon_result->bestAvailability($mmses));
+            }
+        } catch (\Exception $exception) {
+            // DO NOTHING
         }
     }
 

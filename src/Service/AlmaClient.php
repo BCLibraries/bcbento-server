@@ -5,6 +5,7 @@ namespace App\Service;
 use BCLib\PrimoClient\Item;
 use Generator;
 use GuzzleHttp\Client;
+use PHPUnit\Exception;
 use SimpleXMLElement;
 
 /**
@@ -59,27 +60,32 @@ class AlmaClient implements AvailabilityClient
      */
     public function checkAvailability(array $holding_ids): array
     {
-        // Build a URL to request all holdings and fetch it.
-        $holding_ids = array_map([$this, 'cleanHoldingId'], $holding_ids);
-        $url = $this->buildUrl($holding_ids);
-        $response = $this->client->get($url)->getBody()->getContents();
-        $xml = simplexml_load_string($response);
+        return [];
+        try {
+            // Build a URL to request all holdings and fetch it.
+            $holding_ids = array_map([$this, 'cleanHoldingId'], $holding_ids);
+            $url = $this->buildUrl($holding_ids);
+            $response = $this->client->get($url)->getBody()->getContents();
+            $xml = simplexml_load_string($response);
 
-        $all_items = [];
-        foreach ($this->readAvailability($xml) as $key => $items) {
+            $all_items = [];
+            foreach ($this->readAvailability($xml) as $key => $items) {
 
-            /** @var $item Item */
-            foreach ($items as $item) {
-                $item->setHoldingId($key);
-                $array_key = '01BC_INST' . $item->getHoldingId();
-                if (!isset($all_items[$array_key])) {
-                    $all_items[$array_key] = [];
+                /** @var $item Item */
+                foreach ($items as $item) {
+                    $item->setHoldingId($key);
+                    $array_key = '01BC_INST' . $item->getHoldingId();
+                    if (!isset($all_items[$array_key])) {
+                        $all_items[$array_key] = [];
+                    }
+                    $all_items[$array_key][] = $item;
                 }
-                $all_items[$array_key][] = $item;
-            }
 
+            }
+            return $all_items;
+        } catch (\Exception $e) {
+            return [];
         }
-        return $all_items;
     }
 
     /**

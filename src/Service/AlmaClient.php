@@ -60,7 +60,6 @@ class AlmaClient implements AvailabilityClient
      */
     public function checkAvailability(array $holding_ids): array
     {
-        return [];
         try {
             // Build a URL to request all holdings and fetch it.
             $holding_ids = array_map([$this, 'cleanHoldingId'], $holding_ids);
@@ -83,7 +82,7 @@ class AlmaClient implements AvailabilityClient
 
             }
             return $all_items;
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             return [];
         }
     }

@@ -174,14 +174,15 @@ class CatalogItem extends Doc
     /**
      * Get an ID you can build a link to primo with
      *
-     * Primo links are built using the first source record ID. We can get the full source record
-     * ID (with the source ID) from the keys of any array field of the PNX record.
+     * Primo links are built using the first source record ID. For most records, this is the same as the
+     * regular ID. For records with more than one source record (i.e. deduplicated records), we'll take
+     * the first source record ID.
      *
      * @Field()
      */
     public function getLinkableId(): string
     {
         $source_records = $this->getSourceRecordIds();
-        return array_key_first($source_records);
+        return count($source_records) > 1 ? array_key_first($source_records) : $this->id;
     }
 }

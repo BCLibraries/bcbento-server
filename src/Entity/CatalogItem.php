@@ -6,6 +6,7 @@ use App\Service\LoanMonitor\Availability;
 use BCLib\LibKeyClient\LibKeyResponse;
 use BCLib\PrimoClient\Doc;
 use BCLib\PrimoClient\Link;
+use Symfony\Component\Cache\Adapter\ArrayAdapter;
 use TheCodingMachine\GraphQLite\Annotations\Field;
 use TheCodingMachine\GraphQLite\Annotations\Type;
 
@@ -150,5 +151,37 @@ class CatalogItem extends Doc
     public function setAvailability(?Availability $availability): void
     {
         $this->availability = $availability;
+    }
+
+    /**
+     * @Field()
+     * @return string[]
+     */
+    public function getSourceIds(): array
+    {
+        return $this->pnx('control', 'sourceid');
+    }
+
+    /**
+     * @Field()
+     * @return string[]
+     */
+    public function getSourceRecordIds(): array
+    {
+        return $this->pnx('control', 'sourcerecordid');
+    }
+
+    /**
+     * Get an ID you can build a link to primo with
+     *
+     * Primo links are built using the first source record ID. We can get the full source record
+     * ID (with the source ID) from the keys of any array field of the PNX record.
+     *
+     * @Field()
+     */
+    public function getLinkableId(): string
+    {
+        $source_records = $this->getSourceRecordIds();
+        return array_key_first($source_records);
     }
 }

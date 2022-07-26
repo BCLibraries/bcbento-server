@@ -136,7 +136,8 @@ class PrimoSearch implements LoggerAwareInterface
     public function searchFullCatalog(string $keyword, int $limit): CatalogSearchResponse
     {
         $result = $this->search($keyword, $limit + 1, $this->books_query_config, false);
-        $result->setSearchUrl($this->buildPrimoSearchUrl($keyword, 'bcl_only', 'bcl'));
+        $search_url = $this->buildPrimoSearchUrl($keyword, 'bcl_only', 'bcl');
+        $result->setSearchUrl($search_url);
         $hacked_docs = PrimoResultHacks::runHacks($result->getDocs());
         $result->setDocs(array_slice($hacked_docs, 0, $limit));
         return $result;
@@ -155,7 +156,8 @@ class PrimoSearch implements LoggerAwareInterface
     public function searchOnlineResources(string $keyword, int $limit): CatalogSearchResponse
     {
         $result = $this->search($keyword, $limit + 1, $this->online_query_config, false);
-        $result->setSearchUrl($this->buildPrimoSearchUrl($keyword, 'online', 'online'));
+        $search_url = $this->buildPrimoSearchUrl($keyword, 'online', 'online');
+        $result->setSearchUrl($search_url);
         $hacked_docs = PrimoResultHacks::runHacks($result->getDocs());
         $result->setDocs(array_slice($hacked_docs, 0, $limit));
         return $result;
@@ -174,7 +176,8 @@ class PrimoSearch implements LoggerAwareInterface
     public function searchVideo(string $keyword, int $limit): CatalogSearchResponse
     {
         $result = $this->search($keyword, $limit, $this->video_query_config, false);
-        $result->setSearchUrl($this->buildPrimoSearchUrl($keyword, 'video', 'VIDEO'));
+        $search_url = $this->buildPrimoSearchUrl($keyword, 'video', 'VIDEO');
+        $result->setSearchUrl($search_url);
         return $result;
     }
 
@@ -191,7 +194,8 @@ class PrimoSearch implements LoggerAwareInterface
     public function searchArticle(string $keyword, int $limit): CatalogSearchResponse
     {
         $result = $this->search($keyword, $limit, $this->article_query_config, true);
-        $result->setSearchUrl($this->buildPrimoSearchUrl($keyword, 'pci_only', 'pci', 'false'));
+        $search_url = $this->buildPrimoSearchUrl($keyword, 'pci_only', 'pci', 'false');
+        $result->setSearchUrl($search_url);
         return $result;
     }
 
@@ -390,7 +394,9 @@ class PrimoSearch implements LoggerAwareInterface
             $request->pcAvailability(false);
         }
 
-        $json = $this->client->get($request->url());
+        $query_url = $request->url();
+        $this->logger->info("sending Primo query: $query_url");
+        $json = $this->client->get($query_url);
         return new CatalogSearchResponse(SearchTranslator::translate($json));
     }
 
@@ -404,7 +410,6 @@ class PrimoSearch implements LoggerAwareInterface
         $extra = isset($pcAvailability) ? '&pcAvailability=false' : '';
         $keyword = urlencode($keyword);
         return "https://bc-primo.hosted.exlibrisgroup.com/primo-explore/search?query=any,contains,$keyword&tab=$tab&search_scope=$scope&vid=bclib_new&lang=en_US&offset=0$extra";
-
     }
 
     /**

@@ -16,8 +16,8 @@ class CopyLibrariansCommand extends Command
 {
     protected static $defaultName = 'librarians:copy';
 
-    private const SUCCESS = 0;
-    private const FAILURE = 1;
+    public const SUCCESS = 0;
+    public const FAILURE = 1;
     private Client $elasticsearch;
 
     public function __construct(Client $elasticsearch)

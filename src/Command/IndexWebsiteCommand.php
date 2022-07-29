@@ -16,8 +16,8 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 class IndexWebsiteCommand extends Command
 {
     protected static $defaultName = 'website:index';
-    private const SUCCESS = 0;
-    private const FAILURE = 1;
+    public const SUCCESS = 0;
+    public const FAILURE = 1;
     private LibGuidesClient $libguides;
     private WebCrawler $crawler;
     private Client $elasticsearch;

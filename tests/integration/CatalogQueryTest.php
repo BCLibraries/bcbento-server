@@ -29,6 +29,7 @@ class CatalogQueryTest extends TestCase
             $query = QueryBuilder::buildCatalogQuery('otters');
             self::$client = new Client('http://localhost:8000/graphql');
             self::$results = self::$client->runRawQuery($query)->getData()->searchCatalog;
+            sleep(1);
             self::$query_has_been_run = true;
         }
     }
@@ -117,6 +118,39 @@ class CatalogQueryTest extends TestCase
     public function testDidUMeanWorks()
     {
         $results = self::$client->runRawQuery(QueryBuilder::buildCatalogQuery('ottters'))->getData();
+        sleep(1);
         $this->assertEquals('otters', $results->searchCatalog->didUMean);
+    }
+
+    public function testAvailabilityHasCorrectResults()
+    {
+        $results = self::$client->runRawQuery(QueryBuilder::buildCatalogQuery('99137658835101021'))->getData();
+        sleep(1);
+        $availability = $results->searchCatalog->docs[0]->availability;
+        $this->assertEquals('Educational Resource Center', $availability->libraryName);
+        $this->assertEquals('Stacks', $availability->locationName);
+        $this->assertEquals('PZ7.K281346 Do 2008', $availability->callNumber);
+        $this->assertEquals(1, $availability->totalCount);
+        $this->assertFalse($availability->otherAvailabilities);
+    }
+
+    public function testContributorsHasReasonableResults()
+    {
+        $results = self::$client->runRawQuery(QueryBuilder::buildCatalogQuery('99137658835101021'))->getData();
+        sleep(1);
+        $contributors = $results->searchCatalog->docs[0]->contributors;
+        $expected = [
+            'Galen Fott',
+            'Diana Canova',
+            'David De Vries 1958-',
+            'Jack Sundrud',
+            'Rusty Young',
+            'Paul R. Gagne 1956-',
+            'Melissa Reilly Ellard',
+            'Laurie Keller',
+            'Scholastic Inc',
+            'Weston Woods Studios'
+        ];
+        $this->assertEquals($expected, $contributors);
     }
 }

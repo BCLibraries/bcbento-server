@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use JetBrains\PhpStorm\ArrayShape;
 use JsonSerializable;
 
 /**
@@ -35,7 +36,7 @@ class TypeaheadEntry implements JsonSerializable
         return $this->type;
     }
 
-    public function jsonSerialize()
+    public function jsonSerialize(): array
     {
         return [
             'value' => $this->value,

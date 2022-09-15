@@ -37,7 +37,7 @@ class RunTestQueriesCommand extends Command
             $styled_out->error("$url is not  valid GraphQL server URL");
         }
         $client = new Client($input->getArgument('url'));
-        $result = $client->runRawQuery(QueryBuilder::buildCatalogQuery('jstor'));
+        $result = $client->runQuery(QueryBuilder::buildCatalogQuery('jstor'));
         var_dump($result->getData());
         return self::SUCCESS;
     }

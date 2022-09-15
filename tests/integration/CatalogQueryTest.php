@@ -15,11 +15,6 @@ class CatalogQueryTest extends TestCase
     protected static Client $client;
     protected static bool $query_has_been_run = false;
 
-    public function __construct($name = null, array $data = [], $dataName = '')
-    {
-        parent::__construct($name, $data, $dataName);
-    }
-
     public function setUp(): void
     {
         parent::setUp();

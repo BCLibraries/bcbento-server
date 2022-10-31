@@ -40,9 +40,7 @@ class Index extends \App\Indexer\Index
             throw new \Exception("No records found in index {$this->index_name}");
         }
 
-        $datetime_string = $results['hits']['hits'][0]['_source']['updated'];
-        return new \DateTime($datetime_string);
-    }
+cc
 
     /**
      * Create or update a single page

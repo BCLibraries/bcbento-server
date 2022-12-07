@@ -116,7 +116,7 @@ class PrimoSearch implements LoggerAwareInterface
 
         $this->cache = new TagAwareAdapter($cache);
 
-        // Save thumnail service and add providers we need.
+        // Save thumbnail service and add providers we need.
         $this->video_thumbs = $video_thumbs;
         $this->video_thumbs->addProvider(new MediciTVScreencapProvider(new Client()));
         $this->video_thumbs->addProvider(new MetOnDemandScreencapProvider(new Client()));

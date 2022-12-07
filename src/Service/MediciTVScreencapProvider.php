@@ -33,13 +33,14 @@ class MediciTVScreencapProvider implements ScreencapProvider
     /**
      * Is a doc from this service?
      *
-     * Returns true if a screencap could be grabbed from this service.
+     * Returns true if a screencap can be grabbed for a Doc using the Medici TV rules.
      *
      * @param Doc $doc
      * @return bool
      */
     public function test(Doc $doc): bool
     {
+        // Look in the lln03 field of the Primo record
         $links = $doc->getLinks();
 
         if (! isset($links['lln03'])) {
@@ -64,6 +65,8 @@ class MediciTVScreencapProvider implements ScreencapProvider
      */
     public function getScreenCap(Doc $doc): PromiseInterface
     {
+        // Fetch the Medici TV page and look for OpenGraph image metadata containing
+        // a screencap URL.
         $link = $doc->getLinks()['lln03'][0]->getUrl();
         return $this->guzzle->getAsync($link, ['allow_redirects' => true])->then(
             function (ResponseInterface $response) use ($doc) {

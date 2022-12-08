@@ -6,11 +6,16 @@ use App\Testing\QueryBuilder;
 use GraphQL\Client;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * Run a set of random queries against the server
+ *
+ *
+ */
 class RandomQueriesTest extends TestCase
 {
     private const QUERY_STRING_FILE = __DIR__ . '/search-terms.csv';
     private const NUM_TOP_QUERIES_TO_TEST = 100;
-    private const NUM_RANDOM_QUERIES_TO_TEST = 100;
+    private const NUM_RANDOM_QUERIES_TO_TEST = 5;
     private const SECONDS_BETWEEN_QUERIES = 1;
 
     private Client $client;
@@ -22,6 +27,8 @@ class RandomQueriesTest extends TestCase
     }
 
     /**
+     * Query a search term and make sure it doesn't fail or return gibberish
+     *
      * @dataProvider queryProvider
      * @testdox Sent $type term "$term" successfully
      */
@@ -53,6 +60,8 @@ class RandomQueriesTest extends TestCase
             ''
         ];
 
+        $this->assertNotEmpty($result->docs);
+
         foreach ($result->docs as $doc) {
             $this->assertIsString($doc->title);
             $this->assertObjectHasAttribute('creator', $doc);
@@ -79,11 +88,17 @@ class RandomQueriesTest extends TestCase
         }
     }
 
+    /**
+     * Build a randomized array of search terms to test
+     *
+     * @return array
+     */
     private function queryProvider(): array
     {
         $weighted_queries = [];
         $return_queries = [];
 
+        // Open the CSV file and read the contents.
         if (($handle = fopen(self::QUERY_STRING_FILE, 'r')) !== FALSE) {
             fgetcsv($handle, 1000, ","); // Skip the header line
             $row = 0;
@@ -99,7 +114,11 @@ class RandomQueriesTest extends TestCase
             fclose($handle);
         }
 
+        // Build the array.
         for ($i = 0; $i <= self::NUM_RANDOM_QUERIES_TO_TEST; $i++) {
+
+            // Choose a weighted random term and delete it from the set of available terms
+            // so we don't load the same term twice.
             $term = $this->getRandomTerm($weighted_queries);
             unset($weighted_queries[$term]);
             $return_queries[] = [$term, 'random'];
@@ -108,9 +127,17 @@ class RandomQueriesTest extends TestCase
         return $return_queries;
     }
 
-    private
-    function getRandomTerm(array $weighted_queries)
+    /**
+     * Get a random search term from the term list
+     *
+     * @param array $weighted_queries
+     * @return int|string|void
+     */
+    private function getRandomTerm(array $weighted_queries)
     {
+
+        // The term list is weighted so that more common terms are more likely to be
+        // returned. Pick one.
         $total_weight = array_sum($weighted_queries);
         $random_value = mt_rand(0, $total_weight);
         foreach ($weighted_queries as $term => $weight) {

@@ -93,6 +93,17 @@ Use thr GraphiQL documentation browser to see all available queries and paramete
   }
 ```
 
+## Testing
+
+Testing is performed using PHPUnit
+
+### Integration
+
+Integration tests run queries against the server and try to verify that we are getting sane results. Integration tests 
+must pass before a new deployment is activated.
+
+The integration test file (_search-terms-hidden.csv_) can be found [on the BC Libraries wiki](https://bcwiki.bc.edu/display/UL/Bento+search#Bentosearch-Testsearchqueries).
+
 ## Indexing
 
 The ElasticSearch indexes are built from the command line.

@@ -13,9 +13,9 @@ use PHPUnit\Framework\TestCase;
  */
 class RandomQueriesTest extends TestCase
 {
-    private const QUERY_STRING_FILE = __DIR__ . '/search-terms.csv';
+    private const QUERY_STRING_FILE = __DIR__ . '/search-terms-hidden.csv';
     private const NUM_TOP_QUERIES_TO_TEST = 100;
-    private const NUM_RANDOM_QUERIES_TO_TEST = 5;
+    private const NUM_RANDOM_QUERIES_TO_TEST = 100;
     private const SECONDS_BETWEEN_QUERIES = 1;
 
     private Client $client;

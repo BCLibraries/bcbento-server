@@ -23,4 +23,4 @@
 .phpunit.result.cache
 ###< phpunit/phpunit ###
 
-/tests/integration/hide-search-terms.csv
+/tests/integration/*csv

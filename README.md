@@ -95,14 +95,21 @@ Use thr GraphiQL documentation browser to see all available queries and paramete
 
 ## Testing
 
-Testing is performed using PHPUnit
+Testing is performed using the [PHPUnit testing framework](https://phpunit.readthedocs.io/en/9.5/).
 
 ### Integration
 
 Integration tests run queries against the server and try to verify that we are getting sane results. Integration tests 
 must pass before a new deployment is activated.
 
-The integration test file (_search-terms-hidden.csv_) can be found [on the BC Libraries wiki](https://bcwiki.bc.edu/display/UL/Bento+search#Bentosearch-Testsearchqueries).
+The integration test file (_search-terms-hidden.csv_) can be found [on the BC Libraries wiki](https://bcwiki.bc.edu/display/UL/Bento+search#Bentosearch-Testsearchqueries). 
+It must be copied to the _tests/integration_ directory before integration tests can be run.
+
+To run the integration tests:
+
+```bash
+./vendor/bin/phpunit tests/integration
+```
 
 ## Indexing
 

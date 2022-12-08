@@ -19,7 +19,7 @@ Use [composer](https://getcomposer.org/doc/00-intro.md#installation-linux-unix-m
 git clone https://github.com/BCLibraries/bcbento-server.git
 cd bcbento-server
 git fetch
-git checkout update-to-php-8.1
+git checkout update-to-php8.1
 composer install
 ```
 

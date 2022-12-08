@@ -23,8 +23,8 @@ git checkout update-to-php8.1
 composer install
 ```
 
-Create an _.env.local_ file in the root directory and add any missing or changed values from the _.env_ file. A working 
-.env file can be found in [bento documentation on the BC Libraries wiki](https://bcwiki.bc.edu/display/UL/Bento+search#Bentosearch-Configuration).
+Create an _.env.local_ file in the root directory and add any missing or changed values from the _.env_ file. The 
+contents of a working _.env.local_ file can be found in [bento documentation on the BC Libraries wiki](https://bcwiki.bc.edu/display/UL/Bento+search#Bentosearch-Configuration).
 
 ## Starting the development server
 

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ebdfedd67154468c8771b98d7a125012",
+    "content-hash": "a6d7148aa4ad9c0d6545145fa352d6eb",
     "packages": [
         {
             "name": "bclibraries/fulltext-finder",
@@ -11727,7 +11727,7 @@
     },
     "platform-dev": [],
     "platform-overrides": {
-        "php": "8.1.8"
+        "php": "8.1.12"
     },
     "plugin-api-version": "2.1.0"
 }

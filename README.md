@@ -2,6 +2,15 @@
 
 This package provides the back-end for Boston College Libraries' "bento" search page.
 
+## Prerequisites
+
+The server requires:
+
+* PHP 8.1+
+* the [composer](https://getcomposer.org/doc/00-intro.md#installation-linux-unix-macos) dependency manager
+* the [Symfony CLI tool](https://symfony.com/download)
+* a Boston College Eagle VPN connection
+
 ## Installation
 
 Use [composer](https://getcomposer.org/doc/00-intro.md#installation-linux-unix-macos) to install:
@@ -9,30 +18,98 @@ Use [composer](https://getcomposer.org/doc/00-intro.md#installation-linux-unix-m
 ```bash
 git clone https://github.com/BCLibraries/bcbento-server.git
 cd bcbento-server
+git fetch
+git checkout update-to-php8.1
 composer install
 ```
 
-Copy .env to .env.local and edit any value that need changing.
-```shell
-cp .env .env.local
-```
-
-### Requirements
-
-* PHP 7.4+
-* A Boston College VPN connection
+Create an _.env.local_ file in the root directory and add any missing or changed values from the _.env_ file. The 
+contents of a working _.env.local_ file can be found in [bento documentation on the BC Libraries wiki](https://bcwiki.bc.edu/display/UL/Bento+search#Bentosearch-Configuration).
 
 ## Starting the development server
 
 Use the Symfony local server for development:
 
 ```bash
-./bin/console server:start
+symfony serve
 ```
 
-### Querying the server
+## Querying the server
 
-Services are provided via [GraphQL](https://graphql.org/). You can query the development server interactively using [GraphiQL](http://127.0.0.1:8000/graphiql). 
+Services are provided via [GraphQL](https://graphql.org/). You can query the development server interactively using GraphiQL at [http://127.0.0.1:8000/graphiql](http://127.0.0.1:8000/graphiql) (update the port number as appropriate).
+
+### Example queries
+
+Use thr GraphiQL documentation browser to see all available queries and parameters. Some example queries include:
+
+#### Catalog search
+```graphql
+  searchCatalog(keyword: "otters") {
+    total
+    docs {
+      id
+      title
+      creator
+      availability {
+        availableCount
+        totalCount
+        libraryName
+        callNumber
+        locationName
+      }
+    }
+    facets {
+      name
+      values {
+        value
+        count
+      }
+    }
+  }
+```
+
+#### Librarians
+```graphql
+  recommendLibrarian(keyword: "history") {
+    docs {
+      id
+      name
+      email
+      image
+      subjects
+    }
+  }
+```
+
+#### Best bets
+
+```graphql
+  bestBet(keyword: "history") {
+    title
+    ... on LocalBestBet {
+      displayText
+      link
+    }
+  }
+```
+
+## Testing
+
+Testing is performed using the [PHPUnit testing framework](https://phpunit.readthedocs.io/en/9.5/).
+
+### Integration
+
+Integration tests run queries against the server and try to verify that we are getting sane results. Integration tests 
+must pass before a new deployment is activated.
+
+The integration test file (_search-terms-hidden.csv_) can be found [on the BC Libraries wiki](https://bcwiki.bc.edu/display/UL/Bento+search#Bentosearch-Testsearchqueries). 
+It must be copied to the _tests/integration_ directory before integration tests can be run.
+
+To run the integration tests:
+
+```bash
+./vendor/bin/phpunit tests/integration
+```
 
 ## Indexing
 

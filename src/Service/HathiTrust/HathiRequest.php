@@ -9,7 +9,7 @@ class HathiRequest
     private const BIB_API_BASE_URL = 'https://catalog.hathitrust.org/api/volumes/brief/json/';
 
     /** @var CatalogItem[] */
-    private $docs;
+    private array $docs = [];
 
     /**
      * @param CatalogItem[] $docs
@@ -54,7 +54,7 @@ class HathiRequest
 
     /**
      * @param CatalogItem $doc
-     * @return string
+     * @return string|null
      */
     private function getBestId(CatalogItem $doc): ?string
     {

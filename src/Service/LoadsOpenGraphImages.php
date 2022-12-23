@@ -45,9 +45,12 @@ trait LoadsOpenGraphImages
      */
     private function getOpenGraphImage(string $html): ?string
     {
+        // Look for elements with the og:image property.
         $dom = $this->loadDOM($html);
         $xpath = new DOMXPath($dom);
         $metas = $xpath->query("//meta[@property='og:image']");
+
+        // Return the first one.
         for ($i = 0; $i < $metas->length; $i++) {
             if ($metas->item($i)) {
                 $url = $metas->item($i)->getAttribute('content');

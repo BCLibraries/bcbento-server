@@ -19,8 +19,8 @@ class EditLibrarianCommand extends Command
 {
     protected static $defaultName = 'librarians:edit';
     private Index $index;
-    private const SUCCESS = 0;
-    private const FAILURE = 1;
+    public const SUCCESS = 0;
+    public const FAILURE = 1;
     private SymfonyStyle $io;
 
     public function __construct(Index $librarians_index)

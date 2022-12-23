@@ -22,12 +22,12 @@ class Index extends \App\Indexer\Index
         // record sorted by last updated date.
         $params = [
             'index' => $this->index_name,
-            'body'  => [
+            'body' => [
                 'query' => [
                     'match_all' => (object)[]
                 ],
-                'size'  => '1',
-                'sort'  => [
+                'size' => '1',
+                'sort' => [
                     [
                         'updated' => 'desc'
                     ]
@@ -40,7 +40,7 @@ class Index extends \App\Indexer\Index
             throw new \Exception("No records found in index {$this->index_name}");
         }
 
-cc
+    }
 
     /**
      * Create or update a single page
@@ -52,19 +52,19 @@ cc
         $guide = $single_item->getGuide();
         $params = [
             'index' => $this->index_name,
-            'id'    => $single_item->getId(),
-            'body'  => [
-                'title'             => $single_item->getTitle(),
-                'guide_title'       => $guide->title,
-                'guide_id'          => $guide->id,
-                'text'              => $single_item->getText(),
-                'url'               => $single_item->getUrl(),
-                'guide_url'         => $guide->url,
-                'updated'           => $single_item->getUpdated(),
-                'guide_subjects'    => $guide->subjects,
-                'guide_tags'        => $guide->tags,
+            'id' => $single_item->getId(),
+            'body' => [
+                'title' => $single_item->getTitle(),
+                'guide_title' => $guide->title,
+                'guide_id' => $guide->id,
+                'text' => $single_item->getText(),
+                'url' => $single_item->getUrl(),
+                'guide_url' => $guide->url,
+                'updated' => $single_item->getUpdated(),
+                'guide_subjects' => $guide->subjects,
+                'guide_tags' => $guide->tags,
                 'guide_description' => $guide->description,
-                'canvas'            => $guide->canvas
+                'canvas' => $guide->canvas
             ]
         ];
         $this->elasticsearch->index($params);

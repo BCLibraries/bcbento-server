@@ -33,7 +33,8 @@ class  FAQSearch
                 CURLOPT_URL => $this->url($keyword, $limit),
                 CURLOPT_USERAGENT => 'BCLibFAQSearch',
                 CURLOPT_CONNECTTIMEOUT => 15,
-                CURLOPT_TIMEOUT => 30
+                CURLOPT_TIMEOUT => 30,
+                CURLOPT_FOLLOWLOCATION => 1
             )
         );
         $resp = curl_exec($curl);

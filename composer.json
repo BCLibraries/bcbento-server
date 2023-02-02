@@ -25,6 +25,7 @@
     "elasticsearch/elasticsearch": "^7.0",
     "gmostafa/php-graphql-client": "^1.13",
     "myclabs/php-enum": "~1.7",
+    "nelmio/cors-bundle": "^2.2",
     "phpdocumentor/reflection-docblock": "^5.3",
     "sensio/framework-extra-bundle": "^5.3",
     "sensiolabs/security-checker": "^6.0",

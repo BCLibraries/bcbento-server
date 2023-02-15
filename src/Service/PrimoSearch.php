@@ -368,7 +368,6 @@ class PrimoSearch implements LoggerAwareInterface
      */
     protected function cacheKey(string $keyword, string $limit, QueryConfig $config): string
     {
-        $keyword = strtolower($keyword);
         $keyword = trim($keyword);
         $keyword = str_replace(array(':', ';', ',', '.', '(', ')', '/', '\\'), ' ', $keyword);
         $key = md5("$keyword-$limit-{$config->scope}");

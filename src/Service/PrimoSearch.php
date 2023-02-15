@@ -66,8 +66,8 @@ class PrimoSearch implements LoggerAwareInterface
     /** @var AdapterInterface */
     private $cache;
 
-    // Expire search results after twelve hours (in seconds)
-    private const CACHE_LIFETIME = 60 * 60 * 12;
+    // Expire search results after 1 hour (in seconds)
+    private const CACHE_LIFETIME = 60 * 60;
 
     private const CACHED_SEARCH_RESULT_TAG = 'catalog_search_result';
 

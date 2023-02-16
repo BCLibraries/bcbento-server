@@ -17,11 +17,18 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 
 class EditLibrarianCommand extends Command
 {
+    // How we call this command
     protected static $defaultName = 'librarians:edit';
+
+    // The search index.
     private Index $index;
+
+    // The console IO.
+    private SymfonyStyle $io;
+
+    // Command success states
     public const SUCCESS = 0;
     public const FAILURE = 1;
-    private SymfonyStyle $io;
 
     public function __construct(Index $librarians_index)
     {
@@ -40,6 +47,13 @@ class EditLibrarianCommand extends Command
             ->setHelp('This command will also create the librarian if they do not already exist in the index.');
     }
 
+    /**
+     * Run the command
+     *
+     * @param InputInterface $input
+     * @param OutputInterface $output
+     * @return int 0 on success, 1 on failure
+     */
     public function execute(InputInterface $input, OutputInterface $output): int
     {
         $this->io = new SymfonyStyle($input, $output);
@@ -64,6 +78,12 @@ class EditLibrarianCommand extends Command
         return self::SUCCESS;
     }
 
+    /**
+     * Show a Librarians' current state
+     *
+     * @param Librarian $librarian the Librarian to show
+     * @return void
+     */
     private function showLibrarian(Librarian $librarian): void
     {
         $table_rows = [
@@ -83,6 +103,12 @@ class EditLibrarianCommand extends Command
         $table->render();
     }
 
+    /**
+     * Query the user about what field to edit and perform the edit
+     *
+     * @param Librarian $librarian the librarian to edit
+     * @return Librarian|null the Librarian after editing
+     */
     private function editFieldDialog(Librarian $librarian): ?Librarian
     {
         $this->showLibrarian($librarian);
@@ -145,6 +171,12 @@ class EditLibrarianCommand extends Command
         );
     }
 
+    /**
+     * Make sure the user really wants to create a librarian
+     *
+     * @param string $id the id of the librarian to create
+     * @return bool true if the user confirms, false otherwise
+     */
     private function confirmCreateNewLibrarian(string $id): bool
     {
         $this->io->writeln("Couldn't find librarian with LibGuides id $id.");
@@ -156,6 +188,13 @@ class EditLibrarianCommand extends Command
         return (bool)$create_confirmation;
     }
 
+    /**
+     * Edit a list of values
+     *
+     * @param string $field_name the name of the field that contains the list
+     * @param string[] $values the values in the field
+     * @return string[] the values of the field after any edits or deletions
+     */
     private function editList(string $field_name, array $values): array
     {
         $action_question = new ChoiceQuestion("Modify $field_name", ['delete value', 'add value']);
@@ -170,6 +209,12 @@ class EditLibrarianCommand extends Command
         return $values;
     }
 
+    /**
+     * Build a new Librarian
+     *
+     * @param string $id the LibApps ID of the librarian to create
+     * @return Librarian|null the Librarian, or null if something went horribly wrong
+     */
     private function buildNewLibrarian(string $id): ?Librarian
     {
         $email_question = new Question('Email');
@@ -193,6 +238,12 @@ class EditLibrarianCommand extends Command
         return $librarian;
     }
 
+    /**
+     * Delete a librarian
+     *
+     * @param Librarian $librarian the librarian to delete
+     * @return void
+     */
     private function deleteLibrarian(Librarian $librarian)
     {
         $create_confirmation_question = new ConfirmationQuestion(
@@ -206,12 +257,27 @@ class EditLibrarianCommand extends Command
         };
     }
 
+    /**
+     * Query for a value in a list to delete
+     *
+     * "Deleting" an item in an Elasticsearch list isn't really a deletion action,
+     * it's a rewriting action with the deleted item omitted. This function
+     * builds a list of all the items we do _not_ want deleted.
+     *
+     * @param string[] $values the list of values to delete from
+     * @return string[] the list minus the value to be deleted
+     */
     private function deleteListValue(array $values): array
     {
+
+        // Ask the user which item to delete.
         $value_select_question = new ChoiceQuestion('Value to delete', $values);
         $value_to_delete = $this->io->askQuestion($value_select_question);
-        return array_filter($values, function ($value) use ($value_to_delete) {
+
+        // Filter the value to delete out of the list of values and re-index the array
+        $sparse_array = array_filter($values, function ($value) use ($value_to_delete) {
             return $value != $value_to_delete;
         });
+        return array_values($sparse_array);
     }
 }

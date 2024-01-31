@@ -61,9 +61,6 @@ services:
     Elasticsearch\Client:
         factory: ['App\ServiceFactory\ElasticsearchClientFactory', 'createElasticsearchClient']
 
-    BCLib\FulltextFinder\FullTextFinder:
-      factory: ['App\ServiceFactory\FullTextFinderFactory', 'createFullTextFinder']
-
     # QueryConfig for books & more
     query_config.books:
         class: BCLib\PrimoClient\QueryConfig

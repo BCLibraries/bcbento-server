@@ -42,7 +42,7 @@ class WebCrawler
         curl_close($ch);
 
         if ($result === false) {
-            throw new \Exception("Error fetching ${$url}\n");
+            throw new \Exception("Error fetching {$url}\n");
         }
 
         return $result;

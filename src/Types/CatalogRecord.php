@@ -40,6 +40,9 @@ use TheCodingMachine\GraphQLite\Annotations\Type;
  * @sourceField(name="journalTitle")
  * @sourceField(name="isPartOf")
  * @sourceField(name="available")
+ * @sourceField(name="topLevelFacets")
+ * @sourceField(name="isPeerReviewed")
+ * @sourceField(name="isOpenAccess")
  */
 class CatalogRecord
 {

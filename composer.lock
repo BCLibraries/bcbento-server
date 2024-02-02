@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9ed57d8a7b95f9db961944a14607efe7",
+    "content-hash": "f2046ff89aabe5479b08bb8a065c3987",
     "packages": [
         {
             "name": "bclibraries/fulltext-finder",
@@ -110,16 +110,16 @@
         },
         {
             "name": "bclibraries/primo-client",
-            "version": "0.9.0",
+            "version": "0.9.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/BCLibraries/primo-client.git",
-                "reference": "1653ca3cc60aceb0c146a1fcc7668146b0f5c782"
+                "reference": "0d8fba11b7801d8e78ce76dc872b76a8bddf9768"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/BCLibraries/primo-client/zipball/1653ca3cc60aceb0c146a1fcc7668146b0f5c782",
-                "reference": "1653ca3cc60aceb0c146a1fcc7668146b0f5c782",
+                "url": "https://api.github.com/repos/BCLibraries/primo-client/zipball/0d8fba11b7801d8e78ce76dc872b76a8bddf9768",
+                "reference": "0d8fba11b7801d8e78ce76dc872b76a8bddf9768",
                 "shasum": ""
             },
             "require": {
@@ -150,9 +150,9 @@
             "description": "A client for Ex Libris' Primo REST API",
             "support": {
                 "issues": "https://github.com/BCLibraries/primo-client/issues",
-                "source": "https://github.com/BCLibraries/primo-client/tree/v0.9.0"
+                "source": "https://github.com/BCLibraries/primo-client/tree/v0.9.1"
             },
-            "time": "2024-02-02T19:25:38+00:00"
+            "time": "2024-02-02T22:50:54+00:00"
         },
         {
             "name": "composer/package-versions-deprecated",

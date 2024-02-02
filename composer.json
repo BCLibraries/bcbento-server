@@ -19,7 +19,7 @@
     "ext-libxml": "*",
     "ext-simplexml": "*",
     "bclibraries/fulltext-finder": "^0.4",
-    "bclibraries/primo-client": "0.9.0",
+    "bclibraries/primo-client": "0.9.1",
     "doctrine/annotations": "^1.0",
     "doctrine/doctrine-migrations-bundle": "^2.0",
     "elasticsearch/elasticsearch": "^7.0",

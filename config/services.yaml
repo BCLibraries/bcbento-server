@@ -108,7 +108,7 @@ services:
     GuzzleHttp\Client:
         class: GuzzleHttp\Client
         arguments:
-          - { base_uri: '%env(string:PRIMO_API_GATEWAY)%' }
+          - { base_uri: '%env(string:PRIMO_API_GATEWAY)%', timeout: 15 }
 
     BCLib\PrimoClient\ApiClient:
         class: BCLib\PrimoClient\ApiClient

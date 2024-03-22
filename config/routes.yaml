@@ -1,6 +1,6 @@
-#index:
-#    path: /
-#    controller: App\Controller\DefaultController::index
-# Add these 2 lines to config/routes.yaml
+book_search:
+    path: /books
+    controller: App\Controller\PrimoRestController::searchCatalog
+    methods: GET|HEAD
 graphqlite_bundle:
   resource: '@GraphQLiteBundle/Resources/config/routes.xml'

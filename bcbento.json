@@ -1,0 +1,69 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "bcbento",
+    "description": "API for Boston College Libraries bento search services",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://library.bc.edu/bcbento-server",
+      "description": "production server"
+    }
+  ],
+  "paths": {
+    "/books": {
+      "get": {
+        "summary": "Search books",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/queryParam"
+          },
+          {
+            "$ref": "#/components/parameters/limitParam"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully returned search results"
+          },
+          "400": {
+            "description": "Bad request syntax"
+          },
+          "500": {
+            "description": "Something went wrong with the bento server"
+          },
+          "502": {
+            "description": "The upstream search service (e.g. Primo) returned an error"
+          },
+          "504": {
+            "description": "The upstream search service (e.g. Primo) timed out without responding"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "parameters": {
+      "queryParam": {
+        "name": "q",
+        "in": "query",
+        "description": "the search query",
+        "required": true,
+        "example": "otters"
+      },
+      "limitParam": {
+        "name": "limit",
+        "in": "query",
+        "description": "maximum number of items to return",
+        "required": false,
+        "schema": {
+          "type": "integer",
+          "maximum": 100,
+          "minimum": 0,
+          "default": 3
+        }
+      }
+    }
+  }
+}

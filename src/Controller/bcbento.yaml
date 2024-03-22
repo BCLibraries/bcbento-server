@@ -1,0 +1,11 @@
+openapi: 3.0.3
+info:
+  title: bcbento
+  description: bcbento
+  version: 1.0.0
+servers:
+  - url: 'https://library.bc.edu/bcbento-server'
+paths:
+  - schema:
+
+

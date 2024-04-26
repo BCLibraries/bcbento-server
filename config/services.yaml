@@ -58,7 +58,7 @@ services:
     BCLib\PrimoClient\PrimoClient:
         factory: ['App\ServiceFactory\PrimoClientFactory', 'createCatalogService']
 
-    Elasticsearch\Client:
+    Elastic\Elasticsearch\Client:
         factory: ['App\ServiceFactory\ElasticsearchClientFactory', 'createElasticsearchClient']
 
     # QueryConfig for books & more

@@ -4,7 +4,7 @@ namespace App\Service;
 
 use App\Entity\Librarian;
 use App\Entity\LibrarianRecommendationResponse;
-use Elasticsearch\Client;
+use Elastic\Elasticsearch\Client;
 use Symfony\Component\Cache\Adapter\AdapterInterface;
 use function count;
 

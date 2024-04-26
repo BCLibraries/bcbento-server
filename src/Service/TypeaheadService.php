@@ -4,7 +4,7 @@ namespace App\Service;
 
 use App\Entity\TypeaheadEntry;
 use App\Entity\TypeaheadResponse;
-use Elasticsearch\Client;
+use Elastic\Elasticsearch\Client;
 use Psr\Cache\CacheException;
 use Psr\Cache\InvalidArgumentException;
 use Psr\Log\LoggerAwareInterface;

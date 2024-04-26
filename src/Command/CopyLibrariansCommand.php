@@ -3,7 +3,7 @@
 namespace App\Command;
 
 use App\Indexer\Librarians\Index;
-use Elasticsearch\Client;
+use Elastic\Elasticsearch\Client;
 use Prophecy\Argument;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;

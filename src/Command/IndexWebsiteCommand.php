@@ -6,7 +6,7 @@ use App\Indexer\Website\Index;
 use App\Indexer\Website\Indexer;
 use App\Indexer\Website\LibGuidesClient;
 use App\Indexer\Website\WebCrawler;
-use Elasticsearch\Client;
+use Elastic\Elasticsearch\Client;
 use \Symfony\Component\Console\Command\Command;
 use \Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;

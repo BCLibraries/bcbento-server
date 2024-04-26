@@ -2,7 +2,7 @@
 
 namespace App\Indexer;
 
-use Elasticsearch\Client;
+use Elastic\Elasticsearch\Client;
 
 abstract class Index
 {

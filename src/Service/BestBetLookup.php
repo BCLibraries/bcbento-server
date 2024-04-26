@@ -3,7 +3,7 @@
 namespace App\Service;
 
 use App\Entity\LocalBestBet;
-use Elasticsearch\Client as ElasticsearchClient;
+use Elastic\Elasticsearch\Client as ElasticsearchClient;
 use PHPUnit\Util\Exception;
 
 /**

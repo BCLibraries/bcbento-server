@@ -2,7 +2,7 @@
 
 namespace App\Indexer\Website;
 
-use Elasticsearch\Client;
+use Elastic\Elasticsearch\Client;
 use PHPUnit\Exception;
 
 class Index extends \App\Indexer\Index

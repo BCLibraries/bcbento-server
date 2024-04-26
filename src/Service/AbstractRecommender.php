@@ -3,7 +3,7 @@
 namespace App\Service;
 
 use function count;
-use Elasticsearch\Client;
+use Elastic\Elasticsearch\Client;
 use Psr\Cache\CacheException;
 use Psr\Cache\InvalidArgumentException;
 use Psr\Log\LoggerAwareInterface;

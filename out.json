@@ -1,0 +1,1105 @@
+g{
+  "took": 2,
+  "timed_out": false,
+  "_shards": {
+    "total": 1,
+    "successful": 1,
+    "skipped": 0,
+    "failed": 0
+  },
+  "hits": {
+    "total": {
+      "value": 49,
+      "relation": "eq"
+    },
+    "max_score": 1.0,
+    "hits": [
+      {
+        "_index": "librarians_1714168196",
+        "_id": "10676",
+        "_score": 1.0,
+        "_source": {
+          "email": "sarkodik@bc.edu",
+          "first_name": "Kwasi",
+          "last_name": "Sarkodie-Mensah",
+          "image": "kwasi-sarkodie-mensah.jpg",
+          "title": null,
+          "subjects": [
+            "Psychology"
+          ],
+          "taxonomy": [
+            "Psychology"
+          ],
+          "terms": [
+            "Psychology",
+            "librarian"
+          ],
+          "library": "",
+          "updated": "2024-05-01T20:19:39"
+        }
+      },
+      {
+        "_index": "librarians_1714168196",
+        "_id": "10686",
+        "_score": 1.0,
+        "_source": {
+          "email": "sweeneec@bc.edu",
+          "first_name": "Beth",
+          "last_name": "Sweeney",
+          "image": "elizabeth-sweeney.jpg",
+          "title": null,
+          "subjects": [
+            "Irish Music"
+          ],
+          "taxonomy": [
+            "Irish Music"
+          ],
+          "terms": [
+            "Irish Music",
+            "librarian"
+          ],
+          "library": "",
+          "updated": "2024-05-01T20:19:39"
+        }
+      },
+      {
+        "_index": "librarians_1714168196",
+        "_id": "10688",
+        "_score": 1.0,
+        "_source": {
+          "email": "lopa.williams@bc.edu",
+          "first_name": "Lopa",
+          "last_name": "Williams",
+          "image": null,
+          "title": null,
+          "subjects": [],
+          "taxonomy": [],
+          "terms": [],
+          "library": "",
+          "updated": "2024-05-01T20:19:39"
+        }
+      },
+      {
+        "_index": "librarians_1714168196",
+        "_id": "10689",
+        "_score": 1.0,
+        "_source": {
+          "email": "perrypd@bc.edu",
+          "first_name": "Pam",
+          "last_name": "Perry",
+          "image": null,
+          "title": null,
+          "subjects": [],
+          "taxonomy": [],
+          "terms": [],
+          "library": "",
+          "updated": "2024-05-01T20:19:39"
+        }
+      },
+      {
+        "_index": "librarians_1714168196",
+        "_id": "10691",
+        "_score": 1.0,
+        "_source": {
+          "email": "swlib@bc.edu",
+          "first_name": "BC",
+          "last_name": "Social Work Library",
+          "image": null,
+          "title": null,
+          "subjects": [],
+          "taxonomy": [],
+          "terms": [],
+          "library": "",
+          "updated": "2024-05-01T20:19:39"
+        }
+      },
+      {
+        "_index": "librarians_1714168196",
+        "_id": "10692",
+        "_score": 1.0,
+        "_source": {
+          "email": "karre@bc.edu",
+          "first_name": "Enid",
+          "last_name": "Karr",
+          "image": "enid-karr.jpg",
+          "title": null,
+          "subjects": [
+            "Biology",
+            "Earth and Environmental Sciences",
+            "Environmental Studies"
+          ],
+          "taxonomy": [
+            "Biology",
+            "Biological Chemistry",
+            "Geological Sciences",
+            "Atmospheric and Oceanic Sciences"
+          ],
+          "terms": [
+            "Biology",
+            "Biological Chemistry",
+            "Geological Sciences",
+            "Atmospheric and Oceanic Sciences",
+            "Earth and Environmental Sciences",
+            "Environmental Studies",
+            "librarian"
+          ],
+          "library": "",
+          "updated": "2024-05-01T20:19:39"
+        }
+      },
+      {
+        "_index": "librarians_1714168196",
+        "_id": "10701",
+        "_score": 1.0,
+        "_source": {
+          "email": "lawrence.busenbark@bc.edu",
+          "first_name": "Lawrence",
+          "last_name": "Busenbark",
+          "image": "http:\/\/s3.amazonaws.com\/libapps\/accounts\/10701\/profiles\/7901\/Guillaume_IX.jpg",
+          "title": null,
+          "subjects": [
+            "African and African Diaspora Studies",
+            "Latin American Studies",
+            "Romance Languages and Literatures"
+          ],
+          "taxonomy": [
+            "African Studies",
+            "Latin American and Caribbean Studies",
+            "Latina\/o Studies",
+            "Romance Languages and Literatures"
+          ],
+          "terms": [
+            "African Studies",
+            "Latin American and Caribbean Studies",
+            "Latina\/o Studies",
+            "Romance Languages and Literatures",
+            "African and African Diaspora Studies",
+            "Latin American Studies",
+            "librarian"
+          ],
+          "library": "",
+          "updated": "2024-05-01T20:19:39"
+        }
+      },
+      {
+        "_index": "librarians_1714168196",
+        "_id": "10703",
+        "_score": 1.0,
+        "_source": {
+          "email": "kelly.webster@bc.edu",
+          "first_name": "Kelly",
+          "last_name": "Webster",
+          "image": null,
+          "title": null,
+          "subjects": [],
+          "taxonomy": [],
+          "terms": [],
+          "library": "",
+          "updated": "2024-05-01T20:19:39"
+        }
+      },
+      {
+        "_index": "librarians_1714168196",
+        "_id": "10705",
+        "_score": 1.0,
+        "_source": {
+          "email": "kearneyj@bc.edu",
+          "first_name": "Jack",
+          "last_name": "Kearney",
+          "image": "jack-kearney.jpg",
+          "title": null,
+          "subjects": [],
+          "taxonomy": [],
+          "terms": [],
+          "library": "",
+          "updated": "2024-05-01T20:19:39"
+        }
+      },
+      {
+        "_index": "librarians_1714168196",
+        "_id": "10713",
+        "_score": 1.0,
+        "_source": {
+          "email": "scott.britton@bc.edu",
+          "first_name": "Scott",
+          "last_name": "Britton",
+          "image": null,
+          "title": null,
+          "subjects": [],
+          "taxonomy": [],
+          "terms": [],
+          "library": "",
+          "updated": "2024-05-01T20:19:39"
+        }
+      },
+      {
+        "_index": "librarians_1714168196",
+        "_id": "10716",
+        "_score": 1.0,
+        "_source": {
+          "email": "andrew.isidoro@bc.edu",
+          "first_name": "Andrew",
+          "last_name": "Isidoro",
+          "image": null,
+          "title": null,
+          "subjects": [],
+          "taxonomy": [],
+          "terms": [],
+          "library": "",
+          "updated": "2024-05-01T20:19:39"
+        }
+      },
+      {
+        "_index": "librarians_1714168196",
+        "_id": "10717",
+        "_score": 1.0,
+        "_source": {
+          "email": "paul.bridden@bc.edu",
+          "first_name": "Paul",
+          "last_name": "Bridden",
+          "image": "paul-bridden.jpg",
+          "title": null,
+          "subjects": [],
+          "taxonomy": [],
+          "terms": [],
+          "library": "",
+          "updated": "2024-05-01T20:19:39"
+        }
+      },
+      {
+        "_index": "librarians_1714168196",
+        "_id": "248",
+        "_score": 1.0,
+        "_source": {
+          "email": "benjamin.florin@bc.edu",
+          "first_name": "Ben",
+          "last_name": "Florin",
+          "image": "ben-florin.jpg",
+          "title": "Manager, Library Web Services",
+          "subjects": [],
+          "taxonomy": [],
+          "terms": [],
+          "library": "",
+          "updated": "2024-05-01T20:19:39"
+        }
+      },
+      {
+        "_index": "librarians_1714168196",
+        "_id": "264",
+        "_score": 1.0,
+        "_source": {
+          "email": "christoph.houston-ponchak@bc.edu",
+          "first_name": "Chris",
+          "last_name": "Houston-Ponchak",
+          "image": "chris-hp.jpg",
+          "title": "Web Design & Communications Specialist",
+          "subjects": [],
+          "taxonomy": [],
+          "terms": [],
+          "library": "",
+          "updated": "2024-05-01T20:19:39"
+        }
+      },
+      {
+        "_index": "librarians_1714168196",
+        "_id": "3908",
+        "_score": 1.0,
+        "_source": {
+          "email": "jesse.martinez@bc.edu",
+          "first_name": "Jesse",
+          "last_name": "Martinez",
+          "image": "jesse-martinez.jpg",
+          "title": "Web Services Librarian",
+          "subjects": [],
+          "taxonomy": [],
+          "terms": [],
+          "library": "",
+          "updated": "2024-05-01T20:19:39"
+        }
+      },
+      {
+        "_index": "librarians_1714168196",
+        "_id": "65380",
+        "_score": 1.0,
+        "_source": {
+          "email": "anderswb@bc.edu",
+          "first_name": "Wanda",
+          "last_name": "Anderson",
+          "image": "http:\/\/s3.amazonaws.com\/libapps\/accounts\/10682\/profiles\/7882\/xanderson.jpg",
+          "title": null,
+          "subjects": [
+            "Nursing and Health Sciences"
+          ],
+          "taxonomy": [
+            "Nursing",
+            "Health Sciences"
+          ],
+          "terms": [
+            "Nursing",
+            "Health Sciences",
+            "Nursing and Health Sciences",
+            "librarian"
+          ],
+          "library": "",
+          "updated": "2024-05-01T20:19:39"
+        }
+      },
+      {
+        "_index": "librarians_1714168196",
+        "_id": "12291",
+        "_score": 1.0,
+        "_source": {
+          "email": "howardam@bc.edu",
+          "first_name": "Amy",
+          "last_name": "Howard",
+          "image": "amy-howard.jpg",
+          "title": null,
+          "subjects": [],
+          "taxonomy": [],
+          "terms": [],
+          "library": "",
+          "updated": "2024-05-01T20:19:39"
+        }
+      },
+      {
+        "_index": "librarians_1714168196",
+        "_id": "12292",
+        "_score": 1.0,
+        "_source": {
+          "email": "kennya@bc.edu",
+          "first_name": "Anne",
+          "last_name": "Kenny",
+          "image": "anne-kenney.jpg",
+          "title": null,
+          "subjects": [],
+          "taxonomy": [],
+          "terms": [],
+          "library": "",
+          "updated": "2024-05-01T20:19:39"
+        }
+      },
+      {
+        "_index": "librarians_1714168196",
+        "_id": "12293",
+        "_score": 1.0,
+        "_source": {
+          "email": "jennifer.lee.7@bc.edu",
+          "first_name": "Jennifer",
+          "last_name": "Lee",
+          "image": null,
+          "title": null,
+          "subjects": [],
+          "taxonomy": [],
+          "terms": [],
+          "library": "",
+          "updated": "2024-05-01T20:19:39"
+        }
+      },
+      {
+        "_index": "librarians_1714168196",
+        "_id": "16321",
+        "_score": 1.0,
+        "_source": {
+          "email": "kohl@bc.edu",
+          "first_name": "Jeff",
+          "last_name": "Kohl",
+          "image": null,
+          "title": null,
+          "subjects": [],
+          "taxonomy": [],
+          "terms": [],
+          "library": "",
+          "updated": "2024-05-01T20:19:39"
+        }
+      },
+      {
+        "_index": "librarians_1714168196",
+        "_id": "26074",
+        "_score": 1.0,
+        "_source": {
+          "email": "shelley.barber@bc.edu",
+          "first_name": "Shelley",
+          "last_name": "Barber",
+          "image": null,
+          "title": null,
+          "subjects": [],
+          "taxonomy": [],
+          "terms": [],
+          "library": "",
+          "updated": "2024-05-01T20:19:39"
+        }
+      },
+      {
+        "_index": "librarians_1714168196",
+        "_id": "30232",
+        "_score": 1.0,
+        "_source": {
+          "email": "phillivi@bc.edu",
+          "first_name": "Virginia",
+          "last_name": "Greeley",
+          "image": null,
+          "title": null,
+          "subjects": [],
+          "taxonomy": [],
+          "terms": [],
+          "library": "",
+          "updated": "2024-05-01T20:19:39"
+        }
+      },
+      {
+        "_index": "librarians_1714168196",
+        "_id": "30233",
+        "_score": 1.0,
+        "_source": {
+          "email": "mcgratop@bc.edu",
+          "first_name": "Michael",
+          "last_name": "McGrath",
+          "image": null,
+          "title": null,
+          "subjects": [],
+          "taxonomy": [],
+          "terms": [],
+          "library": "",
+          "updated": "2024-05-01T20:19:39"
+        }
+      },
+      {
+        "_index": "librarians_1714168196",
+        "_id": "31546",
+        "_score": 1.0,
+        "_source": {
+          "email": "amy.dumouchel@bc.edu",
+          "first_name": "Amy",
+          "last_name": "Dittman",
+          "image": "amy-dumouchel.jpg",
+          "title": null,
+          "subjects": [],
+          "taxonomy": [],
+          "terms": [],
+          "library": "",
+          "updated": "2024-05-01T20:19:39"
+        }
+      },
+      {
+        "_index": "librarians_1714168196",
+        "_id": "32231",
+        "_score": 1.0,
+        "_source": {
+          "email": "young.moon.2@bc.edu",
+          "first_name": "Young",
+          "last_name": "Moon",
+          "image": null,
+          "title": "Head of Resource Acquisition & Management",
+          "subjects": [],
+          "taxonomy": [],
+          "terms": [],
+          "library": "",
+          "updated": "2024-05-01T20:19:39"
+        }
+      },
+      {
+        "_index": "librarians_1714168196",
+        "_id": "36482",
+        "_score": 1.0,
+        "_source": {
+          "email": "caseync@bc.edu",
+          "first_name": "Nora",
+          "last_name": "Casey",
+          "image": null,
+          "title": null,
+          "subjects": [],
+          "taxonomy": [],
+          "terms": [],
+          "library": "",
+          "updated": "2024-05-01T20:19:39"
+        }
+      },
+      {
+        "_index": "librarians_1714168196",
+        "_id": "40028",
+        "_score": 1.0,
+        "_source": {
+          "email": "laurie.mayville@bc.edu",
+          "first_name": "Laurie",
+          "last_name": "Mayville",
+          "image": null,
+          "title": null,
+          "subjects": [],
+          "taxonomy": [],
+          "terms": [],
+          "library": "",
+          "updated": "2024-05-01T20:19:39"
+        }
+      },
+      {
+        "_index": "librarians_1714168196",
+        "_id": "50375",
+        "_score": 1.0,
+        "_source": {
+          "email": "murdy@bc.edu",
+          "first_name": "Lydia",
+          "last_name": "Murdy",
+          "image": null,
+          "title": null,
+          "subjects": [],
+          "taxonomy": [],
+          "terms": [],
+          "library": "",
+          "updated": "2024-05-01T20:19:39"
+        }
+      },
+      {
+        "_index": "librarians_1714168196",
+        "_id": "50377",
+        "_score": 1.0,
+        "_source": {
+          "email": "christian.dupont@bc.edu",
+          "first_name": "Christian",
+          "last_name": "Dupont",
+          "image": null,
+          "title": null,
+          "subjects": [],
+          "taxonomy": [],
+          "terms": [],
+          "library": "",
+          "updated": "2024-05-01T20:19:39"
+        }
+      },
+      {
+        "_index": "librarians_1714168196",
+        "_id": "61033",
+        "_score": 1.0,
+        "_source": {
+          "email": "kathleen.cavanaugh@bc.edu",
+          "first_name": "Kate",
+          "last_name": "Cavanaugh",
+          "image": null,
+          "title": null,
+          "subjects": [],
+          "taxonomy": [],
+          "terms": [],
+          "library": "",
+          "updated": "2024-05-01T20:19:39"
+        }
+      },
+      {
+        "_index": "librarians_1714168196",
+        "_id": "62990",
+        "_score": 1.0,
+        "_source": {
+          "email": "mary.lafferty@bc.edu",
+          "first_name": "Mary",
+          "last_name": "Lafferty",
+          "image": null,
+          "title": null,
+          "subjects": [],
+          "taxonomy": [],
+          "terms": [],
+          "library": "",
+          "updated": "2024-05-01T20:19:39"
+        }
+      },
+      {
+        "_index": "librarians_1714168196",
+        "_id": "264616",
+        "_score": 1.0,
+        "_source": {
+          "email": "nancy.curtis.2@bc.edu",
+          "first_name": "Nancy",
+          "last_name": "Curtis",
+          "image": "nancy-curtis.jpg",
+          "title": null,
+          "subjects": [
+            "Chemistry",
+            "Biological Chemistry",
+            "Physics"
+          ],
+          "taxonomy": [
+            "Chemistry",
+            "Physics"
+          ],
+          "terms": [
+            "Chemistry",
+            "Physics",
+            "Biological Chemistry",
+            "librarian",
+            "Biochemistry",
+            "Chemical",
+            "Chemical Engineering"
+          ],
+          "library": "",
+          "updated": "2024-05-01T20:19:39"
+        }
+      },
+      {
+        "_index": "librarians_1714168196",
+        "_id": "10678",
+        "_score": 1.0,
+        "_source": {
+          "email": "homzie@bc.edu",
+          "first_name": "Leslie",
+          "last_name": "Homzie",
+          "image": "leslie-homzie.jpg",
+          "title": null,
+          "subjects": [
+            "Communication",
+            "Gender Studies",
+            "Sociology and Anthropology"
+          ],
+          "taxonomy": [
+            "Communication Studies",
+            "Gay\/Lesbian\/Bisexual\/Transgender Studies",
+            "Women's and Gender Studies",
+            "Sociology",
+            "Anthropology",
+            "Archaeology"
+          ],
+          "terms": [
+            "Communication Studies",
+            "Gay\/Lesbian\/Bisexual\/Transgender Studies",
+            "Women's and Gender Studies",
+            "Sociology",
+            "Anthropology",
+            "Archaeology",
+            "Communication",
+            "Gender Studies",
+            "Sociology and Anthropology",
+            "librarian"
+          ],
+          "library": "",
+          "updated": "2024-05-01T20:19:39"
+        }
+      },
+      {
+        "_index": "librarians_1714168196",
+        "_id": "115563",
+        "_score": 1.0,
+        "_source": {
+          "email": "stephen.sturgeon@bc.edu",
+          "first_name": "Stephen",
+          "last_name": "Sturgeon",
+          "image": "stephen-sturgeon.jpg",
+          "title": "Head Librarian, Collections",
+          "subjects": [],
+          "taxonomy": [],
+          "terms": [
+            "Head Librarian, Collections",
+            "librarian"
+          ],
+          "library": "",
+          "updated": "2024-05-01T20:19:39"
+        }
+      },
+      {
+        "_index": "librarians_1714168196",
+        "_id": "290377",
+        "_score": 1.0,
+        "_source": {
+          "email": "elliott.hibbler@bc.edu",
+          "first_name": "Elliott",
+          "last_name": "Hibbler",
+          "image": "elliott-hibbler.jpg",
+          "title": "Scholarly Communication Librarian",
+          "subjects": [],
+          "taxonomy": [],
+          "terms": [
+            "librarian"
+          ],
+          "library": "",
+          "updated": "2024-05-01T20:19:39"
+        }
+      },
+      {
+        "_index": "librarians_1714168196",
+        "_id": "102982",
+        "_score": 1.0,
+        "_source": {
+          "email": "Julia.Hughes@bc.edu",
+          "first_name": "Julia",
+          "last_name": "Hughes",
+          "image": "julia-hughes.jpg",
+          "title": null,
+          "subjects": [],
+          "taxonomy": [],
+          "terms": [
+            "librarian"
+          ],
+          "library": "",
+          "updated": "2024-05-01T20:19:39"
+        }
+      },
+      {
+        "_index": "librarians_1714168196",
+        "_id": "80821",
+        "_score": 1.0,
+        "_source": {
+          "email": "adam.williams.2@bc.edu",
+          "first_name": "Adam",
+          "last_name": "Williams",
+          "image": "adam-williams.png",
+          "title": null,
+          "subjects": [
+            "Social Work"
+          ],
+          "taxonomy": [
+            "Social Work"
+          ],
+          "terms": [
+            "Social Work",
+            "librarian"
+          ],
+          "library": "",
+          "updated": "2024-05-01T20:19:39"
+        }
+      },
+      {
+        "_index": "librarians_1714168196",
+        "_id": "307390",
+        "_score": 1.0,
+        "_source": {
+          "email": "douglas.olsen@bc.edu",
+          "first_name": "Douglas",
+          "last_name": "Olsen",
+          "image": "douglas-olsen.jpg",
+          "title": "Senior Liaison Librarian",
+          "subjects": [
+            "Business"
+          ],
+          "taxonomy": [
+            "Business (General)",
+            "Companies and Industry",
+            "Finance",
+            "International Business",
+            "Management",
+            "Marketing"
+          ],
+          "terms": [
+            "Business (General)",
+            "Companies and Industry",
+            "Finance",
+            "International Business",
+            "Management",
+            "Marketing",
+            "Business",
+            "Carroll School",
+            "Carroll",
+            "librarian"
+          ],
+          "library": "",
+          "updated": "2024-05-01T20:19:39"
+        }
+      },
+      {
+        "_index": "librarians_1714168196",
+        "_id": "10693",
+        "_score": 1.0,
+        "_source": {
+          "email": "braitsch@bc.edu",
+          "first_name": "Amy",
+          "last_name": "Braitsch",
+          "image": "http:\/\/s3.amazonaws.com\/libapps\/accounts\/10693\/profiles\/7893\/AB.jpg",
+          "title": null,
+          "subjects": [
+            "Archives and Manuscripts"
+          ],
+          "taxonomy": [
+            "Archives and Manuscripts",
+            "Archives & Record Management"
+          ],
+          "terms": [
+            "Archives and Manuscripts",
+            "librarian"
+          ],
+          "library": "",
+          "updated": "2024-05-01T20:19:39"
+        }
+      },
+      {
+        "_index": "librarians_1714168196",
+        "_id": "3302",
+        "_score": 1.0,
+        "_source": {
+          "email": "theresa.lyman@bc.edu",
+          "first_name": "Theresa",
+          "last_name": "Lyman",
+          "image": "theresa-lyman.jpg",
+          "title": "Online Learning Librarian",
+          "subjects": [
+            "Healthcare Administration",
+            "Healthcare Management"
+          ],
+          "taxonomy": [],
+          "terms": [
+            "Healthcare"
+          ],
+          "library": "",
+          "updated": "2024-05-01T20:19:39"
+        }
+      },
+      {
+        "_index": "librarians_1714168196",
+        "_id": "10698",
+        "_score": 1.0,
+        "_source": {
+          "email": "daltonst@bc.edu",
+          "first_name": "Steve",
+          "last_name": "Dalton",
+          "image": "steve-dalton.jpg",
+          "title": null,
+          "subjects": [
+            "Theology and Ministry Library"
+          ],
+          "taxonomy": [
+            "Religious Studies"
+          ],
+          "terms": [
+            "Religious Studies",
+            "Theology and Ministry Library"
+          ],
+          "library": "",
+          "updated": "2024-05-01T20:19:39"
+        }
+      },
+      {
+        "_index": "librarians_1714168196",
+        "_id": "10675",
+        "_score": 1.0,
+        "_source": {
+          "email": "nina.bogdanovsky@bc.edu",
+          "first_name": "Nina",
+          "last_name": "Bogdanovsky",
+          "image": "nina-bogdanovsky.jpg",
+          "title": "Sr Research Librarian",
+          "subjects": [
+            "Art and Architecture",
+            "Film",
+            "Jewish Studies",
+            "Linguistics",
+            "Music",
+            "Slavic and Eastern Languages",
+            "Theatre & Dance"
+          ],
+          "taxonomy": [
+            "Architecture",
+            "Art and Design",
+            "Art History",
+            "Film and Video Studies",
+            "Dance",
+            "Middle Eastern, Near Eastern and North African Studies",
+            "Judaic Studies",
+            "Linguistics",
+            "Music",
+            "Slavic Languages and Literatures",
+            "Theatre and Drama"
+          ],
+          "terms": [
+            "Architecture",
+            "Art and Design",
+            "Art History",
+            "Film and Video Studies",
+            "Dance",
+            "Middle Eastern, Near Eastern and North African Studies",
+            "Judaic Studies",
+            "Linguistics",
+            "Music",
+            "Slavic Languages and Literatures",
+            "Theatre and Drama",
+            "Art and Architecture",
+            "Film",
+            "Jewish Studies",
+            "Slavic and Eastern Languages",
+            "Theatre & Dance",
+            "librarian",
+            "Nina Bogdanovsky"
+          ],
+          "library": "",
+          "updated": "2024-05-01T20:19:39"
+        }
+      },
+      {
+        "_index": "librarians_1714168196",
+        "_id": "145218",
+        "_score": 1.0,
+        "_source": {
+          "email": "chris.strauber@bc.edu",
+          "first_name": "Chris",
+          "last_name": "Strauber",
+          "image": "chris-strauber.jpg",
+          "title": "Senior Research Librarian\/Bibliographer",
+          "subjects": [
+            "Classical Studies",
+            "Government Documents",
+            "International Studies",
+            "Islamic Studies and Civilization",
+            "Philosophy",
+            "Political Science"
+          ],
+          "taxonomy": [
+            "Classical Studies",
+            "International studies",
+            "Philosophy",
+            "Political Science"
+          ],
+          "terms": [
+            "Classical Studies",
+            "Classics",
+            "Government documents",
+            "international studies",
+            "librarian",
+            "Chris Strauber",
+            "Islamic Studies and Civilization",
+            "Islam",
+            "Philosophy",
+            "Political Science"
+          ],
+          "library": "",
+          "updated": "2024-05-01T20:19:39"
+        }
+      },
+      {
+        "_index": "librarians_1714168196",
+        "_id": "261",
+        "_score": 1.0,
+        "_source": {
+          "email": "steven.runge@bc.edu",
+          "first_name": "Steve",
+          "last_name": "Runge",
+          "image": "steve-runge.jpg",
+          "title": "Senior Liaison for English Literature, Asian Studies, and Irish Studies",
+          "subjects": [
+            "English Language and Literature"
+          ],
+          "taxonomy": [
+            "English Language and Literature"
+          ],
+          "terms": [
+            "answerwall",
+            "answer wall",
+            "librarian",
+            "English Literature",
+            "Asian Studies",
+            "Irish Studies",
+            "Steve Runge"
+          ],
+          "library": "",
+          "updated": "2024-05-01T20:19:39"
+        }
+      },
+      {
+        "_index": "librarians_1714168196",
+        "_id": "358438",
+        "_score": 1.0,
+        "_source": {
+          "email": "erinkate.scheopner@bc.edu",
+          "first_name": "Erin Kate",
+          "last_name": "Scheopner",
+          "image": "erin-kate-scheopner.jpg",
+          "title": "Librarian",
+          "subjects": [
+            "History"
+          ],
+          "taxonomy": [
+            "History"
+          ],
+          "terms": [
+            "History",
+            "Librarian",
+            "Erin Kate Scheopner"
+          ],
+          "library": "",
+          "updated": "2024-05-01T20:19:39"
+        }
+      },
+      {
+        "_index": "librarians_1714168196",
+        "_id": "216542",
+        "_score": 1.0,
+        "_source": {
+          "email": "brittany.lehman@bc.edu",
+          "first_name": "Bee",
+          "last_name": "Lehman",
+          "image": "bee-lehman.jpg",
+          "title": "Senior Liaison Librarian for History",
+          "subjects": [],
+          "taxonomy": [],
+          "terms": [
+            "librarian",
+            "bee lehman"
+          ],
+          "library": "",
+          "updated": "2024-05-01T20:19:39"
+        }
+      },
+      {
+        "_index": "librarians_1714168196",
+        "_id": "183554",
+        "_score": 1.0,
+        "_source": {
+          "email": "leea.stroia@bc.edu",
+          "first_name": "Leea",
+          "last_name": "Stroia",
+          "image": "leea-stroia.jpg",
+          "title": "Instructional Services Librarian",
+          "subjects": [],
+          "taxonomy": [],
+          "terms": [
+            "librarian",
+            "Leea Stroia"
+          ],
+          "library": "",
+          "updated": "2024-05-01T20:19:39"
+        }
+      },
+      {
+        "_index": "librarians_1714168196",
+        "_id": "381869",
+        "_score": 1.0,
+        "_source": {
+          "email": "bethany.campbell.2@bc.edu",
+          "first_name": "Bethany",
+          "last_name": "Campbell",
+          "image": "bethany-campbell.jpg",
+          "title": "Sr. Liaison Librarian for Curriculum Materials",
+          "subjects": [
+            "Education K-12 curriculum (ERC)"
+          ],
+          "taxonomy": [],
+          "terms": [
+            "Education",
+            "librarian",
+            "Bethany Campbell"
+          ],
+          "library": "",
+          "updated": "2024-05-01T20:19:39"
+        }
+      },
+      {
+        "_index": "librarians_1714168196",
+        "_id": "216706",
+        "_score": 1.0,
+        "_source": {
+          "email": "jessica.hinson-williams@bc.edu",
+          "first_name": "Jessica",
+          "last_name": "Hinson-Williams",
+          "image": "jessica-hinson-williams.jpg",
+          "title": "Head Librarian of the Educational Resource Cente",
+          "subjects": [
+            "Education"
+          ],
+          "taxonomy": [
+            "Education K-12 curriculum (ERC)",
+            "ERC"
+          ],
+          "terms": [
+            "Education K-12 curriculum (ERC)",
+            "ERC",
+            "librarian",
+            "Jessica Hinson-Williams"
+          ],
+          "library": "",
+          "updated": "2024-05-01T20:19:39"
+        }
+      }
+    ]
+  }
+}

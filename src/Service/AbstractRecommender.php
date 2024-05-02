@@ -108,7 +108,8 @@ abstract class AbstractRecommender implements LoggerAwareInterface
             'body' => $this->buildQuery($keyword, $terms_response)
         ];
         $resources = $this->elasticsearch->search($params);
-        return $this->buildResponse($resources);
+        $json = json_decode($resources->getBody(), true);
+        return $this->buildResponse($json);
     }
 
     /**

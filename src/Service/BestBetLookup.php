@@ -44,8 +44,8 @@ class BestBetLookup
             'index' => 'bestbets',
             'body' => [
                 'query' => [
-                    'match' => [
-                        'terms' => $keyword
+                    'term' => [
+                        'terms.keyword' => $keyword
                     ]
                 ]
             ]

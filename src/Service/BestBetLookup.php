@@ -38,6 +38,7 @@ class BestBetLookup
         // Normalize search term
         $keyword = trim($keyword);
         $keyword = str_replace(array('"', "'"), "", $keyword);
+        $keyword = strtolower($keyword);
 
         // Build param list and query Elasticsearch
         $params = [

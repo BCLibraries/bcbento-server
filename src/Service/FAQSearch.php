@@ -4,6 +4,7 @@ namespace App\Service;
 
 use App\Entity\FAQResponse;
 use App\Entity\FAQResult;
+use App\Exceptions\FailedFAQSearchException;
 
 /**
  * Search LibAnswers FAQ
@@ -19,76 +20,71 @@ class  FAQSearch
     /**
      * Search LibAnswers FAQ
      *
-     * @param string $keyword
-     * @param int $limit
-     * @return FAQResponse|array
+     * @throws FailedFAQSearchException
      */
-    public function search(string $keyword, int $limit)
+    public function search(string $keyword, int $limit): FAQResponse
+    {
+        $libanswers_response_json = $this->queryLibAnswers($keyword, $limit);
+        return $this->buildResponse($libanswers_response_json);
+    }
+
+    /**
+     * @throws FailedFAQSearchException
+     */
+    private function queryLibAnswers(string $keyword, int $limit): \stdClass
     {
         $curl = curl_init();
+        $api_url = $this->buildSearchAPIUrl($keyword, $limit);
         curl_setopt_array(
             $curl,
-            array(
+            [
                 CURLOPT_RETURNTRANSFER => 1,
-                CURLOPT_URL => $this->url($keyword, $limit),
-                CURLOPT_USERAGENT => 'BCLibFAQSearch',
+                CURLOPT_URL            => $api_url,
+                CURLOPT_USERAGENT      => 'BCLibFAQSearch',
                 CURLOPT_CONNECTTIMEOUT => 15,
-                CURLOPT_TIMEOUT => 30,
+                CURLOPT_TIMEOUT        => 30,
                 CURLOPT_FOLLOWLOCATION => 1
-            )
+            ]
         );
         $resp = curl_exec($curl);
         curl_close($curl);
 
-        return $resp ? $this->buildResponse(json_decode($resp, false)) : ['error_code' => 500];
+        if (!$resp) {
+            throw new FailedFAQSearchException("Searching FAQ failed: $api_url");
+        }
+
+        $decoded = json_decode($resp, false);
+
+        if (is_bool($decoded)) {
+            throw new FailedFAQSearchException("Error decoding FAQ search result: $resp");
+        }
+
+        return $decoded;
     }
 
-    /**
-     * Build LibAnswers FAQ search URL
-     *
-     * @param string $keyword
-     * @param int $limit
-     * @return string
-     */
-    private function url(string $keyword, int $limit): string
+    private function buildSearchAPIUrl(string $keyword, int $limit): string
     {
         $keyword = urlencode($keyword);
         return "https://bc.libanswers.com/api/1.0/search/$keyword?iid=" . self::LIBANSWERS_ID . "&limit=$limit";
     }
 
-    /**
-     * Convert LibAnswer's JSON to a user-digestible response
-     *
-     * @param $service_json
-     * @return FAQResponse
-     */
-    private function buildResponse($service_json): FAQResponse
+    private function buildResponse($libanswers_response_json): FAQResponse
     {
-        $search_json = $service_json->search;
-        $response = new FAQResponse();
-        $records = array_map([$this, 'processResult'], $search_json->results);
-
-        $response->setTotal($search_json->numFound ?: 0)
-            ->setQuery($search_json->query ?: '')
-            ->setError($search_json->error ?: '')
-            ->setDocs($records ?: []);
-        return $response;
+        $search_json = $libanswers_response_json->search;
+        return new FAQResponse(
+            total: $search_json->numFound ?: 0,
+            query: $search_json->query ?: '',
+            docs: array_map('\App\Service\FAQSearch::buildFAQResult', $search_json->results)
+        );
     }
 
-    /**
-     * Build a single result
-     *
-     * @param $result_json
-     * @return FAQResult
-     */
-    private function processResult($result_json): FAQResult
+    private static function buildFAQResult(\stdClass $result_json): FAQResult
     {
-        $result = new FAQResult();
-        $result->setId($result_json->id)
-            ->setQuestion($result_json->question)
-            ->setUrl($result_json->url)
-            ->setTopics($result_json->topics);
-        return $result;
+        return new FAQResult(
+            id: $result_json->id,
+            question: $result_json->question,
+            url: $result_json->url,
+            topics: $result_json->topics
+        );
     }
-
 }

@@ -8,107 +8,24 @@ use TheCodingMachine\GraphQLite\Annotations\Type;
 /**
  * @Type()
  */
-class FAQResponse
+readonly class FAQResponse
 {
-    /**
-     * @var int
-     */
-    private $total;
+    /** @Field */
+    public readonly int $total;
+
+    /** @Field */
+    public readonly string $query;
 
     /**
-     * @var string
-     */
-    private $query;
-
-    /**
+     * @Field
      * @var FAQResult[]
      */
-    private $docs;
+    public readonly array $results;
 
-    /**
-     * @var string
-     */
-    private $error;
-
-    /**
-     * @Field()
-     */
-    public function getTotal(): int
-    {
-        return $this->total;
-    }
-
-    public function setTotal(int $total): self
+    public function __construct(int $total, string $query, array $docs = [])
     {
         $this->total = $total;
-        return $this;
-    }
-
-
-    /**
-     * @Field()
-     */
-    public function getQuery(): string
-    {
-        return $this->query;
-    }
-
-    public function setQuery(string $query): self
-    {
         $this->query = $query;
-        return $this;
-    }
-
-    /**
-     * @Field()
-     * @return FAQResult[]
-     */
-    public function getDocs(): array
-    {
-        return $this->docs;
-    }
-
-    public function setDocs(array $records): self
-    {
-        $this->docs = $records;
-        return $this;
-    }
-
-    /**
-     * @Field()
-     * @return FAQResult[]
-     */
-    public function getResults(): array
-    {
-        return $this->docs;
-    }
-
-    public function setResults(array $records): self
-    {
-        $this->docs = $records;
-        return $this;
-    }
-
-    /**
-     * @Field()
-     */
-    public function getError(): string
-    {
-        return $this->error;
-    }
-
-    public function setError(string $error): self
-    {
-        $this->error = $error;
-        return $this;
-    }
-
-    /**
-     * @Field()
-     */
-    public function getSearchUrl(): string
-    {
-        $keyword = urlencode($this->query);
-        return "https://answers.bc.edu/search/?t=0&q=$keyword";
+        $this->results = $docs;
     }
 }

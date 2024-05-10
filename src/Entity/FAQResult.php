@@ -8,84 +8,28 @@ use TheCodingMachine\GraphQLite\Annotations\Type;
 /**
  * @Type()
  */
-class FAQResult
+readonly class FAQResult
 {
-    /**
-     * @var int
-     */
-    private $id;
+    /** @Field */
+    public int $id;
+
+    /** @Field */
+    public string $question;
+
+    /** @Field */
+    public string $url;
 
     /**
-     * @var string
-     */
-    private $question;
-
-    /**
-     * @var string
-     */
-    private $url;
-
-    /**
+     * @Field
      * @var string[]
      */
-    private $topics = [];
+    public array $topics;
 
-    /**
-     * @Field()
-     */
-    public function getId(): int
-    {
-        return $this->id;
-    }
-
-    public function setId(int $id): self
+    public function __construct(int $id, string $question, string $url, array $topics = [])
     {
         $this->id = $id;
-        return $this;
-    }
-
-    /**
-     * @Field()
-     */
-    public function getQuestion(): string
-    {
-        return $this->question;
-    }
-
-    public function setQuestion(string $question): self
-    {
         $this->question = $question;
-        return $this;
-    }
-
-    /**
-     * @Field()
-     */
-    public function getUrl(): string
-    {
-        return $this->url;
-    }
-
-    public function setUrl(string $url): self
-    {
         $this->url = $url;
-        return $this;
-    }
-
-    /**
-     * @return string[]
-     * @Field()
-     */
-    public function getTopics(): array
-    {
-        return $this->topics;
-    }
-
-    public function setTopics(array $topics): self
-    {
         $this->topics = $topics;
-        return $this;
     }
-
-
 }

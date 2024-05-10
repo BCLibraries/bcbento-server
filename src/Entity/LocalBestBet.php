@@ -5,7 +5,6 @@ namespace App\Entity;
 use TheCodingMachine\GraphQLite\Annotations\Field;
 use TheCodingMachine\GraphQLite\Annotations\Type;
 
-
 /**
  * A Best Bet created locally
  *
@@ -15,47 +14,22 @@ use TheCodingMachine\GraphQLite\Annotations\Type;
  *
  * @package App\Entity
  */
-class LocalBestBet extends BestBet
+readonly class LocalBestBet extends BestBet
 {
-    /**
-     * @var string
-     */
-    private $display_text;
+    /** @Field */
+    public string $displayText;
 
-    /**
-     * @var string|null
-     */
-    private $link;
+    /** @Field */
+    public ?string $link;
 
-    public function __construct(string $id, string $title, string $display_text, ?string $link) {
+    public function __construct(
+        string $id,
+        string $title,
+        string $display_text,
+        ?string $link = null
+    ) {
         parent::__construct($id, $title);
-        $this->display_text = $display_text;
-        $this->link = $link;
-    }
-
-    /**
-     * @Field()
-     */
-    public function getDisplayText(): ?string
-    {
-        return $this->display_text;
-    }
-
-    public function setDisplayText(string $display_text): void
-    {
-        $this->display_text = $display_text;
-    }
-
-    /**
-     * @Field()
-     */
-    public function getLink(): ?string
-    {
-        return $this->link ?: null;
-    }
-
-    public function setLink(string $link): void
-    {
+        $this->displayText = $display_text;
         $this->link = $link;
     }
 }

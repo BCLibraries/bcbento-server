@@ -4,23 +4,27 @@ namespace App\Service;
 
 use App\Entity\LocalBestBet;
 use Elastic\Elasticsearch\Client as ElasticsearchClient;
-use PHPUnit\Util\Exception;
+use Elastic\Elasticsearch\Exception\ClientResponseException;
+use Elastic\Elasticsearch\Exception\ServerResponseException;
+use Elastic\Elasticsearch\Response\Elasticsearch;
+use Http\Promise\Promise;
 
 /**
  * Lookup Best bets
  *
  * Local BestBets (e.g. databases, journals, helpful hints) are stored in Elasticsearch and
  * indexed by keyword. For example, the JSTOR entry is indexed by "jstor", "jstore", and
- * maybe some other things. Matches have to be exact.
+ * maybe some other things.
  *
- * TODO Add richer indexing possibilities (e.g. regular expressions)
+ * Best Bets are stored in Elasticsearch using a keyword index, which does case-sensitive exact
+ * matching, e.g. "JSTOR" will not match "jstor". Search terms need to be converted to a normalized
+ * form: lower-case, no leading or trailing spaces, and no included quotes.
  *
  * @package App\Service
  */
 class BestBetLookup
 {
-    /** @var ElasticsearchClient */
-    private $elasticsearch;
+    private ElasticsearchClient $elasticsearch;
 
     public function __construct(ElasticsearchClient $elasticsearch)
     {
@@ -30,20 +34,43 @@ class BestBetLookup
     /**
      * Lookup best bets for a keyword search
      *
-     * @param string $keyword
-     * @return LocalBestBet|null
+     * @throws ClientResponseException
+     * @throws ServerResponseException
      */
     public function lookup(string $keyword): ?LocalBestBet
     {
-        // Normalize search term
-        $keyword = trim($keyword);
-        $keyword = str_replace(array('"', "'"), "", $keyword);
-        $keyword = strtolower($keyword);
+        $keyword = self::normalizeSearchTerm($keyword);
+        $response = $this->queryElasticsearch($keyword);
 
-        // Build param list and query Elasticsearch
-        $params = [
+        if (self::noBestBetsFound($response)) {
+            return null;
+        }
+
+        $json_best_bet = $response['hits']['hits'][0];
+        return new LocalBestBet(
+            id: $json_best_bet['_id'],
+            title: $json_best_bet['_source']['title'] ?? null,
+            display_text: $json_best_bet['_source']['displayText'] ?? null,
+            link: $json_best_bet['_source']['link'] ?? null
+        );
+    }
+
+    private static function normalizeSearchTerm(string $keyword): string
+    {
+        $keyword = trim($keyword);
+        $keyword = str_replace(['"', "'"], '', $keyword);
+        return strtolower($keyword);
+    }
+
+    /**
+     * @throws ClientResponseException
+     * @throws ServerResponseException
+     */
+    private function queryElasticsearch(string $keyword): Promise|Elasticsearch
+    {
+        $query = [
             'index' => 'bestbets',
-            'body' => [
+            'body'  => [
                 'query' => [
                     'term' => [
                         'terms.keyword' => $keyword
@@ -51,24 +78,11 @@ class BestBetLookup
                 ]
             ]
         ];
+        return $this->elasticsearch->search($query);
+    }
 
-        $result = $this->elasticsearch->search($params);
-
-        $best_bet = null;
-
-        if ($result['hits']['total'] &&$result['hits']['total']['value'] > 0 ) {
-            $json_best_bet = $result['hits']['hits'][0];
-            $source = $json_best_bet['_source'];
-
-            $title = $source['title'] ?? null;
-            $display_text = $source['displayText'] ?? null;
-            $link = $source['link'] ?? null;
-
-            if ($json_best_bet['_id']) {
-                $best_bet = new LocalBestBet($json_best_bet['_id'], $title, $display_text, $link);
-            }
-        }
-
-        return $best_bet;
+    private static function noBestBetsFound(Elasticsearch $response): bool
+    {
+        return (!$response['hits']['total'] || $response['hits']['total']['value'] < 1);
     }
 }

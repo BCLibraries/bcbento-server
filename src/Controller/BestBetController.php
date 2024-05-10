@@ -4,6 +4,8 @@ namespace App\Controller;
 
 use App\Entity\BestBet;
 use App\Service\BestBetLookup;
+use Elastic\Elasticsearch\Exception\ClientResponseException;
+use Elastic\Elasticsearch\Exception\ServerResponseException;
 use TheCodingMachine\GraphQLite\Annotations\Query;
 
 /**
@@ -17,8 +19,7 @@ use TheCodingMachine\GraphQLite\Annotations\Query;
  */
 class BestBetController
 {
-    /** @var BestBetLookup */
-    private $best_bets;
+    private BestBetLookup $best_bets;
 
     public function __construct(BestBetLookup $best_bets)
     {
@@ -28,18 +29,12 @@ class BestBetController
     /**
      * Look up best bets
      *
+     * @throws ClientResponseException|ServerResponseException
+     *
      * @Query()
      */
     public function bestBet(string $keyword): ?BestBet
     {
-
-        // Look in Elasticsearch for local best bets first.
-        $best_bet_query_result = $this->best_bets->lookup($keyword);
-        if ($best_bet_query_result !== null) {
-            return $best_bet_query_result;
-        }
-
-        // No best bets found.
-        return null;
+        return $this->best_bets->lookup($keyword);
     }
 }

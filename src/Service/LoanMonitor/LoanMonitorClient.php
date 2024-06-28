@@ -29,8 +29,6 @@ class LoanMonitorClient
         $url = "https://library.bc.edu/availability-monitor/bib/$mmses";
         $response = $this->client->request('GET', $url);
         $content = $response->getContent();
-        echo "Content is". $content."\n";
-        exit();
         return new Response($response->getContent());
     }
 }

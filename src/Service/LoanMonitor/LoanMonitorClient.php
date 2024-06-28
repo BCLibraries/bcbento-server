@@ -26,7 +26,12 @@ class LoanMonitorClient
         }
 
         $mmses = join('+', $mms_ids);
-        $response = $this->client->request('GET', "https://mlib.bc.edu/loan-monitor/bib/$mmses");
+        $url = "https://library.bc.edu/availability-monitor/bib/$mmses";
+        echo "GETTING $url\n";
+        $response = $this->client->request('GET', $url);
+        $content = $response->getContent();
+        echo "Content is". $content."\n";
+        exit();
         return new Response($response->getContent());
     }
 }

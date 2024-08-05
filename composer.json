@@ -27,6 +27,7 @@
     "myclabs/php-enum": "~1.7",
     "nelmio/cors-bundle": "^2.2",
     "phpdocumentor/reflection-docblock": "^5.3",
+    "predis/predis": "^2.2",
     "sensio/framework-extra-bundle": "^5.3",
     "sensiolabs/security-checker": "^6.0",
     "symfony/asset": "5.4.*",

@@ -9,6 +9,7 @@ The server requires:
 * PHP 8.1+
 * the [composer](https://getcomposer.org/doc/00-intro.md#installation-linux-unix-macos) dependency manager
 * the [Symfony CLI tool](https://symfony.com/download)
+* [redis](https://redis.io/)
 * a Boston College Eagle VPN connection
 
 ## Installation

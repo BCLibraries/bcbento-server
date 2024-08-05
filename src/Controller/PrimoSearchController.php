@@ -126,7 +126,7 @@ class PrimoSearchController
             $lon_mon_result = $this->loan_monitor->fetch($all_mms);
 
             foreach ($response->getDocs() as $doc) {
-                $mmses = $doc->pnx('search', 'addsrcrecordid');
+                $mmses = $doc->pnx('display', 'mms');
                 $doc->setAvailability($lon_mon_result->bestAvailability($mmses));
             }
         } catch (\Exception $exception) {

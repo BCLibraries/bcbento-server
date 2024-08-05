@@ -59,7 +59,7 @@ class PrimoRestController
         });
 
         foreach ($physical_docs as $doc) {
-            $all_mms = array_merge($all_mms, $doc->pnx('search', 'addsrcrecordid'));
+            $all_mms = array_merge($all_mms, $doc->getMms());
         }
 
         if (count($all_mms) === 0) {

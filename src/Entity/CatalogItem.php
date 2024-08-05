@@ -64,7 +64,7 @@ class CatalogItem extends Doc
      */
     public function getMms(): ?string
     {
-        $pnx = $this->pnx('search', 'addsrcrecordid');
+        $pnx = $this->pnx('display', 'mms');
         return $pnx[0] ?? null;
     }
 

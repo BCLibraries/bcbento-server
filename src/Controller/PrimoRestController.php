@@ -11,6 +11,12 @@ use App\Service\PrimoSearch;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
+/**
+ * Search Primo and return results using a normal REST API
+ *
+ * We are slowly migrating away from GraphQL. This controller searches Primo just like the PrimoSearchController
+ * does, but it is a boring REST API instead of a GraphQL one.
+ */
 class PrimoRestController
 {
     private PrimoSearch $primo_search;

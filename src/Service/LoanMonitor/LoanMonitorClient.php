@@ -19,7 +19,7 @@ class LoanMonitorClient
         $this->client = $client;
     }
 
-    public function fetch(array $mms_ids)
+    public function fetch(array $mms_ids): Response
     {
         if (count($mms_ids) === 0) {
             return new Response("");

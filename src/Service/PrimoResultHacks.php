@@ -32,6 +32,11 @@ class PrimoResultHacks
             return $doc->getMms();
         }, $docs);
 
+        $mmses = [];
+        foreach ($docs as $doc) {
+            $mmses = array_merge($mmses, $doc->getMms());
+        }
+
         $i = 0;
         foreach ($mmses as $mms) {
             if ($to_swap = self::getResultToSwapWith($mms, $mmses, $i)) {

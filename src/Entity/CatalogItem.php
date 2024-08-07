@@ -6,7 +6,6 @@ use App\Service\LoanMonitor\Availability;
 use BCLib\LibKeyClient\LibKeyResponse;
 use BCLib\PrimoClient\Doc;
 use BCLib\PrimoClient\Link;
-use Symfony\Component\Cache\Adapter\ArrayAdapter;
 use TheCodingMachine\GraphQLite\Annotations\Field;
 use TheCodingMachine\GraphQLite\Annotations\Type;
 
@@ -17,19 +16,15 @@ use TheCodingMachine\GraphQLite\Annotations\Type;
  */
 class CatalogItem extends Doc
 {
-    protected $screen_cap;
+    protected ?string $screen_cap = null;
 
-    /** @var string|null */
-    protected $full_text_url;
+    protected ?string $full_text_url = null;
 
-    /** @var LibKeyResponse|null */
-    protected $libkey_availability;
+    protected ?LibKeyResponse $libkey_availability;
 
-    /** @var string|null */
-    protected $hathitrust_url;
+    protected ?string $hathitrust_url = null;
 
-    /** @var Availability|null */
-    protected $availability;
+    protected ?Availability $availability;
 
     /**
      * CatalogItem constructor
@@ -61,11 +56,11 @@ class CatalogItem extends Doc
 
     /**
      * @Field()
+     * @return string[]
      */
-    public function getMms(): ?string
+    public function getMms(): array
     {
-        $pnx = $this->pnx('display', 'mms');
-        return $pnx[0] ?? null;
+        return $this->mms;
     }
 
     /**
@@ -73,23 +68,19 @@ class CatalogItem extends Doc
      */
     public function getLinkToFindingAid(): ?Link
     {
-        $pnx = $this->pnx('links', 'linktofa');
+        $pnx = $this->pnx('display', 'lds34');
 
         if (!isset($pnx[0])) {
             return null;
         }
 
-        // Look for a URL & label in the PNX field value. Return null if anything
-        // goes wrong. Return a Link if everything went right.
-        //@todo Move link generation into Primo Client
-        preg_match('/^\$\$U(.*) \$\$D(.*)$/', $pnx[0], $matches);
-        return count($matches) === 3 ? new Link($matches[2], $matches[1], 'Finding aid') : null;
+        return new Link('Finding aid', $pnx[0], 'Finding aid');
     }
 
     /**
      * @Field()
      */
-    public function getDOI(): ?string
+    public function getDOI(): string
     {
         $pnx = $this->pnx('addata', 'doi');
         return $pnx[0] ?? null;

@@ -49,7 +49,7 @@ class PrimoRestController
         return new JsonResponse($response);
     }
 
-    private function addRealTimeAvailability(CatalogSearchResponse $response)
+    private function addRealTimeAvailability(CatalogSearchResponse $response): void
     {
 
         $all_mms = [];

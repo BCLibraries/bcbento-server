@@ -8,6 +8,8 @@ use App\Service\LibKeyService;
 use App\Service\LoanMonitor\LoanMonitorClient;
 use App\Service\PrimoSearch;
 use PHPUnit\Exception;
+use Psr\Log\LoggerAwareInterface;
+use Psr\Log\LoggerInterface;
 use TheCodingMachine\GraphQLite\Annotations\Query;
 
 /**
@@ -105,7 +107,7 @@ class PrimoSearchController
         return $result;
     }
 
-    private function addRealTimeAvailability(CatalogSearchResponse $response)
+    private function addRealTimeAvailability(CatalogSearchResponse $response): void
     {
 
         $all_mms = [];
@@ -115,7 +117,7 @@ class PrimoSearchController
         });
 
         foreach ($physical_docs as $doc) {
-            $all_mms = array_merge($all_mms, $doc->pnx('search', 'addsrcrecordid'));
+            $all_mms = array_merge($all_mms, $doc->getMms());
         }
 
         if (count($all_mms) === 0) {

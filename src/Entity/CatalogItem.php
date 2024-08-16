@@ -20,7 +20,7 @@ class CatalogItem extends Doc
 
     protected ?string $full_text_url = null;
 
-    protected ?LibKeyResponse $libkey_availability;
+    protected ?LibKeyResponse $libkey_availability = null;
 
     protected ?string $hathitrust_url = null;
 
@@ -83,7 +83,7 @@ class CatalogItem extends Doc
     public function getDOI(): string
     {
         $pnx = $this->pnx('addata', 'doi');
-        return $pnx[0] ?? null;
+        return $pnx[0] ?? '';
     }
 
     /**

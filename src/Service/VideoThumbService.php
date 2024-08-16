@@ -22,7 +22,6 @@ use Symfony\Component\Cache\CacheItem;
  *
  *     // Prepare all the video services we might need.
  *     $thumbs->addProvider($medicitv_provider);
- *     $thumbs->addProvider($metondemand_provider);
  *     $thumbs->addProvider($some_other_provider);
  *
  *     // Fetch screencaps for the videos in a PrimoClient\SearchResponse and
@@ -90,6 +89,9 @@ class VideoThumbService
                 $doc->setScreenCap($screencap);
                 $cache_item->set($screencap);
             } elseif ($screencap = $this->getFilmsOnDemandCap($doc)) {
+                $doc->setScreenCap($screencap);
+                $cache_item->set($screencap);
+            } elseif ($screencap = $this->getMetOperaCap($doc)) {
                 $doc->setScreenCap($screencap);
                 $cache_item->set($screencap);
             }
@@ -231,6 +233,24 @@ class VideoThumbService
             }
         }
 
+        return null;
+    }
+
+    /**
+     * Get the MetOnDemand screencap
+     *
+     * These now appear directly in the Primo record, so we can just pull from the cover images.
+     *
+     * @param Doc $doc
+     * @return string|null
+     */
+    private function getMetOperaCap(Doc $doc): ?string
+    {
+        foreach ($doc->getCoverImages() as $image) {
+            if (str_contains($image->getUrl(), 'metopera')) {
+                return $image->getUrl();
+            }
+        }
         return null;
     }
 }

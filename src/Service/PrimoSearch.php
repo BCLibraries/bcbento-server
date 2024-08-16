@@ -119,7 +119,6 @@ class PrimoSearch implements LoggerAwareInterface
         // Save thumbnail service and add providers we need.
         $this->video_thumbs = $video_thumbs;
         $this->video_thumbs->addProvider(new MediciTVScreencapProvider(new Client()));
-        $this->video_thumbs->addProvider(new MetOnDemandScreencapProvider(new Client()));
         $this->online_query_config = $online_query_config;
     }
 

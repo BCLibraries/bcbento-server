@@ -220,6 +220,8 @@ class VideoThumbService
     {
         $links = $doc->getLinks();
 
+        $cover_images = $doc->getCoverImages();
+
         if (!isset($links['addlink'])) {
             return null;
         }
@@ -231,6 +233,11 @@ class VideoThumbService
             if ($link->getLabel() === 'Cover Image') {
                 return $link->getUrl();
             }
+        }
+
+        if (count($cover_images) > 0) {
+            $reindexed = array_values($cover_images);
+            return $reindexed[0]->getUrl();
         }
 
         return null;

@@ -78,22 +78,22 @@ class PrimoSearch implements LoggerAwareInterface
      * Maps types from PNX records to display names
      */
     private const TYPE_MAP = [
-        'book'                => 'Book',
-        'video'               => 'Video',
-        'journal'             => 'Journal',
+        'book' => 'Book',
+        'video' => 'Video',
+        'journal' => 'Journal',
         'government_document' => 'Government document',
-        'database'            => 'Database',
-        'image'               => 'Image',
-        'audio_music'         => 'Musical recording',
-        'audio_other'         => 'Audio',
-        'realia'              => '',
-        'data'                => 'Data',
-        'dissertation'        => 'Thesis',
-        'article'             => 'Article',
-        'review'              => 'Review',
-        'reference_entry'     => 'Reference entry',
-        'newspaper_article'   => 'Newspaper article',
-        'other'               => ''
+        'database' => 'Database',
+        'image' => 'Image',
+        'audio_music' => 'Musical recording',
+        'audio_other' => 'Audio',
+        'realia' => '',
+        'data' => 'Data',
+        'dissertation' => 'Thesis',
+        'article' => 'Article',
+        'review' => 'Review',
+        'reference_entry' => 'Reference entry',
+        'newspaper_article' => 'Newspaper article',
+        'other' => ''
     ];
 
     public function __construct(
@@ -135,7 +135,7 @@ class PrimoSearch implements LoggerAwareInterface
     public function searchFullCatalog(string $keyword, int $limit): CatalogSearchResponse
     {
         $result = $this->search($keyword, $limit + 1, $this->books_query_config, false);
-        $search_url = $this->buildPrimoSearchUrl($keyword, 'bcl_only', 'bcl');
+        $search_url = $this->buildPrimoSearchUrl($keyword, 'LibraryCatalog', 'MyInstitution');
         $result->setSearchUrl($search_url);
         $hacked_docs = PrimoResultHacks::runHacks($result->getDocs());
         $result->setDocs(array_slice($hacked_docs, 0, $limit));
@@ -155,7 +155,7 @@ class PrimoSearch implements LoggerAwareInterface
     public function searchOnlineResources(string $keyword, int $limit): CatalogSearchResponse
     {
         $result = $this->search($keyword, $limit + 1, $this->online_query_config, false);
-        $search_url = $this->buildPrimoSearchUrl($keyword, 'online', 'online');
+        $search_url = $this->buildPrimoSearchUrl($keyword, 'ONLINE', 'ONLINE');
         $result->setSearchUrl($search_url);
         $hacked_docs = PrimoResultHacks::runHacks($result->getDocs());
         $result->setDocs(array_slice($hacked_docs, 0, $limit));
@@ -175,7 +175,7 @@ class PrimoSearch implements LoggerAwareInterface
     public function searchVideo(string $keyword, int $limit): CatalogSearchResponse
     {
         $result = $this->search($keyword, $limit, $this->video_query_config, false);
-        $search_url = $this->buildPrimoSearchUrl($keyword, 'video', 'VIDEO');
+        $search_url = $this->buildPrimoSearchUrl($keyword, 'VIDEO', 'VIDEO');
         $result->setSearchUrl($search_url);
         return $result;
     }
@@ -193,7 +193,7 @@ class PrimoSearch implements LoggerAwareInterface
     public function searchArticle(string $keyword, int $limit): CatalogSearchResponse
     {
         $result = $this->search($keyword, $limit, $this->article_query_config, true);
-        $search_url = $this->buildPrimoSearchUrl($keyword, 'pci_only', 'pci', 'false');
+        $search_url = $this->buildPrimoSearchUrl($keyword, 'CentralIndex', 'CentralIndex', 'false');
         $result->setSearchUrl($search_url);
         return $result;
     }
@@ -405,9 +405,18 @@ class PrimoSearch implements LoggerAwareInterface
         string $pcAvailability = null
     ): string
     {
-        $extra = isset($pcAvailability) ? '&pcAvailability=false' : '';
-        $keyword = urlencode($keyword);
-        return "https://bc-primo.hosted.exlibrisgroup.com/primo-explore/search?query=any,contains,$keyword&tab=$tab&search_scope=$scope&vid=bclib_new&lang=en_US&offset=0$extra";
+        $params = [
+            'query=any,contains,' . urlencode($keyword),
+            "tab=$tab",
+            "search_scope=$scope",
+            "vid=01BC_INST:bclib"
+        ];
+
+        if (isset($pcAvailability)) {
+            $params[] = 'pcAvailability=false';
+        }
+        $query_string = join('&', $params);
+        return "https://bc.primo.exlibrisgroup.com/discovery/search?$query_string";
     }
 
     /**

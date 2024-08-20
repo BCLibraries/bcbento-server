@@ -103,7 +103,7 @@ class VideoThumbService
 
             $cache_items[$doc->id] = [
                 'cache_item' => $cache_item,
-                'video'      => $doc
+                'video' => $doc
             ];
         }
 
@@ -220,20 +220,19 @@ class VideoThumbService
     {
         $links = $doc->getLinks();
 
-        $cover_images = $doc->getCoverImages();
-
-        if (!isset($links['addlink'])) {
-            return null;
-        }
-
-        /**
-         * @var $link Link
-         */
-        foreach ($links['addlink'] as $link) {
-            if ($link->getLabel() === 'Cover Image') {
-                return $link->getUrl();
+        if (isset($links['addlink'])) {
+            /**
+             * @var $link Link
+             */
+            foreach ($links['addlink'] as $link) {
+                if ($link->getLabel() === 'Cover Image') {
+                    return $link->getUrl();
+                }
             }
         }
+
+
+        $cover_images = $doc->getCoverImages();
 
         if (count($cover_images) > 0) {
             $reindexed = array_values($cover_images);

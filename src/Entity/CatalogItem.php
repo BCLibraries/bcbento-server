@@ -174,6 +174,8 @@ class CatalogItem extends Doc
     public function getLinkableId(): string
     {
         $source_records = $this->getSourceRecordIds();
-        return count($source_records) > 1 ? array_key_first($source_records) : $this->id;
+        $linkable_id = count($source_records) > 1 ? array_key_first($source_records) : $this->id;
+        $linkable_id = str_replace('alma', '', $linkable_id);
+        return $linkable_id;
     }
 }

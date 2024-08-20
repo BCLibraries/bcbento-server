@@ -24,7 +24,7 @@ class CatalogItem extends Doc
 
     protected ?string $hathitrust_url = null;
 
-    protected ?Availability $availability;
+    protected ?Availability $availability = null;
 
     /**
      * CatalogItem constructor

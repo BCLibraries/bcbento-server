@@ -2,6 +2,8 @@
 
 namespace App\Indexer\Librarians;
 
+use Elastic\Elasticsearch\Response\Elasticsearch;
+
 class Librarian
 {
     private string $id;
@@ -47,23 +49,23 @@ class Librarian
     /**
      * Build a librarian from a Librarian object in ElasticSearch
      *
-     * @param array $json an ElasticSearch hit
+     * @param Elasticsearch $response an ElasticSearch hit
      * @return Librarian
      */
-    public static function buildFromElasticSearch(array $json): Librarian
+    public static function buildFromElasticSearch(Elasticsearch $response): Librarian
     {
 
 
         return new Librarian(
-            $json['_id'],
-            $json['_source']['email'] ?? null,
-            $json['_source']['first_name'],
-            $json['_source']['last_name'],
-            $json['_source']['image'] ?? null,
-            $json['_source']['title'] ?? null,
-            $json['_source']['subjects'],
-            $json['_source']['taxonomy'],
-            $json['_source']['terms']
+            $response['_id'],
+            $response['_source']['email'] ?? null,
+            $response['_source']['first_name'],
+            $response['_source']['last_name'],
+            $response['_source']['image'] ?? null,
+            $response['_source']['title'] ?? null,
+            $response['_source']['subjects'],
+            $response['_source']['taxonomy'],
+            $response['_source']['terms']
         );
     }
 

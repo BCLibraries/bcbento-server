@@ -29,3 +29,9 @@ monolog:
             handler: deprecation
             max_level: info
             channels: ["php"]
+        search_log:
+            level: info
+            type: rotating_file
+            path: '%kernel.logs_dir%/search-terms.log'
+            channels: [ search ]
+            max_files: 365

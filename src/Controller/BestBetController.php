@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\BestBet;
 use App\Service\BestBetLookup;
+use Psr\Log\LoggerInterface;
 use TheCodingMachine\GraphQLite\Annotations\Query;
 
 /**
@@ -18,11 +19,13 @@ use TheCodingMachine\GraphQLite\Annotations\Query;
 class BestBetController
 {
     /** @var BestBetLookup */
-    private $best_bets;
+    private BestBetLookup $best_bets;
+    private LoggerInterface $search_logger;
 
-    public function __construct(BestBetLookup $best_bets)
+    public function __construct(BestBetLookup $best_bets, LoggerInterface $searchLogger)
     {
         $this->best_bets = $best_bets;
+        $this->search_logger = $searchLogger;
     }
 
     /**
@@ -32,6 +35,7 @@ class BestBetController
      */
     public function bestBet(string $keyword): ?BestBet
     {
+        $this->search_logger->info(sprintf('BestBet: %s', $keyword));
 
         // Look in Elasticsearch for local best bets first.
         $best_bet_query_result = $this->best_bets->lookup($keyword);

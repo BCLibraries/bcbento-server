@@ -2,6 +2,9 @@ book_search:
     path: /books
     controller: App\Controller\PrimoRestController::searchCatalog
     methods: GET|HEAD
+article_search:
+    path: /articles
+    controller: App\Controller\PrimoRestController::searchArticles
 direct_link:
   path: /direct-link/{mms}
   controller: App\Controller\DirectLinkController::link

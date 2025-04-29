@@ -49,6 +49,15 @@ class PrimoRestController
         return new JsonResponse($response);
     }
 
+    public function searchArticles(Request $request): JsonResponse
+    {
+        $keyword = $request->query->get('q');
+        $limit = $request->query->get('limit', 3);
+        $result = $this->primo_search->searchArticle($keyword, $limit);
+        $response = $this->translator->translateSearchResult($result);
+        return new JsonResponse($response);
+    }
+
     private function addRealTimeAvailability(CatalogSearchResponse $response): void
     {
 

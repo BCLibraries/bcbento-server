@@ -5,6 +5,9 @@ book_search:
 article_search:
     path: /articles
     controller: App\Controller\PrimoRestController::searchArticles
+best_bet:
+    path: /best-bet
+    controller: App\Controller\BestBetController::restBestBet
 direct_link:
   path: /direct-link/{mms}
   controller: App\Controller\DirectLinkController::link

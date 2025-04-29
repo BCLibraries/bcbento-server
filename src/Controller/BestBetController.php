@@ -4,7 +4,10 @@ namespace App\Controller;
 
 use App\Entity\BestBet;
 use App\Service\BestBetLookup;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use TheCodingMachine\GraphQLite\Annotations\Query;
+use Symfony\Component\HttpFoundation\Request;
+
 
 /**
  * Look up Best Bets
@@ -41,5 +44,20 @@ class BestBetController
 
         // No best bets found.
         return null;
+    }
+
+    public function restBestBet(Request $request): JsonResponse
+    {
+        $keyword = $request->query->get('q');
+        $best_bet_query_result = $this->best_bets->lookup($keyword);
+        if ($best_bet_query_result === null) {
+            return new JSONResponse(null);
+        }
+        return new JSONResponse([
+            'id' => $best_bet_query_result->getId(),
+            'title' => $best_bet_query_result->getTitle(),
+            'display_text' => $best_bet_query_result->getDisplayText(),
+            'link' => $best_bet_query_result->getLink()
+        ]);
     }
 }

@@ -43,9 +43,15 @@ class LibrarianRecommender extends AbstractRecommender
      */
     public function buildQuery(string $keyword, array $taxonomy_terms): array
     {
+        // Strip "and".
+        $keyword = str_ireplace(' and ', ' ', $keyword);
+        $keyword = str_ireplace(' & ', ' ', $keyword);
+
         // @todo restore recommendation feature when the large DB is back up
         return [
             "query" => [
+                "from" => 0,
+                "size" => 3,
                 "query_string" => [
                     "fields" => ["*_name", "subjects", "terms"],
                     "query" => $keyword

@@ -8,6 +8,9 @@ article_search:
 best_bet:
     path: /best-bet
     controller: App\Controller\BestBetController::restBestBet
+librarians:
+    path: /librarians
+    controller: App\Controller\RecommenderRestController::recommendLibrarian
 direct_link:
   path: /direct-link/{mms}
   controller: App\Controller\DirectLinkController::link

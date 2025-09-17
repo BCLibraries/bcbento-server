@@ -26,12 +26,13 @@ class PrimoRestController
     private Translator $translator;
 
     public function __construct(
-        PrimoSearch $primo_search,
-        LibKeyService $libkey,
-        HathiClient $hathi,
+        PrimoSearch       $primo_search,
+        LibKeyService     $libkey,
+        HathiClient       $hathi,
         LoanMonitorClient $loan_monitor,
-        Translator $translator
-    ) {
+        Translator        $translator
+    )
+    {
         $this->primo_search = $primo_search;
         $this->libkey = $libkey;
         $this->hathi = $hathi;
@@ -44,6 +45,16 @@ class PrimoRestController
         $keyword = $request->query->get('q');
         $limit = $request->query->get('limit', 3);
         $result = $this->primo_search->searchFullCatalog($keyword, $limit);
+        $this->addRealTimeAvailability($result);
+        $response = $this->translator->translateSearchResult($result);
+        return new JsonResponse($response);
+    }
+
+    public function searchVideo(Request $request): JsonResponse
+    {
+        $keyword = $request->query->get('q');
+        $limit = $request->query->get('limit', 3);
+        $result = $this->primo_search->searchVideo($keyword, $limit);
         $this->addRealTimeAvailability($result);
         $response = $this->translator->translateSearchResult($result);
         return new JsonResponse($response);

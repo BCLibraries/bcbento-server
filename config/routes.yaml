@@ -1,19 +1,27 @@
 book_search:
-    path: /books
-    controller: App\Controller\PrimoRestController::searchCatalog
-    methods: GET|HEAD
+  path: /books
+  controller: App\Controller\PrimoRestController::searchCatalog
+  methods: GET|HEAD
+video:
+  path: /video
+  controller: App\Controller\PrimoRestController::searchVideo
+  methods: GET|HEAD
 article_search:
-    path: /articles
-    controller: App\Controller\PrimoRestController::searchArticles
+  path: /articles
+  controller: App\Controller\PrimoRestController::searchArticles
+  methods: GET|HEAD
 best_bet:
-    path: /best-bet
-    controller: App\Controller\BestBetController::restBestBet
+  path: /best-bet
+  controller: App\Controller\BestBetController::restBestBet
+  methods: GET|HEAD
 librarians:
-    path: /librarians
-    controller: App\Controller\RecommenderRestController::recommendLibrarian
+  path: /librarians
+  controller: App\Controller\RecommenderRestController::recommendLibrarian
+  methods: GET|HEAD
 faq:
   path: /faq
   controller: App\Controller\FAQRestController::search
+  methods: GET|HEAD
 direct_link:
   path: /direct-link/{mms}
   controller: App\Controller\DirectLinkController::link

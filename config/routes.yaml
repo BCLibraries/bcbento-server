@@ -11,6 +11,9 @@ best_bet:
 librarians:
     path: /librarians
     controller: App\Controller\RecommenderRestController::recommendLibrarian
+faq:
+  path: /faq
+  controller: App\Controller\FAQRestController::search
 direct_link:
   path: /direct-link/{mms}
   controller: App\Controller\DirectLinkController::link

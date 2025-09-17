@@ -3,6 +3,7 @@
 namespace App\ReturnTypes;
 
 use App\Entity\CatalogItem;
+use App\Entity\FAQResponse;
 use App\Entity\LibrarianRecommendationResponse;
 use BCLib\PrimoClient\Doc;
 use BCLib\PrimoClient\SearchResponse;
@@ -96,6 +97,14 @@ class Translator
         );
     }
 
+    public function translateFAQResults(FAQResponse $response): SearchResult
+    {
+        $docs = array_map(self::translateFAQResult(...), $response->getResults());
+        return new SearchResult(
+            docs: $docs, search_url: ''
+        );
+    }
+
     public static function translateLibrarian(\App\Entity\Librarian $librarian): Librarian
     {
         return new Librarian($librarian->getId(),
@@ -104,6 +113,16 @@ class Translator
             $librarian->getImage(),
             $librarian->getScore(),
             $librarian->getSubjects()
+        );
+    }
+
+    public static function translateFAQResult(\App\Entity\FAQResult $result ): FAQResult
+    {
+        return new FAQResult(
+            $result->getId(),
+            $result->getQuestion(),
+            $result->getUrl(),
+            $result->getTopics()
         );
     }
 }

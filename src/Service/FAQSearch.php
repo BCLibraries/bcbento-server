@@ -21,9 +21,10 @@ class  FAQSearch
      *
      * @param string $keyword
      * @param int $limit
-     * @return FAQResponse|array
+     * @return FAQResponse
+     * @throws \Exception
      */
-    public function search(string $keyword, int $limit)
+    public function search(string $keyword, int $limit): FAQResponse
     {
         $curl = curl_init();
         curl_setopt_array(
@@ -40,7 +41,11 @@ class  FAQSearch
         $resp = curl_exec($curl);
         curl_close($curl);
 
-        return $resp ? $this->buildResponse(json_decode($resp, false)) : ['error_code' => 500];
+        if ($resp) {
+            return $this->buildResponse(json_decode($resp, false));
+        } else {
+            throw new \Exception("Error fetching FAQ");
+        }
     }
 
     /**

@@ -213,7 +213,7 @@ class PrimoSearch implements LoggerAwareInterface
     private function search(string $keyword, int $limit, QueryConfig $config, bool $is_pci): CatalogSearchResponse
     {
         // Filter out characters Primo doesn't like.
-        $keyword = str_replace(array(':', ';', ',', '(', ')', '\\'), ' ', $keyword);
+        $keyword = str_replace(array(':', ';', ',', '\\'), ' ', $keyword);
 
         // First check cache for search result.
         try {
@@ -411,6 +411,7 @@ class PrimoSearch implements LoggerAwareInterface
             "search_scope=$scope",
             "vid=01BC_INST:bclib"
         ];
+
 
         if (isset($pcAvailability)) {
             $params[] = 'pcAvailability=false';
